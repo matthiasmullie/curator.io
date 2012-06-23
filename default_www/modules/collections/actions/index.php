@@ -14,6 +14,8 @@ class CollectionsIndex extends SiteBaseAction
 	 */
 	public function execute()
 	{
+		// @later detect if we are accessing /collections directly. If so => redirect to home page to prevent duplicate content
+
 		// parse
 		$this->parse();
 
