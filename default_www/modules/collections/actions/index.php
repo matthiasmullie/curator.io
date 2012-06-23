@@ -30,6 +30,6 @@ class CollectionsIndex extends SiteBaseAction
 	 */
 	private function parse()
 	{
-		// @todo
+		$this->parseReports();
 	}
 }
