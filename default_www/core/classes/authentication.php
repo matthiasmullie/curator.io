@@ -34,7 +34,7 @@ class Authentication
 		$data = self::getFacebook()->getCookie();
 
 		// any data?
-		if($data !== null)
+		if($data != false)
 		{
 			// create instance
 			return User::getByFacebookId($data['user_id']);

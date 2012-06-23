@@ -18,3 +18,6 @@
 		</p>
 	</section>
 {/option:currentUser}
+{option:!currentUser}
+	<div class="fb-login-button"></div>
+{/option:!currentUser}

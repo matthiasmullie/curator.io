@@ -85,5 +85,3 @@
 		</p>
 	</div>
 <![endif]-->
-
-<div class="fb-login-button"></div>
