@@ -55,4 +55,10 @@ define('PATH_WWW', realpath(dirname(__FILE__) . '/../default_www'));
 // path to the library
 define('PATH_LIBRARY', realpath(dirname(__FILE__)));
 
+/**
+ * Facebook API data
+ */
+define('FACEBOOK_APP_ID', '237320303053296');
+define('FACEBOOK_SECRET', '5f2876e5138ffbafdef0c7368464e0a7');
+
 ?>

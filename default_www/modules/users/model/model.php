@@ -90,13 +90,14 @@ class User
 		return $user;
 	}
 
+
 	/**
-	 * Get a uniaue uri for a user
+	 * Get a unique uri for a user
 	 *
 	 * @param string $uri
 	 * @return string
 	 */
-	public static function getUniqueUri($uri)
+	protected function getUniqueUri($uri)
 	{
 		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
@@ -107,12 +108,11 @@ class User
 									array($uri)) == 1)
 		{
 			$uri = Site::addNumber($uri);
-			return self::getUniqueUri($uri);
+			return $this->getUniqueUri($uri);
 		}
 
 		return $uri;
 	}
-
 
 
 	/**
@@ -141,7 +141,7 @@ class User
 	 */
 	public function save()
 	{
-		if($this->uri === null) $this->uri = self::getUniqueUri($this->name);
+		if($this->uri === null) $this->uri = $this->getUniqueUri($this->name);
 
 		// build record
 		$item['uri'] = $this->uri;
