@@ -12,7 +12,7 @@ class CollectionsAdd extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		// @todo check if logged in
+		if(!Authentication::getLoggedInUser()) $this->redirect($this->url->buildUrl('forbidden', 'users'));
 
 		$this->loadForm();
 		$this->validateForm();
