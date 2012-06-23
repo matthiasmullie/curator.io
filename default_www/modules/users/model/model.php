@@ -18,28 +18,12 @@ class User
 	 */
 	public $id;
 
-
 	/**
 	 * Textual properties
 	 *
 	 * @var	string
 	 */
-	public $name, $email, $secret, $rawPassword, $type;
-
-
-	/**
-	 * Boolean properties
-	 */
-	public $isAdmin = false;
-
-
-	/**
-	 * Array properties
-	 *
-	 * @var	array
-	 */
-	private $settings = array();
-
+	public $name, $uri, $facebookId;
 
 	/**
 	 * Get a user
@@ -71,29 +55,65 @@ class User
 		return $item;
 	}
 
+
 	/**
-	 * Get all users for usage in a dropdown
+	 * Get an user by his facebook ID
 	 *
-	 * @return array
+	 * @param int $id
+	 * @return User
 	 */
-	public static function getForDropdown()
+	public static function getByFacebookId($id)
 	{
-		return Site::getDB()->getPairs('SELECT i.id, i.name
-										FROM users AS i
-										ORDER BY i.name');
+		$data = Site::getDB()->getRecord('SELECT i.*
+											FROM users AS i
+											WHERE facebook_id = ?',
+											array($id));
+
+		if($data === null)
+		{
+			// get data from Facebook
+			$data = Authentication::getFacebook()->get('/me');
+
+			// build record
+			$user = new User();
+			$user->name = $data['name'];
+			$user->facebookId = $data['id'];
+
+			$user->save();
+		}
+
+		else
+		{
+			$user = User::initialize($data);
+		}
+
+		return $user;
 	}
 
 	/**
-	 * Get a setting
+	 * Get a uniaue uri for a user
 	 *
-	 * @param	string $key		The key whereunder the value is stored.
-	 * @return mixed
+	 * @param string $uri
+	 * @return string
 	 */
-	public function getSetting($key)
+	public static function getUniqueUri($uri)
 	{
-		if(!isset($this->settings[$key])) return null;
-		else return $this->settings[$key];
+		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
+		$uri = SpoonFilter::urlise($uri);
+
+		if(Site::getDB()->getVar('SELECT 1
+									FROM users AS i
+									WHERE i.uri = ?',
+									array($uri)) == 1)
+		{
+			$uri = Site::addNumber($uri);
+			return self::getUniqueUri($uri);
+		}
+
+		return $uri;
 	}
+
+
 
 	/**
 	 * Initialize the object.
@@ -101,20 +121,18 @@ class User
 	 * @param	array $data		The data in an array.
 	 * @return User
 	 */
-	public function initialize($data)
+	public static function initialize($data)
 	{
-		if(isset($data['id'])) $this->id = (int) $data['id'];
-		if(isset($data['name'])) $this->name = (string) $data['name'];
-		if(isset($data['email'])) $this->email = (string) $data['email'];
-		if(isset($data['secret'])) $this->secret = (string) $data['secret'];
-		if(isset($data['type'])) $this->type = (string) $data['type'];
-		if(isset($data['data']))
-		{
-			$data['data'] = unserialize($data['data']);
-			if(isset($data['data']['settings'])) $this->settings = $data['data']['settings'];
-		}
-		if($this->type == 'admin') $this->isAdmin = true;
+		$user = new User();
+
+		if(isset($data['id'])) $user->id = (int) $data['id'];
+		if(isset($data['uri'])) $user->uri = (string) $data['uri'];
+		if(isset($data['facebook_id'])) $user->facebookId = (string) $data['facebook_id'];
+		if(isset($data['name'])) $user->name = (string) $data['name'];
+
+		return $user;
 	}
+
 
 	/**
 	 * Save the user
@@ -123,15 +141,12 @@ class User
 	 */
 	public function save()
 	{
-		// build record
-		$item['name'] = $this->name;
-		$item['email'] = $this->email;
-		$item['secret'] = $this->secret;
-		$item['type'] = $this->type;
-		$item['data'] = serialize(array('settings' => $this->settings));
+		if($this->uri === null) $this->uri = self::getUniqueUri($this->name);
 
-		// new password?
-		if($this->rawPassword != null) $item['password'] = sha1(md5($this->rawPassword) . $this->secret);
+		// build record
+		$item['uri'] = $this->uri;
+		$item['facebook_id'] = $this->facebookId;
+		$item['name'] = $this->name;
 
 		// non existing
 		if($this->id === null) $this->id = Site::getDB(true)->insert('users', $item);
@@ -142,30 +157,24 @@ class User
 	}
 
 	/**
-	 * Store a setting
-	 *
-	 * @param	string $key		The key whereunder the value will be stored.
-	 * @param	mixed $value	The value to store.
-	 * @return void
-	 */
-	public function setSetting($key, $value)
-	{
-		$this->settings[(string) $key] = $value;
-	}
-
-	/**
 	 * Return the object as an array
 	 *
 	 * @return array
 	 */
 	public function toArray()
 	{
+		$url = Spoon::get('url');
+
 		// build array
 		$item['id'] = $this->id;
 		$item['name'] = $this->name;
-		$item['email'] = $this->email;
-		$item['type'] = $this->type;
-		$item['isAdmin'] = $this->isAdmin;
+		$item['uri'] = $this->uri;
+		$item['full_uri'] =  $url->buildUrl('users', 'detail') . '/' . $this->uri;
+		$item['facebook_id'] = $this->facebookId;
+		$item['avatar'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture';
+		$item['avatar_50x50'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture?type=square';
+		$item['avatar_x50'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture?type=small';
+		$item['avatar_x200'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture?type=large';
 
 		return $item;
 	}

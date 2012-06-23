@@ -11,8 +11,10 @@
 {option:currentUser}
 	<section id="user">
 		<p>
-			{$msgUsersLoggedInAs|sprintf:{$currentUser.name}} -
-			<a href="{$var|buildurl:'logout':'users'}">{$lblSignOff}</a>
+			<a href="{$currentUser.full_uri}">
+				<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="50" height="50" />
+				{$currentUser.name}
+			</a>
 		</p>
 	</section>
 {/option:currentUser}

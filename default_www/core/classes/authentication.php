@@ -12,6 +12,16 @@
 class Authentication
 {
 	/**
+	 * Get the facebook instance
+	 *
+	 * @return Facebook
+	 */
+	public static function getFacebook()
+	{
+		return spoon::get('facebook');
+	}
+
+	/**
 	 * Get the logged in user.
 	 *
 	 * @return User
@@ -21,27 +31,13 @@ class Authentication
 		// get db
 		$db = Site::getDB(true);
 
-		// delete old sessions
-		$db->delete('users_sessions', 'edited_on < ?', array(Site::getUTCDate(null, (time() - (2 * 60 * 60)))));
-
-		// search for session
-		$data = $db->getRecord('SELECT u.*
-								FROM users_sessions AS i
-								INNER JOIN users AS u ON i.user_id = u.id
-								WHERE i.session_id = ? AND i.edited_on > ?',
-								array(SpoonSession::getSessionId(), Site::getUTCDate(null, (time() - (2 * 60 * 60)))));
+		$data = self::getFacebook()->getCookie();
 
 		// any data?
 		if($data !== null)
 		{
 			// create instance
-			$user = new User();
-
-			// initialize
-			$user->initialize($data);
-
-			// return
-			return $user;
+			return User::getByFacebookId($data['user_id']);
 		}
 
 		// no data, so redirect to login
@@ -50,6 +46,8 @@ class Authentication
 			// reset session
 			SpoonSession::destroy();
 			session_regenerate_id(true);
+
+			return false;
 		}
 	}
 

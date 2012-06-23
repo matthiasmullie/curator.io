@@ -21,6 +21,10 @@ class Site
 	 */
 	public function __construct()
 	{
+		// create facebook instance
+		$facebook = new Facebook(FACEBOOK_SECRET, FACEBOOK_APP_ID);
+		Spoon::set('facebook', $facebook);
+
 		// create url-object to handle the url
 		$url = new SiteURL();
 
