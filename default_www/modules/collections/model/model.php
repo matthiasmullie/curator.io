@@ -10,7 +10,7 @@ class Collection
 	/**
 	 * @var	int
 	 */
-	public $id;
+	public $id, $user_id;
 
 	/**
 	 * @var	string
@@ -28,7 +28,7 @@ class Collection
 
 		// get data
 		$data = Site::getDB()->getRecord(
-			'SELECT i.id, i.name, i.description, i.uri
+			'SELECT i.id, i.user_id i.name, i.description, i.uri
 			 FROM collections AS i
 			 WHERE i.id = ?',
 			array($id)
@@ -76,6 +76,7 @@ class Collection
 	public function initialize($data)
 	{
 		if(isset($data['id'])) $this->id = (int) $data['id'];
+		if(isset($data['user_id'])) $this->user_id = (string) $data['user_id'];
 		if(isset($data['name'])) $this->name = (string) $data['name'];
 		if(isset($data['description'])) $this->description = (string) $data['description'];
 		if(isset($data['uri'])) $this->uri = (string) $data['uri'];
@@ -91,6 +92,7 @@ class Collection
 		if($this->uri === null) $this->uri = self::getUniqueUri($this->name);
 
 		// build record
+		$item['user_id'] = $this->user_id;
 		$item['name'] = $this->name;
 		$item['description'] = $this->description;
 		$item['uri'] = $this->uri;
@@ -117,6 +119,7 @@ class Collection
 	{
 		// build array
 		$item['id'] = $this->id;
+		$item['user_id'] = $this->user_id;
 		$item['name'] = $this->name;
 		$item['description'] = $this->description;
 		$item['uri'] = $this->uri;

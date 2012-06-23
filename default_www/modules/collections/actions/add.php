@@ -58,6 +58,7 @@ class CollectionsAdd extends SiteBaseAction
 				// set properties
 				$item->name = $this->frm->getField('name')->getValue();
 				$item->description = $this->frm->getField('description')->getValue();
+				$item->user_id = Authentication::getLoggedInUser()->id;
 
 				// save
 				$item->save();
