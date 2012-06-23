@@ -98,7 +98,7 @@ class Collection
 		// non existing
 		if($this->id === null)
 		{
-			$item['created_on'] = date('Y-m-d H:i:s');
+			$item['created_on'] = Site::getUTCDate();
 			$this->id = Site::getDB(true)->insert('collections', $item);
 		}
 
