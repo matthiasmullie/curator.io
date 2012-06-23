@@ -6,6 +6,9 @@
 		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
 
 		<section id="example" class="index content mod">
+
+			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}
+
 			<p>
 				Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.
 			</p>
