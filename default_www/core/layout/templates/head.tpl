@@ -46,28 +46,6 @@
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		})();
 	</script>
-	
-	{* Facebook *}
-	<script>
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId      : '237320303053296', // App ID
-				channelUrl : '//curator.io/channel.html', // Channel File
-				status     : true, // check login status
-				cookie     : true, // enable cookies to allow the server to access the session
-				xfbml      : true  // parse XFBML
-			});
-			// Additional initialization code here
-		};
-		// Load the SDK Asynchronously
-		(function(d){
-			var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-			if (d.getElementById(id)) {return;}
-			js = d.createElement('script'); js.id = id; js.async = true;
-			js.src = "//connect.facebook.net/en_US/all.js";
-			ref.parentNode.insertBefore(js, ref);
-		 }(document));
-	</script>	
 </head>
 
 <!-- Target IE browsers specifically without extra http requests. -->
@@ -85,3 +63,27 @@
 		</p>
 	</div>
 <![endif]-->
+
+<div id="fb-root"></div>
+{* Facebook *}
+<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '237320303053296', // App ID
+			channelUrl : '//curator.io/channel.html', // Channel File
+			status     : true, // check login status
+			cookie     : true, // enable cookies to allow the server to access the session
+			xfbml      : true  // parse XFBML
+		});
+		// Additional initialization code here
+	};
+	// Load the SDK Asynchronously
+	(function(d){
+		var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement('script'); js.id = id; js.async = true;
+		js.src = "//connect.facebook.net/en_US/all.js";
+		ref.parentNode.insertBefore(js, ref);
+	 }(document));
+</script>	
+
