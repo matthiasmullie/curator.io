@@ -42,7 +42,7 @@ class ItemsEdit extends CuratorBaseAction
 	 */
 	protected function loadForm()
 	{
-		$this->frm = new SpoonForm('edit');
+		$this->frm = new SiteForm('edit');
 
 		$this->frm->addText('name', $this->item->name);
 		$this->frm->addTextArea('description', $this->item->description);
@@ -75,7 +75,7 @@ class ItemsEdit extends CuratorBaseAction
 		$this->item->save();
 
 		// redirect to brand new item
-		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name);
+		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name, 302);
 	}
 
 	/**

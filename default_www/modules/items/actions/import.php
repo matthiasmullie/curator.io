@@ -47,7 +47,7 @@ class ItemsImport extends CuratorBaseAction
 	 */
 	protected function loadForm()
 	{
-		$this->frm = new SpoonForm('import');
+		$this->frm = new SiteForm('import');
 		$this->frm->addFile('csv');
 	}
 

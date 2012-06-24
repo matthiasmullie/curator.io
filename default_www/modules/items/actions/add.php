@@ -41,7 +41,7 @@ class ItemsAdd extends CuratorBaseAction
 	 */
 	protected function loadForm()
 	{
-		$this->frm = new SpoonForm('add');
+		$this->frm = new SiteForm('add');
 
 		$this->frm->addText('name');
 		$this->frm->addTextArea('description');
