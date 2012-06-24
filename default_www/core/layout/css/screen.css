@@ -636,6 +636,12 @@ table {
 							line-height: 24px;
 						}
 
+						.itemList .userInfo .noThumbUserInfoData {
+							width: auto !important;
+							float: none;
+							text-align: center;
+						}
+
 			@media only screen and (min-width: 992px) {
 
 				.itemList li {

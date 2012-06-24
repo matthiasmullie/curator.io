@@ -47,11 +47,8 @@
 									</div>
 									<div class="userInfo">
 										<a href="{$items.user.full_uri}">
-											<div class="userInfoImage">
-												<img src="{$items.user.avatar_50x50}" width="24" height="24" alt="{$items.user.name}" />
-											</div>
-											<div class="userInfoData">
-												{$items.user.name}
+											<div class="userInfoData noThumbUserInfoData">
+												{$items.name}
 											</div>
 										</a>
 									</div>
