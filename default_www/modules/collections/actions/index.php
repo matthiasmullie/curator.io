@@ -88,5 +88,4 @@ class CollectionsIndex extends SiteBaseAction
 			$this->tpl->assign('items', $items);
 		}
 	}
-
 }

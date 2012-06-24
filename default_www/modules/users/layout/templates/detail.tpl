@@ -1,21 +1,28 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
 {include:'{$CORE_PATH}/layout/templates/header.tpl'}
-	<div id="main" class="homeMain">
+	<div id="main">
 		<div class="container">
-
 			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}
 
-			<!-- Mobile Tabs -->
-			<div class="multiTab">
+			{* @todo	Yoni style me *}
+			{option:isCurrentUser}
+				<a href="{$var|buildurl:'add':'collections'}">Add collection</a><br>
+			{/option:isCurrentUser}
+
+			<!-- Content -->
+			<div class="mod content">
 				<div class="inner">
-					<nav>
-						<ul>
-							<li{option:sortPopular} class="selected"{/option:sortPopular}><a href="{$var|buildurl:'index':'collections'}">Popular</a></li>
-							<li{option:sortLatest} class="selected"{/option:sortLatest}><a href="{$var|buildurl:'index':'collections'}/latest">Latest</a></li>
-							<li{option:sortCategories} class="selected"{/option:sortCategories}><a href="{$var|buildurl:'index':'collections'}/categories">Categories</a></li>
-						</ul>
-					</nav>
+					<img src="{$user.avatar_x200}">
+					{$user.name}<br>
+
+					{$numCollections} collections<br>
+					{$numItems} items<br>
+					{$numLikes} likes
 				</div>
+			</div>
+
+			<div class="hr">
+				<hr />
 			</div>
 
 			<!-- Item List-->
