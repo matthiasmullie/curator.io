@@ -70,6 +70,23 @@ class Collection
 	}
 
 	/**
+	 * Get image for this collection.
+	 *
+	 * @return string
+	 */
+	public function getImage()
+	{
+		$image = (string) Site::getDB()->getVar(
+			'SELECT i.image FROM items AS i WHERE i.collection_id = ? ORDER BY i.like_count DESC LIMIT 1',
+			array($this->id)
+		);
+
+		if(empty($image)) $image = 'default.png';
+
+		return $image;
+	}
+
+	/**
 	 * Get a list of
 	 *
 	 * @param int $limit[optional]
@@ -195,6 +212,7 @@ class Collection
 		$return = get_object_vars($this);
 		$return['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
 		$return['user'] = $user->toArray();
+		$return['image'] = $this->getImage();
 
 		return $return;
 	}

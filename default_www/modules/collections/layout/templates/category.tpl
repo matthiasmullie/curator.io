@@ -11,7 +11,7 @@
 								<li>
 									<div class="itemImage">
 										<a href="{$collections.full_uri}">
-											<img src="{$collections.image_160x160}" alt="{$collections.name}" />
+											<img src="/files/items/160x160/{$collections.image}" alt="{$collections.name}" />
 										</a>
 									</div>
 									{option:collections.like_count}

@@ -39,7 +39,7 @@
 								<li>
 									<div class="itemImage">
 										<a href="{$items.full_uri}">
-											<img src="{$items.image_160x160}" alt="{$items.name}" />
+											<img src="/files/items/160x160/{$items.image}" alt="{$items.name}" />
 										</a>
 									</div>
 									{option:items.like_count}
