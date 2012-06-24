@@ -32,7 +32,7 @@ class CollectionsIndex extends SiteBaseAction
 	{
 		require_once PATH_WWW .'/modules/items/model/model.php';
 
-		$this->currentUser->publishItemToFacebook(Item::get(1));
+		if($this->currentUser !== false) $this->currentUser->publishItemToFacebook(Item::getById(1));
 
 
 		$this->parseReports();
