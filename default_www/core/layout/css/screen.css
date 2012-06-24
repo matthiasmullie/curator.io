@@ -323,7 +323,7 @@ table {
 				#currentUser img {
 					position: absolute;
 					top: 6px;
-					right: 6px;
+					right: 12px;
 				}
 
 			#search {
@@ -478,8 +478,8 @@ table {
 			.multiTab li a:hover,
 			.multiTab li a:active,
 			.multiTab li a:focus{
-				color: #71726a;
-				background: #fff;
+				color: #3f403b;
+				background: #f4f5f0;
 			}
 
 			.multiTab li:last-child {

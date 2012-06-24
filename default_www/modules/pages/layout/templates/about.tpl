@@ -2,29 +2,30 @@
 {include:'{$CORE_PATH}/layout/templates/header.tpl'}
 	<div id="main">
 		<div class="container">
-			<h1>About</h1>
-			<p><strong>Curator.io</strong> allows you to Curate and Share the collections you're passionate about.</p>
-			<p>Curator.io is build by a team of 5 Belgians during the 24 hour 2012 Silicon Valley Angelhack Competition.</p>
+			<h1>About Curator.io</h1>
+			<p>Everyone loves to collect cool, fun and sometimes pretty quirky stuff. Whatever you collect, nothing is more fun then showing your collection to friends, family and fellow enthusiasts. That's where Curator.io comes in!</p>
+			<p>Curator.io is the first cloud based collection app that allows you to effortlessly Upload , Personalize and Share your collections. We combine powerful tools like custom data fields with an easy to use user interface.</p>
+			<p>Build by a team of 5 Belgians during the 24 hour 2012 Silicon Valley Angelhack Competition.</p>
 			<div class="clearfix">
 				<ul>
 					<li>
-						<h2>Matthias Mullie</h2>
+						<h3>Matthias Mullie</h3>
 						<p><strong>Developer</strong> - Kortrijk (Belgium)</p>
 					</li>
 					<li>
-						<h2>Tijs Verkoyen</h2>
+						<h3>Tijs Verkoyen</h3>
 						<p><strong>Developer</strong> - Kortrijk (Belgium)</p>
 					</li>
 					<li>
-						<h2>Dieter Vanden Eynde</h2>
+						<h3>Dieter Vanden Eynde</h3>
 						<p><strong>Developer</strong> - Kortrijk (Belgium)</p>
 					</li>
 					<li>
-						<h2>Yoni De Beule</h2>
+						<h3>Yoni De Beule</h3>
 						<p><strong>Designer</strong> - Silicon Valley</p>
 					</li>
 					<li>
-						<h2>Stephen Verhalleman</h2>
+						<h3>Stephen Verhalleman</h3>
 						<p><strong>Designer</strong> - Ghent (Belgium)</p>
 					</li>
 				</ul>

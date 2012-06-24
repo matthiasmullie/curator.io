@@ -3,7 +3,7 @@
 			<div class="container">
 				<nav>
 					<ul>
-						<li>&copy; Curator.io</li>
+						<li>Lovingly crafted in San Francisco and Belgium</li>
 						<li><a href="{$var|buildurl:'disclaimer':'pages'}">Disclaimer</a></li>
 						<li><a href="{$var|buildurl:'about':'pages'}">About</a></li>
 					</ul>
