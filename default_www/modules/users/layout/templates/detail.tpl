@@ -42,9 +42,11 @@
 											<img src="{$items.image_160x160}" alt="{$items.name}" />
 										</a>
 									</div>
-									<div class="likeWrapper">
-										<a href="{$items.full_uri}">{$items.likes} Likes</a>
-									</div>
+									{option:items.likes}
+										<div class="likeWrapper">
+											<a href="{$items.full_uri}">{$items.likes} Likes</a>
+										</div>
+									{/option:items.likes}
 									<div class="userInfo">
 										<a href="{$items.user.full_uri}">
 											<div class="userInfoData noThumbUserInfoData">

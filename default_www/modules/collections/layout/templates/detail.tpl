@@ -35,9 +35,11 @@
 											<img src="images/test.jpg" alt="Test" />
 										</a>
 									</div>
-									<div class="likeWrapper">
-										<a href="#">5 Likes</a>
-									</div>
+									{option:items.likes}
+										<div class="likeWrapper">
+											<a href="#">5 Likes</a>
+										</div>
+									{/option:items.likes}
 									<div class="userInfo">
 										<a href="#">
 											<div class="userInfoImage">
