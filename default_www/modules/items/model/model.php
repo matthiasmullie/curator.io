@@ -104,6 +104,12 @@ class Item
 		}
 	}
 
+
+	public function __get($property)
+	{
+		return $this->$property;
+	}
+
 	/**
 	 * Get item object based on id
 	 *
@@ -118,7 +124,9 @@ class Item
 			array((int) $id)
 		);
 
-		return $this->initialize($array);
+		$item = new Item();
+
+		return $item->initialize($array);
 	}
 
 	/**
@@ -135,7 +143,9 @@ class Item
 			array((string) $uri)
 		);
 
-		return $this->initialize($array);
+		$item = new Item();
+
+		return $item->initialize($array);
 	}
 
 	/**

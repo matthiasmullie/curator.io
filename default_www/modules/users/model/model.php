@@ -141,7 +141,7 @@ class User
 		$facebook = Authentication::getFacebook();
 		$url = Spoon::get('url');
 
-		$facebook->publish('/me/curatorio:collect', array('item' =>  $url->buildUrl('items', 'detail') . '/' . $this->uri));
+		$facebook->publish('/me/curatorio:collect', array('item' => SITE_URL . $url->buildUrl('detail', 'items') . '/' . $item->uri));
 	}
 
 	/**

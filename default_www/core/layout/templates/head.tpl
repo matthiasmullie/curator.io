@@ -35,7 +35,7 @@
 	<script src="/js.php?module=core&amp;file=site.js&amp;language={$LANGUAGE}&amp;m={$LAST_MODIFIED}"></script>
 	
 	{iteration:opengraph}
-		<meta property="{$opengraph.key}" content="{$opengraph.value}">
+		<meta property="og:{$opengraph.key}" content="{$opengraph.value}">
 	{/iteration:opengraph}
 	
 	{* Google Analytics *}
