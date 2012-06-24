@@ -75,7 +75,9 @@
 			cookie     : true, // enable cookies to allow the server to access the session
 			xfbml      : true  // parse XFBML
 		});
-		// Additional initialization code here
+		
+		// initialize Facebook
+		jsSite.facebook.init();
 	};
 	// Load the SDK Asynchronously
 	(function(d){

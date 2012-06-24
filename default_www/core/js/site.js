@@ -34,7 +34,7 @@ jsSite =
 		// init stuff
 		jsSite.initAjax();
 		jsSite.forms.init();
-
+		
 		try
 		{
 			// build method
@@ -87,6 +87,26 @@ jsSite =
 		$(document).ajaxStop(function() { $('#ajaxSpinner').hide(); });
 	},
 
+	// end
+	eoo: true
+}
+
+/**
+ * Forms
+ *
+ * @author	Tijs Verkoyen <tijs@sumocoders.be>
+ */
+jsSite.facebook =
+{
+	// init, something like a constructor
+	init: function()
+	{
+		// subscribe to auth changes
+		FB.Event.subscribe('auth.authResponseChange', function(response) 
+		{
+			document.location.reload();
+		});
+	},
 
 	// end
 	eoo: true
@@ -195,6 +215,5 @@ jsSite.forms =
 	// end
 	eoo: true
 }
-
 
 $(document).ready(jsSite.init);
