@@ -4,6 +4,7 @@
  * Show the detail for an collection
  *
  * @author Tijs Verkoyen <tijs@sumocoders.be>
+ * @author Dieter Vanden Eynde <dieter@dieterve.be>
  */
 class CollectionsDetail extends SiteBaseAction
 {

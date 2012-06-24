@@ -78,6 +78,29 @@ class User
 	}
 
 	/**
+	 * Get a user
+	 *
+	 * @param string $url
+	 * @return User
+	 */
+	public static function getByUri($uri)
+	{
+		$data = Site::getDB()->getRecord(
+			'SELECT i.*
+			 FROM users AS i
+			 WHERE i.uri = ?',
+			array((string) $uri)
+		);
+
+		// validate
+		if($data === null) return false;
+
+		// create instance
+		$item = new User();
+		return $item->initialize($data);
+	}
+
+	/**
 	 * Get an user by his facebook ID
 	 *
 	 * @param int $id
@@ -109,6 +132,81 @@ class User
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Get collections.
+	 *
+	 * @return array
+	 */
+	public function getCollections($limit = 100)
+	{
+		$data = (array) Site::getDB()->getRecords(
+			'SELECT c.*, SUM(i.like_count) AS likes
+			 FROM collections AS c
+			 LEFT JOIN items AS i ON c.id = i.collection_id
+			 WHERE c.user_id = ?
+			 GROUP BY c.id
+			 ORDER BY likes DESC
+			 LIMIT ?',
+			array($this->id, (int) $limit)
+		);
+
+		$items = array();
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Get total amount of collections for this user.
+	 *
+	 * @return int
+	 */
+	public function getCollectionCount()
+	{
+		return (int) Site::getDB()->getVar(
+			'SELECT COUNT(*) FROM collections WHERE user_id = ?',
+			$this->id
+		);
+	}
+
+	/**
+	 * Get total amount of items for this user.
+	 *
+	 * @return int
+	 */
+	public function getItemCount()
+	{
+		return (int) Site::getDB()->getVar(
+			'SELECT COUNT(*)
+			 FROM collections AS c
+			 INNER JOIN items AS i ON i.collection_id = c.id
+			 WHERE c.user_id = ?',
+			$this->id
+		);
+	}
+
+	/**
+	 * Get total amount of likes for this user.
+	 *
+	 * @return int
+	 */
+	public function getLikeCount()
+	{
+		return (int) Site::getDB()->getVar(
+			'SELECT SUM(i.like_count)
+			 FROM collections AS c
+			 INNER JOIN items AS i ON i.collection_id = c.id
+			 WHERE c.user_id = ?',
+			$this->id
+		);
 	}
 
 	/**
@@ -211,7 +309,7 @@ class User
 		$item['id'] = $this->id;
 		$item['name'] = $this->name;
 		$item['uri'] = $this->uri;
-		$item['full_uri'] =  $url->buildUrl('users', 'detail') . '/' . $this->uri;
+		$item['full_uri'] =  $url->buildUrl('detail', 'users') . '/' . $this->uri;
 		$item['facebook_id'] = $this->facebookId;
 		$item['avatar'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture';
 		$item['avatar_50x50'] = 'http://graph.facebook.com/' . $this->facebookId . '/picture?type=square';
