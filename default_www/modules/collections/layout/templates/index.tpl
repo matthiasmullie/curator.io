@@ -10,9 +10,9 @@
 				<div class="inner">
 					<nav>
 						<ul>
-							<li class="selected"><a href="#">Popular</a></li>
-							<li><a href="#">Latest</a></li>
-							<li><a href="#">Categories</a></li>
+							<li{option:sortPopular} class="selected"{/option:sortPopular}><a href="{$var|buildurl:'index':'collections'}">Popular</a></li>
+							<li{option:sortLatest} class="selected"{/option:sortLatest}><a href="{$var|buildurl:'index':'collections'}/latest">Latest</a></li>
+							<li{option:sortCategories} class="selected"{/option:sortCategories}><a href="{$var|buildurl:'index':'collections'}/categories">Categories</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -26,22 +26,21 @@
 							{iteration:items}
 								<li>
 									<div class="itemImage">
-										<a href="#">
-											<img src="images/test.jpg" alt="Test" />
+										<a href="{$items.full_uri}">
+											<img src="{$items.image_160x160}" alt="{$items.name}" />
 										</a>
 									</div>
 									<div class="likeWrapper">
-										<a href="#">5 Likes</a>
+										<a href="{$items.full_uri}">{$items.likes} Likes</a>
 									</div>
 									<div class="userInfo">
-										<a href="#">
+										<a href="{$items.user.full_url}">
 											<div class="userInfoImage">
-												<img src="images/test.jpg" alt="Test" />
+												<img src="{$items.user.avatar_50x50}" width="24" height="24" alt="{$items.user.name}" />
 											</div>
 											<div class="userInfoData">
-												Yoni De Beule
+												{$items.user.name}
 											</div>
-											</a>
 										</a>
 									</div>
 								</li>

@@ -31,5 +31,62 @@ class CollectionsIndex extends SiteBaseAction
 	private function parse()
 	{
 		$this->parseReports();
+
+		$sort = SpoonFilter::getValue($this->url->getParameter(1), array('popular', 'latest', 'categories'), 'popular');
+
+		$this->tpl->assign('sort' . SpoonFilter::toCamelCase($sort), true);
+
+		switch($sort)
+		{
+			case 'categories':
+				$this->parseCategories();
+				break;
+			case 'latest':
+				$this->parseLatest();
+				break;
+			case 'popular':
+			default:
+				$this->parsePopular();
+				break;
+		}
 	}
+
+	/**
+	 * Parse the collections based on category?
+	 */
+	private function parseCategories()
+	{
+		throw new Exception('Implement me');
+	}
+
+	/**
+	 * Parse the collection based on the like count
+	 */
+	private function parseLatest()
+	{
+		// get all collections sorted by likes
+		$items = CollectionsHelper::getOrderByCreatedOn();
+
+		if(!empty($items))
+		{
+			foreach($items as &$item) $item = $item->toArray();
+			$this->tpl->assign('items', $items);
+		}
+	}
+
+	/**
+	 * Parse the collection based on the like count
+	 */
+	private function parsePopular()
+	{
+		// get all collections sorted by likes
+		$items = CollectionsHelper::getOrderByLike();
+
+		if(!empty($items))
+		{
+			foreach($items as &$item) $item = $item->toArray();
+			$this->tpl->assign('items', $items);
+		}
+	}
+
 }

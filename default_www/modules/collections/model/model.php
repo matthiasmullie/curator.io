@@ -10,7 +10,7 @@ class Collection
 	/**
 	 * @var	int
 	 */
-	public $id, $user_id;
+	public $id, $user_id, $likes;
 
 	/**
 	 * @var	string
@@ -131,6 +131,7 @@ class Collection
 		if(isset($data['name'])) $this->name = (string) $data['name'];
 		if(isset($data['description'])) $this->description = (string) $data['description'];
 		if(isset($data['uri'])) $this->uri = (string) $data['uri'];
+		if(isset($data['likes'])) $this->likes = (int) $data['likes'];
 	}
 
 	/**
@@ -168,12 +169,19 @@ class Collection
 	 */
 	public function toArray()
 	{
+		$user = User::get($this->user_id);
+
 		// build array
 		$item['id'] = $this->id;
 		$item['user_id'] = $this->user_id;
+		$item['user'] = $user->toArray();
 		$item['name'] = $this->name;
 		$item['description'] = $this->description;
 		$item['uri'] = $this->uri;
+		$item['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
+		$item['likes'] = $this->likes;
+
+		// @todo	image
 
 		return $item;
 	}
@@ -186,6 +194,66 @@ class Collection
  */
 class CollectionsHelper
 {
+	/**
+	 * Get collections orderd by creation date
+	 *
+	 * @return array
+	 */
+	public static function getOrderByCreatedOn($limit = 10)
+	{
+		$data = Site::getDB()->getRecords(
+			'SELECT *, SUM(i.like_count) AS likes
+			 FROM collections AS c
+			 INNER JOIN items AS i ON c.id = i.collection_id
+			 GROUP BY c.id
+			 ORDER BY c.created_on DESC
+			 LIMIT ?',
+			array($limit)
+		);
+
+		$items = array();
+
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Get collections orderd by likes
+	 *
+	 * @return array
+	 */
+	public static function getOrderByLike($limit = 10)
+	{
+		$data = Site::getDB()->getRecords(
+			'SELECT *, SUM(i.like_count) AS likes
+			 FROM collections AS c
+			 INNER JOIN items AS i ON c.id = i.collection_id
+			 GROUP BY c.id
+			 ORDER BY likes DESC
+			 LIMIT ?',
+			array($limit)
+		);
+
+		$items = array();
+
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
+	}
+
 	/**
 	 * @return int
 	 * @param string $slug
@@ -224,4 +292,5 @@ class CollectionsHelper
 			array((string) $term . '%', (int) $limit)
 		);
 	}
+
 }
