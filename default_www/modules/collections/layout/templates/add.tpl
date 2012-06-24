@@ -1,14 +1,8 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
-
-	<div id="container">
-		{include:'{$CORE_PATH}/layout/templates/header.tpl'}
-
-		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
-
-		<section id="example" class="index content mod">
-			<header class="header">
-				<h2>Add collection</h2>
-			</header>
+{include:'{$CORE_PATH}/layout/templates/header.tpl'}
+	<div id="main">
+		<div class="container">
+			<h1>Add collection</h1>
 
 			{form:add}
 
@@ -26,13 +20,10 @@
 				</fieldset>
 
 				<p class="buttonHolder">
-					<input type="submit" class="inputSubmit" name="ok" value="{$lblAdd|ucfirst}">
+					<input type="submit" class="inputSubmit" name="ok" value="Add">
 				</p>
 			{/form:add}
 
-		</section>
-
-		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
+		</div>
 	</div>
-</body>
-</html>
+{include:'{$CORE_PATH}/layout/templates/footer.tpl'}

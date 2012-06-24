@@ -1,14 +1,8 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
-
-	<div id="container">
-		{include:'{$CORE_PATH}/layout/templates/header.tpl'}
-
-		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
-
-		<section id="example" class="index content mod">
-			<header class="header">
-				<h2>Edit collection</h2>
-			</header>
+{include:'{$CORE_PATH}/layout/templates/header.tpl'}
+	<div id="main">
+		<div class="container">
+			<h1>Edit collection</h1>
 
 			{form:edit}
 
@@ -26,15 +20,13 @@
 				</fieldset>
 
 				<p class="buttonHolder">
-					<input type="submit" class="inputSubmit" name="ok" value="{$lblSave|ucfirst}">
+					<input type="submit" class="inputSubmit" name="ok" value="Save">
 				</p>
 			{/form:edit}
 
 			<a href="{$var|buildurl:'delete'}/{$slug}" class="confirm" data-message="Are you sure you want to delete this collection">Delete</a>
-
 		</section>
 
-		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
+		</div>
 	</div>
-</body>
-</html>
+{include:'{$CORE_PATH}/layout/templates/footer.tpl'}

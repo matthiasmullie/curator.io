@@ -1,17 +1,11 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
-
-	<div id="container">
-		{include:'{$CORE_PATH}/layout/templates/header.tpl'}
-
-		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
-
-		<section id="example" class="index content mod">
+{include:'{$CORE_PATH}/layout/templates/header.tpl'}
+	<div id="main">
+		<div class="container">
 
 			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}
 
-			<header class="header">
-				<h2>{$collection.name}</h2>
-			</header>
+			<h1>{$collection.name}</h1>
 
 			<p>
 				{$collection.description}
@@ -28,9 +22,7 @@
 				<img src="{$collectionOwner.avatar_50x50}">
 				{$collectionOwner.name}
 			</a>
-		</section>
 
-		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
+		</div>
 	</div>
-</body>
-</html>
+{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
