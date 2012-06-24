@@ -33,6 +33,7 @@ jsSite =
 
 		// init stuff
 		jsSite.initAjax();
+		jsSite.controls.init();
 		jsSite.forms.init();
 		
 		try
@@ -87,6 +88,25 @@ jsSite =
 		$(document).ajaxStop(function() { $('#ajaxSpinner').hide(); });
 	},
 
+	// end
+	eoo: true
+}
+
+/**
+ * Forms
+ *
+ * @author	Tijs Verkoyen <tijs@sumocoders.be>
+ */
+jsSite.controls = {
+	// init, something like a constructor
+	init: function()
+	{
+		$('.confirm').on('click', function(e) {
+			var message = $(this).data('message');
+			return confirm(message);
+		});
+	},
+	
 	// end
 	eoo: true
 }
