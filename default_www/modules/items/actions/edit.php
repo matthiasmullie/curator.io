@@ -112,7 +112,7 @@ class ItemsEdit extends SiteBaseAction
 		if(!$this->frm->isSubmitted()) return;
 
 		// validate filled
-		$this->frm->getField('name')->isFilled('Please etner enter a name.');
+		$this->frm->getField('name')->isFilled('Please enter enter a name.');
 	}
 
 	/**
