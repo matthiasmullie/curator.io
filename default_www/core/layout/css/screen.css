@@ -1015,6 +1015,35 @@ table {
 			float: left;
 		}
 
+	/* 404 */
+
+	@media only screen and (min-width: 992px) {
+
+		#main.error404 {
+			background: url(../images/error404.jpg) repeat-x top center;
+			padding-top: 400px;
+		}
+	}
+
+	@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+		#main.error404 {
+			background: url(../images/error404.jpg) repeat-x top center;
+			background-size: auto 300px;
+			padding-top: 300px;
+		}
+	}
+
+	@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+		#main.error404 {
+			background: url(../images/error404.jpg) repeat-x top center;
+			background-size: auto 200px;
+			padding-top: 200px;
+		}
+
+	}
+
 	/* Overlay */
 
 	#overlay {
