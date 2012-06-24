@@ -46,7 +46,7 @@ class ItemsAdd extends CuratorBaseAction
 		$this->frm->addText('name');
 		$this->frm->addTextArea('description');
 		$this->frm->addImage('image');
-		$this->frm->addCheckbox('publish_to_facebook', true);
+		$this->frm->addCheckbox('publish_to_facebook');
 	}
 
 	/**
