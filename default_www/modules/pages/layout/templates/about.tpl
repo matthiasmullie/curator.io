@@ -31,7 +31,7 @@
 					</li>
 				</ul>
 			</div>
-			
+			<p>We collect likes! Hop over to <a href="http://www.facebook.com/curatorio">our Facebook page</a> and give us a thumbs up!</p>
 		</div>
 	</div>
 {include:'{$CORE_PATH}/layout/templates/footer.tpl'}
