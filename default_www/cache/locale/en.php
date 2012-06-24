@@ -13,10 +13,11 @@ $act = array();
 
 // init var
 $err = array();
-$err['FieldIsRequired'] = 'Dit veld is verplicht.';
-$err['GeneralError'] = 'Er ging iets mis.';
-$err['GeneralFormError'] = 'Er ging iets mis, kijk de gemarkeerde velden na.';
-$err['InvalidModule'] = 'Helaas, deze module kunnen we niet terugvinden.';
+$err['CollectionNotFound'] = 'This collection doesn\'t exists.';
+$err['FieldIsRequired'] = 'This field is required';
+$err['GeneralError'] = 'Something went wrong';
+$err['GeneralFormError'] = 'Not all fields are valid, check the marked fields.';
+$err['InvalidModule'] = 'Poink, no such feature..';
 
 // init var
 $lbl = array();
