@@ -47,10 +47,10 @@ class CollectionsEdit extends SiteBaseAction
 	 */
 	private function loadForm()
 	{
-		$this->frm = new SiteForm('add');
+		$this->frm = new SiteForm('edit');
 
-		$this->frm->addText('name')->setAttributes(array('required' => null));
-		$this->frm->addTextarea('description');
+		$this->frm->addText('name', $this->collection->name)->setAttributes(array('required' => null));
+		$this->frm->addTextarea('description', $this->collection->description);
 	}
 
 	/**
@@ -75,18 +75,15 @@ class CollectionsEdit extends SiteBaseAction
 			// no errors?
 			if($this->frm->isCorrect())
 			{
-				$item = new Collection();
-
 				// set properties
-				$item->name = $this->frm->getField('name')->getValue();
-				$item->description = $this->frm->getField('description')->getValue();
-				$item->user_id = Authentication::getLoggedInUser()->id;
+				$this->collection->name = $this->frm->getField('name')->getValue();
+				$this->collection->description = $this->frm->getField('description')->getValue();
 
 				// save
-				$item->save();
+				$this->collection->save();
 
 				// redirect
-				$this->redirect($this->url->buildUrl('index', null, null, array('report' => 'added', 'var' => $item->name)));
+				$this->redirect($this->url->buildUrl('index', null, null, array('report' => 'saved', 'var' => $this->collection->name)));
 			}
 
 			// show general error

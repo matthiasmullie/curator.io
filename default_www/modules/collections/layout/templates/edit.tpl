@@ -6,12 +6,32 @@
 		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
 
 		<section id="example" class="index content mod">
-			<p>
-				Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.
-			</p>
-			<p>
-				Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Vestibulum id ligula porta felis euismod semper.
-			</p>
+			<header class="header">
+				<h2>Edit collection</h2>
+			</header>
+
+			{form:edit}
+
+				{option:formEditHasError}<div class="message notice"><p>{$errGeneralFormError}</p></div>{/option:formEditHasError}
+
+				<fieldset class="visibleFieldset">
+					<p class="mediumInput{option:txtNameError} errorArea{/option:txtNameError}">
+						<label for="name">Name<abbr title="{$msgRequired}">*</abbr></label>
+						{$txtName} {$txtNameError}
+					</p>
+					<p class="mediumInput{option:txtDescriptionError} errorArea{/option:txtDescriptionError}">
+						<label for="description">Description</label>
+						{$txtDescription} {$txtDescriptionError}
+					</p>
+				</fieldset>
+
+				<p class="buttonHolder">
+					<input type="submit" class="inputSubmit" name="ok" value="{$lblSave|ucfirst}">
+				</p>
+			{/form:edit}
+
+			<a href="{$var|buildurl:'delete'}" class="confirm" data-message="Are you sure you want to delete this collection">Delete</a>
+
 		</section>
 
 		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
