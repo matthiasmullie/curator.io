@@ -61,7 +61,7 @@ class ItemsAdd extends CuratorBaseAction
 		// build & save item
 		$this->item = new Item();
 		$this->item->collection_id = $this->collection->id;
-		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $this->item->$key = $value;
+		foreach($this->frm->getValues(array('form', '_utf8', 'publish_to_facebook')) as $key => $value) $this->item->$key = $value;
 		if($this->frm->getField('image')->isFilled()) $this->item->image = $this->frm->getField('image');
 
 		$names = SpoonFilter::getPostValue('names', null, null, 'array');
