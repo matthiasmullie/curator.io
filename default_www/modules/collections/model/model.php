@@ -57,6 +57,38 @@ class Collection
 	}
 
 	/**
+	 * Get an item by his uri
+	 *
+	 * @param string $uri
+	 * @return boolean|Collection
+	 */
+	public static function getByUri($uri)
+	{
+		// redefine
+		$uri = (string) $uri;
+
+		// get data
+		$data = Site::getDB()->getRecord(
+				'SELECT i.id, i.user_id, i.name, i.description, i.uri
+			 	 FROM collections AS i
+			 	 WHERE i.uri = ?',
+				array($uri)
+		);
+
+		// validate
+		if($data === null) return false;
+
+		// create instance
+		$item = new Collection();
+
+		// initialize
+		$item->initialize($data);
+
+		// return
+		return $item;
+	}
+
+	/**
 	 * Get a uniaue uri for a user
 	 *
 	 * @param string $uri
