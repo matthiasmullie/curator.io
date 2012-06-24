@@ -1944,14 +1944,13 @@ a.button:visited {
 	.mobileField input.tinyInput,
 	.mobileField input.inputDate,
 	.mobileField input.inputSearch,
-	.mobileField textarea {
+	.mobileField textarea,
+	.mobileField select {
 		width: 100%;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-
-
 
 /* Other Buttons */
 
