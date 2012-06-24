@@ -26,6 +26,7 @@ class CollectionsDetail extends CuratorBaseAction
 	{
 		$this->tpl->assign('title', $this->collection->name);
 		$this->tpl->assign('pageTitle', $this->collection->name);
+ 		$this->tpl->assign('category', CollectionsHelper::getCategoryById($this->collection->category_id));
 		$this->tpl->assign('collection', $this->collection->toArray());
 		$this->tpl->assign('items', $this->collection->getItems());
 		$this->tpl->assign('isCollectionOwner', Authentication::getLoggedInUser() && Authentication::getLoggedInUser()->id == $this->collection->user_id);

@@ -22,6 +22,32 @@
 				<hr />
 			</div>
 
+			<!-- Whitelist -->
+			<div class="whiteList">
+				<div class="inner">
+					<ul>
+						<li>
+							<a href="{$category.full_uri}">
+								<img src="/files/icons/{$category.icon}" alt="{$category.name}">
+								{$category.name}
+								<span class="rightWhiteList">Category</span>
+							</a>
+						</li>
+						<li>
+							<a href="{$collection.user.full_uri}">
+								<img src="{$collection.user.avatar_50x50}" width="32" height="32" alt="{$collection.user.name}">
+								{$collection.user.name}
+								<span class="rightWhiteList">Curator</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="hr">
+				<hr />
+			</div>
+
 			<!-- Item List-->
 			<div class="itemList">
 				<div class="inner">
