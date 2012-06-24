@@ -17,8 +17,8 @@ class CollectionsEdit extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		// authentication
-		if(!Authentication::getLoggedInUser()) $this->redirect($this->url->buildUrl('forbidden', 'users'));
+		// user must be logged in
+		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
 
 		// exists
 		if(!CollectionsHelper::existsBySlug($this->url->getParameter(1)))
@@ -31,7 +31,7 @@ class CollectionsEdit extends SiteBaseAction
 		$this->collection = Collection::get($id);
 
 		// logged in user vs collection user id
-		if($this->collection->user_id != Authentication::getLoggedInUser()->id)
+		if($this->collection->user_id != $this->currentUser->id)
 		{
 			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
 		}

@@ -12,7 +12,8 @@ class CollectionsAdd extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		if(!Authentication::getLoggedInUser()) $this->redirect($this->url->buildUrl('forbidden', 'users'));
+		// user must be logged in
+		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
 
 		$this->loadForm();
 		$this->validateForm();
@@ -58,7 +59,7 @@ class CollectionsAdd extends SiteBaseAction
 				// set properties
 				$item->name = $this->frm->getField('name')->getValue();
 				$item->description = $this->frm->getField('description')->getValue();
-				$item->user_id = Authentication::getLoggedInUser()->id;
+				$item->user_id = $this->currentUser->id;
 
 				// save
 				$item->save();
