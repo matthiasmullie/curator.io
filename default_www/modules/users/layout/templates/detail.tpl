@@ -48,7 +48,7 @@
 										</div>
 									{/option:items.likes}
 									<div class="userInfo">
-										<a href="{$items.user.full_uri}">
+										<a href="{$items.full_uri}">
 											<div class="userInfoData noThumbUserInfoData">
 												{$items.name}
 											</div>
