@@ -10,7 +10,7 @@ class Collection
 	/**
 	 * @var	int
 	 */
-	public $id, $category_id, $user_id, $created_on;
+	public $id, $category_id, $user_id, $created_on, $like_count;
 
 	/**
 	 * @var	string
@@ -35,9 +35,10 @@ class Collection
 	public static function get($id)
 	{
 		$array = Site::getDB()->getRecord(
-			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
-		 	 FROM collections AS i
-		 	 WHERE i.id = ?',
+			'SELECT c.*, UNIX_TIMESTAMP(c.created_on) AS created_on, SUM(i.like_count) AS like_count
+		 	 FROM collections AS c
+			 INNER JOIN items AS i ON i.collection_id = c.id
+			 WHERE i.id = ?',
 			array((int) $id)
 		);
 
@@ -55,10 +56,11 @@ class Collection
 	public static function getByUri($collectionUri, $userUri)
 	{
 		$array = Site::getDB()->getRecord(
-			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
-		 	 FROM collections AS i
-			 INNER JOIN users AS u ON u.id = i.user_id
-		 	 WHERE i.uri = ? AND u.uri = ?',
+			'SELECT c.*, UNIX_TIMESTAMP(c.created_on) AS created_on, SUM(i.like_count) AS like_count
+		 	 FROM collections AS c
+			 INNER JOIN users AS u ON u.id = c.user_id
+			 INNER JOIN items AS i ON i.collection_id = c.id
+		 	 WHERE c.uri = ? AND u.uri = ?',
 			array((string) $collectionUri, (string) $userUri)
 		);
 
@@ -115,6 +117,7 @@ class Collection
 		$this->user_id = (int) $this->user_id;
 		$this->category_id = (int) $this->category_id;
 		$this->created_on = (int) $this->created_on;
+		$this->like_count = (int) $this->like_count;
 
 		return $this;
 	}
@@ -192,7 +195,7 @@ class CollectionsHelper
 	public static function getOrderByCreatedOn($limit = 10)
 	{
 		$data = (array) Site::getDB()->getRecords(
-			'SELECT c.*, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS like_count
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 GROUP BY c.id
@@ -222,11 +225,11 @@ class CollectionsHelper
 	public static function getOrderByLike($limit = 10)
 	{
 		$data = (array) Site::getDB()->getRecords(
-			'SELECT c.*, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS like_count
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 GROUP BY c.id
-			 ORDER BY likes DESC
+			 ORDER BY like_count DESC
 			 LIMIT ?',
 			array($limit)
 		);
