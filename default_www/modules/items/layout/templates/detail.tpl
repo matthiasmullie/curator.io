@@ -11,7 +11,7 @@
 				<!-- Like Module -->
 				<div class="likeModule">
 					<div class="likeButtonWrapper">
-						<div class="fb-like" data-href="{$item.full_uri}" data-send="false" data-width="225" data-show-faces="false"></div>
+						<div class="fb-like" data-href="{$SITE_URL}{$item.full_uri}" data-send="false" data-width="225" data-show-faces="false"></div>
 					</div>
 				</div>
 			</div>
