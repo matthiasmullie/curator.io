@@ -977,10 +977,14 @@ table {
 		padding-right: 20px;
 	}
 
-		.bigUserInfo .userInfoImage img {
-			width: 68px;
-			height: 68px;
+		.bigUserInfo .userInfoImage a {
+			border: 0;
 		}
+
+			.bigUserInfo .userInfoImage img {
+				width: 68px;
+				height: 68px;
+			}
 
 	.bigUserInfo .userInfoData {
 			width: 164px;
