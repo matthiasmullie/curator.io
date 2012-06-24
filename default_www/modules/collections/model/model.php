@@ -59,8 +59,9 @@ class Collection
 			'SELECT c.*, UNIX_TIMESTAMP(c.created_on) AS created_on, SUM(i.like_count) AS like_count
 		 	 FROM collections AS c
 			 INNER JOIN users AS u ON u.id = c.user_id
-			 INNER JOIN items AS i ON i.collection_id = c.id
-		 	 WHERE c.uri = ? AND u.uri = ?',
+			 LEFT OUTER JOIN items AS i ON i.collection_id = c.id
+		 	 WHERE c.uri = ? AND u.uri = ?
+			 GROUP BY c.id',
 			array((string) $collectionUri, (string) $userUri)
 		);
 
@@ -77,7 +78,7 @@ class Collection
 	 */
 	public function getItems($limit = 99999999, $offset = 0)
 	{
-		$items = Site::getDB(false)->getRecords(
+		$items = (array) Site::getDB(false)->getRecords(
 			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
 			 FROM items AS i
 			 INNER JOIN collections AS c ON c.id = i.collection_id
