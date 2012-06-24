@@ -4,17 +4,6 @@
 		<div class="container">
 			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}
 
-			<!-- Content -->
-			<div class="mod content">
-				<div class="inner">
-					<h1>Search results for <em>{$term}</em></h1>
-				</div>
-			</div>
-			
-			<div class="hr">
-				<hr />
-			</div>
-			
 			{option:noItems}
 				<div class="message">
 					<p>We are really sorry, but we didn't find anything that matches the searchquery.</p>

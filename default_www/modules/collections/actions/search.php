@@ -46,6 +46,7 @@ class CollectionsSearch extends SiteBaseAction
 		}
 
 		if(empty($collections) && empty($items)) $this->tpl->assign('noItems', true);
-		$this->tpl->assign('term', $term);
+		$this->tpl->assign('title', 'Search results for <em>' . $term . '</em>');
+		$this->tpl->assign('pageTitle', 'Search results for <em>' . $term . '</em>');
 	}
 }
