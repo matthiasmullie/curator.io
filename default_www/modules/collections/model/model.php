@@ -127,3 +127,29 @@ class Collection
 		return $item;
 	}
 }
+
+/**
+ * Collection helper methods
+ *
+ * @author Dieter Vanden Eynde <dieter@dieterve.be>
+ */
+class CollectionsHelper
+{
+	/**
+	 * @return int
+	 * @param string $slug
+	 */
+	public static function getIdBySlug($slug)
+	{
+		return (int) Site::getDB()->getVar('SELECT i.id FROM collections AS i WHERE i.uri = ?', array((string) $slug));
+	}
+
+	/**
+	 * @return bool
+	 * @param string $slug
+	 */
+	public static function existsBySlug($slug)
+	{
+		return (bool) Site::getDB()->getVar('SELECT 1 FROM collections AS i WHERE i.uri = ?', array((string) $slug));
+	}
+}
