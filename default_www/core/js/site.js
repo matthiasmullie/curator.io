@@ -380,7 +380,7 @@ jsSite.items =
 	addCustomField: function(e)
 	{
 		e.preventDefault();
-		html = '<div class="oneLiner"><p><input class="customKey inputText smallInput" type="text" name="names[]" placeholder="Custom Field Name" /></p><p><input class="customValue inputText smallInput" type="text" name="values[]" placeholder="Custom Field Value"/></p><p><a href="#" class="deleteCustom" style="font-size: 11px; line-height: 22px;">Delete</a></p>';
+		html = '<div class="oneLiner"><p><input class="customKey inputText smallInput" type="text" name="names[]" placeholder="Custom Field Name" /></p><p><input class="customValue inputText smallInput" type="text" name="values[]" placeholder="Custom Field Value"/></p><p><a href="#" class="deleteCustom" style="font-size: 11px; line-height: 22px;">Delete</a></p></div>';
 		$(this).before(html);
 	},
 
@@ -390,7 +390,7 @@ jsSite.items =
 	deleteCustomField: function(e)
 	{
 		e.preventDefault();
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	},
 
 	/**

@@ -80,6 +80,16 @@ class Item
 	}
 
 	/**
+	 * Magic!
+	 *
+	 * @param string $property
+	 */
+	public function __unset($property)
+	{
+		unset($this->$property);
+	}
+
+	/**
 	 * Delete an item
 	 */
 	public function delete()
@@ -323,5 +333,21 @@ class Item
 		if(empty($return['image'])) $return['image'] = 'default.png';
 
 		return $return;
+	}
+
+	/**
+	 * The inevitable pointless static - just because it was the last thing we're developing
+	 *
+	 * @param int $collectionId
+	 * @return array
+	 */
+	public static function getCustomFields($collectionId)
+	{
+		return Site::getDB(true)->getRecords(
+			'SELECT DISTINCT p.name
+			 FROM items_properties AS p
+			 INNER JOIN items AS i ON i.id = p.item_id
+			 WHERE i.collection_id = ?',
+			array((int) $collectionId));
 	}
 }

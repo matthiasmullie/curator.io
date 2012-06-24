@@ -25,7 +25,7 @@ class ItemsAdd extends CuratorBaseAction
 	 */
 	public function execute()
 	{
-		$this->validateUser(true);
+//		$this->validateUser(true);
 		$this->validateCollection();
 		$this->loadForm();
 		$this->validateForm();
@@ -106,5 +106,8 @@ class ItemsAdd extends CuratorBaseAction
 	private function parse()
 	{
 		$this->frm->parse($this->tpl);
+
+		// assign custom fields already used in this collection
+		$this->tpl->assign('custom', Item::getCustomFields($this->collection->id));
 	}
 }
