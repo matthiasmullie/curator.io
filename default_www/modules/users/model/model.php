@@ -55,7 +55,6 @@ class User
 		return $item;
 	}
 
-
 	/**
 	 * Get an user by his facebook ID
 	 *
@@ -114,7 +113,6 @@ class User
 		return $uri;
 	}
 
-
 	/**
 	 * Initialize the object.
 	 *
@@ -133,6 +131,18 @@ class User
 		return $user;
 	}
 
+	/**
+	 * Publish a collection to facebook
+	 *
+	 * @param Collection $collection
+	 */
+	public function publishItemToFacebook(Item $item)
+	{
+		$facebook = Authentication::getFacebook();
+		$url = Spoon::get('url');
+
+		$facebook->publish('/me/curatorio:collect', array('item' =>  $url->buildUrl('items', 'detail') . '/' . $this->uri));
+	}
 
 	/**
 	 * Save the user

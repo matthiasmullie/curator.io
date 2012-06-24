@@ -32,5 +32,6 @@ class ExampleIndex extends SiteBaseAction
 	 */
 	private function parse()
 	{
+
 	}
 }

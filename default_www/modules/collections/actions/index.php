@@ -30,6 +30,11 @@ class CollectionsIndex extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		require_once PATH_WWW .'/modules/items/model/model.php';
+
+		$this->currentUser->publishItemToFacebook(Item::get(1));
+
+
 		$this->parseReports();
 	}
 }
