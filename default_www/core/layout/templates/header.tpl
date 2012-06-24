@@ -6,7 +6,7 @@
 			<div id="logo">
 				<div class="inner">
 					{option:title}
-						<h1><a href="#">{$title}</a></h1>
+						<h1><a href="/">{$title}</a></h1>
 					{/option:title}
 					{option:!title}
 						<h1><a href="/" title="Discover the collections">Curator.io</a></h1>
