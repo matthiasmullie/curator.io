@@ -28,19 +28,18 @@
 						<ul>
 							<li class="selected"><a href="/">Home</a></li>
 							<li><a href="/">Discover</a></li>
-							<li><a href="{$var|buildurl:'about':'pages'}">About</a></li>
 							{option:!currentUser}
 								<li><div class="fb-login-button">Log in with Facebook</div></li>
 							{/option:!currentUser}
 							{option:currentUser}
+							<li>
+								<a href="{$var|buildurl:'add':'collections'}">Add Collection</a>
+							</li>
 							<li id="currentUser">
 								<a href="{$currentUser.full_uri}">
 									<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="32" height="32" />
 									{$currentUser.name}
 								</a>
-							</li>
-							<li>
-								<a href="{$var|buildurl:'add':'collections'}">Add collection</a>
 							</li>
 							{/option:currentUser}
 							<li id="search">
