@@ -292,6 +292,7 @@ class Item
 		$return = get_object_vars($this);
 		$return['full_uri'] = Spoon::get('url')->buildUrl('detail', 'items') . '/' . $user->uri . '/' . $collection->uri . '/' . $this->uri;
 		$return['collection'] = $collection->toArray();
+		if(empty($return['image'])) $return['image'] = 'default.png';
 
 		return $return;
 	}
