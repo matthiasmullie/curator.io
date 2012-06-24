@@ -24,3 +24,6 @@ $lbl = array();
 
 // init var
 $msg = array();
+$msg['CollectionsDeleted'] = 'The collection <strong>%1$s</strong> was removed.';
+$msg['Imported'] = 'The data was imported.';
+$msg['CollectionsSaved'] = 'Yiha! The collection <strong>%1$s</strong> was created.';
