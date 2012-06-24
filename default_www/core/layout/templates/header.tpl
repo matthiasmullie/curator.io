@@ -37,7 +37,7 @@
 							<li id="currentUser">
 								<a href="{$currentUser.full_uri}">
 									<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="32" height="32" />
-									{$currentUser.name}
+									My Collections
 								</a>
 							</li>
 							{/option:currentUser}
