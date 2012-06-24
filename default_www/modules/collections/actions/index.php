@@ -65,12 +65,12 @@ class CollectionsIndex extends SiteBaseAction
 	private function parseLatest()
 	{
 		// get all collections sorted by likes
-		$items = CollectionsHelper::getOrderByCreatedOn();
+		$collections = CollectionsHelper::getOrderByCreatedOn();
 
-		if(!empty($items))
+		if(!empty($collections))
 		{
-			foreach($items as &$item) $item = $item->toArray();
-			$this->tpl->assign('items', $items);
+			foreach($collections as &$collection) $collection = $collection->toArray();
+			$this->tpl->assign('collections', $collections);
 		}
 	}
 
@@ -80,12 +80,12 @@ class CollectionsIndex extends SiteBaseAction
 	private function parsePopular()
 	{
 		// get all collections sorted by likes
-		$items = CollectionsHelper::getOrderByLike();
+		$collections = CollectionsHelper::getOrderByLike();
 
-		if(!empty($items))
+		if(!empty($collections))
 		{
-			foreach($items as &$item) $item = $item->toArray();
-			$this->tpl->assign('items', $items);
+			foreach($collections as &$collection) $collection = $collection->toArray();
+			$this->tpl->assign('collections', $collections);
 		}
 	}
 }

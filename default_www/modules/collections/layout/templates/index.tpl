@@ -21,34 +21,34 @@
 			<!-- Item List-->
 			<div class="itemList">
 				<div class="inner">
-					{option:items}
+					{option:collections}
 						<ul>
-							{iteration:items}
+							{iteration:collections}
 								<li>
 									<div class="itemImage">
-										<a href="{$items.full_uri}">
-											<img src="/files/items/160x160/{$items.image}" alt="{$items.name}" />
+										<a href="{$collections.full_uri}">
+											<img src="/files/collections/160x160/{$collections.image}" alt="{$collections.name}" />
 										</a>
 									</div>
-									{option:items.like_count}
+									{option:collections.like_count}
 										<div class="likeWrapper">
-											<a href="{$items.full_uri}">{$items.like_count} Likes</a>
+											<a href="{$collections.full_uri}">{$collections.like_count} Likes</a>
 										</div>
-									{/option:items.like_count}
+									{/option:collections.like_count}
 									<div class="userInfo">
-										<a href="{$items.user.full_uri}">
+										<a href="{$collections.user.full_uri}">
 											<div class="userInfoImage">
-												<img src="{$collection.user.avatar_50x50}" width="24" height="24" alt="{$collection.user.name}" />
+												<img src="{$collections.user.avatar_50x50}" width="24" height="24" alt="{$collections.user.name}" />
 											</div>
 											<div class="userInfoData">
-												{$collection.user.name}
+												{$collections.user.name}
 											</div>
 										</a>
 									</div>
 								</li>
-							{/iteration:items}
+							{/iteration:collections}
 						</ul>
-					{/option:items}
+					{/option:collections}
 				</div>
 			</div>
 		</div>
