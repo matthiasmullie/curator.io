@@ -23,7 +23,7 @@
 						{$fileImage} {$fileImageError}
 					</p>
 					<p>
-						<label for="publish_to_facebook">{$chkPublishToFacebook} Publish to Facebook</label>
+						<label for="publishToFacebook">{$chkPublishToFacebook} Publish to Facebook</label>
 					</p>
 				</fieldset>
 
