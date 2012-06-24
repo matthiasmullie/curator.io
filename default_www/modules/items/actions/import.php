@@ -32,6 +32,9 @@ class ItemsImport extends SiteBaseAction
 	 */
 	public function execute()
 	{
+		// user must be logged in
+		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode($this->url->buildUrl('import')));
+
 		$this->loadForm();
 		$this->validateForm();
 		$this->processForm();
@@ -65,25 +68,19 @@ class ItemsImport extends SiteBaseAction
 
 		$db = Site::getDB(true);
 
-/*
 		// insert collection
-		require_once PATH_WWW . '/modules/collections/engine/model.php';
+		require_once PATH_WWW . '/modules/collections/model/model.php';
 		$collection = new Collection();
-		$collection->name = 'blah';
+		$collection->name = preg_replace('/\.[^.]*?$/', '', $this->frm->getField('csv')->getFileName());
+		$collection->user_id = $this->currentUser->id;
 		$collection->save();
-*/
+
 		foreach($this->csv as $row)
 		{
-			// "regular" fields
 			$item = new Item();
-			$item->collection_id = 1; // $collection->id;
-			$item->name = $row['name'];
-			$item->description = isset($row['description']) ? $row['description'] : null;
-			$item->image = isset($row['type']) ? $row['type'] : null; // @todo: process image
-//			$item->save();
-exit('blub');
-			// "custom" fields
-			// @todo
+			$item->collection_id = $collection->id;
+			foreach($row as $key => $value) $item->$key = $value;
+			$item->save();
 		}
 	}
 

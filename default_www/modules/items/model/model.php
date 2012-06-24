@@ -64,14 +64,14 @@ class Item
 	 *
 	 * @var float
 	 */
-	protected $price;
+	protected $price = 0;
 
 	/**
 	 * Amount of item's likes
 	 *
 	 * @var int
 	 */
-	protected $like_count;
+	protected $like_count = 0;
 
 	/**
 	 * Item's creation date
@@ -79,6 +79,23 @@ class Item
 	 * @var date
 	 */
 	protected $created_on;
+
+	/**
+	 * Custom fields
+	 *
+	 * @var array
+	 */
+	protected $custom = array();
+
+	/**
+	 * Magic!
+	 *
+	 * @param string $property
+	 */
+	public function __get($property)
+	{
+		return $this->$property;
+	}
 
 	/**
 	 * Magic!
@@ -93,27 +110,26 @@ class Item
 			case 'image':
 				// no image
 				if($value === null) break;
-
-				// @todo: check if local path or if remote
-				if(!SpoonFile::exists($value))
-
-				// remote path?
-				SpoonFile::download($value, $destinationPath);
-
-
-				Site::generateThumbnails($path, $image);
+				$value = $this->saveImage($value);
+				$this->$property = $value;
+				break;
+			// new name = new uri
+			case 'name':
+				$this->uri = $value;
+				$this->$property = $value;
+				break;
+			// urlize uri
+			case 'uri':
+				$this->$property = $this->getUniqueUri($value, $this->id);
 				break;
 			// just save the value
 			default:
-				$this->$property = $value;
+				// default value
+				if(property_exists($this, $property) && $property != 'custom') $this->$property = $value;
+				// custom value
+				else $this->custom[$property] = $value;
 				break;
 		}
-	}
-
-
-	public function __get($property)
-	{
-		return $this->$property;
 	}
 
 	/**
@@ -123,7 +139,7 @@ class Item
 	 */
 	public static function getById($id)
 	{
-		$array = Site::getDB(true)->getRecord(
+		$array = Site::getDB(false)->getRecord(
 			'SELECT *
 			 FROM items
 			 WHERE id = ?',
@@ -142,7 +158,7 @@ class Item
 	 */
 	public static function getByUri($uri)
 	{
-		$array = Site::getDB(true)->getRecord(
+		$array = Site::getDB(false)->getRecord(
 			'SELECT *
 			 FROM items
 			 WHERE uri = ?',
@@ -194,6 +210,15 @@ class Item
 		// keys -> properties
 		foreach($array as $key => $value) $item->$key = $value;
 
+		// fetch custom fields
+		$this->custom = Site::getDB(false)->getPairs(
+			'SELECT name, value
+			 FROM items_properties
+			 WHERE item_id = ?
+			 ORDER BY sequence ASC',
+			array($this->id)
+		);
+
 		return $item;
 	}
 
@@ -210,15 +235,64 @@ class Item
 
 		$db = Site::getDB(true);
 
-		// get unique uri & creation date
-		$this->uri = $this->getUniqueUri($this->name, $this->id);
 		if($this->created_on === null) $this->created_on = Site::getUTCDate();
+		$item = get_object_vars($this);
+		unset($item['custom']);
 
 		// update
-		if($this->id !== null) $db->update('items', get_object_vars($this));
+		if($this->id !== null) $db->update('items', $item);
 		// insert
-		else $this->id = $db->insert('items', get_object_vars($this));
+		else $this->id = $db->insert('items', $item);
+
+		// (re-)insert custom values
+		$i = 0;
+		$db->delete('items_properties', 'item_id = ?', array($this->id));
+		foreach($this->custom as $name => $value)
+		{
+			$property = array(
+				'item_id' => $this->id,
+				'name' => $name,
+				'value' => $value,
+				'sequence' => $i++
+			);
+			$db->insert('items_properties', $property);
+		}
 
 		return true;
+	}
+
+	/**
+	 * Save image - create thumbnails
+	 *
+	 * @param string $path
+	 * @return string the filename
+	 */
+	protected function saveImage($path)
+	{
+		// check if uri/id/... already exists
+		if($this->uri === null) throw new SpoonException('Please set name/uri before setting image.');
+
+		// build local path
+		$filename = $this->uri . '.' . SpoonFile::getExtension($path);
+
+		// path to thumbs
+		$pathThumbs = PATH_WWW . '/files/items';
+
+		// if existing (local) file, move to desired path
+		if(SpoonFile::exists($path))
+		{
+			SpoonFile::move($path, $pathThumbs . '/source/' . $filename);
+		}
+		// if no existing (local) file, attemt to download the file
+		else
+		{
+			$success = SpoonFile::download($path, $path . '/source/' . $filename);
+			if(!$success) return false;
+		}
+
+		// create thumbs - yay
+		Site::generateThumbnails($path, $path . '/source/' . $filename);
+
+		return $filename;
 	}
 }
