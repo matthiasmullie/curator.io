@@ -112,7 +112,7 @@ class Collection
 		if(Site::getDB()->getVar($query, $parameters) == 1)
 		{
 			$uri = Site::addNumber($uri);
-			return self::getUniqueUri($uri);
+			return self::getUniqueUri($uri, $ignoreId);
 		}
 
 		return $uri;
