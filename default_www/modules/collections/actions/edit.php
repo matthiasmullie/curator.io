@@ -20,14 +20,29 @@ class CollectionsEdit extends SiteBaseAction
 		// user must be logged in
 		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
 
+		$this->loadData();
+		$this->loadForm();
+		$this->validateForm();
+		$this->parse();
+		$this->display();
+	}
+
+	/**
+	 * Load/validate data.
+	 */
+	private function loadData()
+	{
+		$userUri = $this->url->getParameter(1);
+		$collectionUri = $this->url->getParameter(2);
+
 		// exists
-		if(!CollectionsHelper::existsBySlug($this->url->getParameter(1)))
+		if(!CollectionsHelper::existsBySlug($userUri, $collectionUri))
 		{
 			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
 		}
 
 		// fetch data
-		$id = CollectionsHelper::getIdBySlug($this->url->getParameter(1));
+		$id = CollectionsHelper::getIdBySlug($userUri, $collectionUri);
 		$this->collection = Collection::get($id);
 
 		// logged in user vs collection user id
@@ -35,11 +50,6 @@ class CollectionsEdit extends SiteBaseAction
 		{
 			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
 		}
-
-		$this->loadForm();
-		$this->validateForm();
-		$this->parse();
-		$this->display();
 	}
 
 	/**
@@ -58,7 +68,7 @@ class CollectionsEdit extends SiteBaseAction
 	 */
 	private function parse()
 	{
-		$this->tpl->assign('slug', $this->collection->uri);
+		$this->tpl->assign('collection', $this->collection->toArray());
 		$this->frm->parse($this->tpl);
 	}
 
@@ -84,7 +94,8 @@ class CollectionsEdit extends SiteBaseAction
 				$this->collection->save();
 
 				// redirect
-				$this->redirect($this->url->buildUrl('detail', null, $this->collection->uri, array('report' => 'saved', 'var' => $this->collection->name)));
+				$collection = $this->collection->toArray();
+				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $this->collection->name);
 			}
 
 			// show general error

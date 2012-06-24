@@ -65,7 +65,8 @@ class CollectionsAdd extends SiteBaseAction
 				$item->save();
 
 				// redirect
-				$this->redirect($this->url->buildUrl('detail', null, $item->uri, array('report' => 'saved', 'var' => $item->name)));
+				$collection = $item->toArray();
+				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $item->name);
 			}
 
 			// show general error

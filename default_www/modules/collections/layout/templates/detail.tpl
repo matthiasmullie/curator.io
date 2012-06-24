@@ -14,13 +14,13 @@
 			{* loop items hier *}
 
 			{option:isCollectionOwner}
-				<a href="{$var|buildurl:'edit'}/{$collection.uri}">Edit collection</a><br>
+				<a href="{$var|buildurl:'edit'}/{$collection.user.uri}/{$collection.uri}">Edit collection</a><br>
 				<a href="">Add item</a>
 			{/option:isCollectionOwner}
 
-			<a href="{$collectionOwner.full_uri}">
-				<img src="{$collectionOwner.avatar_50x50}">
-				{$collectionOwner.name}
+			<a href="{$collection.user.full_uri}">
+				<img src="{$collection.user.avatar_50x50}">
+				{$collection.user.name}
 			</a>
 
 		</div>

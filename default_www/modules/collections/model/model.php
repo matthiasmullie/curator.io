@@ -180,7 +180,6 @@ class Collection
 		$item['uri'] = $this->uri;
 		$item['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
 		$item['likes'] = $this->likes;
-
 		// @todo	image
 
 		return $item;
@@ -232,7 +231,7 @@ class CollectionsHelper
 	public static function getOrderByLike($limit = 10)
 	{
 		$data = Site::getDB()->getRecords(
-			'SELECT *, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS likes
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 GROUP BY c.id
@@ -256,20 +255,34 @@ class CollectionsHelper
 
 	/**
 	 * @return int
-	 * @param string $slug
+	 * @param string $userSlug
+	 * @param string $collectionSlug
 	 */
-	public static function getIdBySlug($slug)
+	public static function getIdBySlug($userSlug, $collectionSlug)
 	{
-		return (int) Site::getDB()->getVar('SELECT i.id FROM collections AS i WHERE i.uri = ?', array((string) $slug));
+		return (int) Site::getDB()->getVar(
+			'SELECT i.id
+			 FROM collections AS i
+			 INNER JOIN users AS u ON u.id = i.user_id
+			 WHERE i.uri = ? AND u.uri = ?',
+			array((string) $collectionSlug, (string) $userSlug)
+		);
 	}
 
 	/**
 	 * @return bool
-	 * @param string $slug
+	 * @param string $userSlug
+	 * @param string $collectionSlug
 	 */
-	public static function existsBySlug($slug)
+	public static function existsBySlug($userSlug, $collectionSlug)
 	{
-		return (bool) Site::getDB()->getVar('SELECT 1 FROM collections AS i WHERE i.uri = ?', array((string) $slug));
+		return (bool) Site::getDB()->getVar(
+			'SELECT 1
+			 FROM collections AS i
+			 INNER JOIN users AS u ON u.id = i.user_id
+			 WHERE i.uri = ? AND u.uri = ?',
+			array((string) $collectionSlug, (string) $userSlug)
+		);
 	}
 
 	/**
