@@ -48,6 +48,7 @@ class CollectionsDetail extends SiteBaseAction
 	private function parse()
 	{
 		$this->tpl->assign('title', $this->collection->name);
+		$this->tpl->assign('pageTitle', $this->collection->name);
 		$this->tpl->assign('collection', $this->collection->toArray());
 
 		if(Authentication::getLoggedInUser())
