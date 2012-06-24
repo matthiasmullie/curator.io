@@ -109,13 +109,12 @@ class Item
 			// write to file
 			case 'image':
 				// no image
-				if($value === null) break;
 				$value = $this->saveImage($value);
 				$this->$property = $value;
 				break;
 			// new name = new uri
 			case 'name':
-				$this->uri = $value;
+				$this->uri = $this->getUniqueUri($value, $this->id);
 				$this->$property = $value;
 				break;
 			// urlize uri
@@ -274,6 +273,8 @@ class Item
 	 */
 	protected function saveImage($image)
 	{
+		if($image === null) return null;
+
 		// check if uri/id/... already exists
 		if($this->uri === null) throw new SpoonException('Please set name/uri before setting image.');
 
@@ -283,6 +284,7 @@ class Item
 		// file upload, use native methods to move file
 		if($image instanceof SpoonFormImage)
 		{
+			if(!$image->isFilled()) return null;
 			$filename = $this->uri . '.' . $image->getExtension();
 			$image->moveFile($path . '/source/' . $filename);
 		}
