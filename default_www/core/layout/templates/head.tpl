@@ -6,7 +6,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="{$LANGUAGE}"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Curator.io</title>
+	<title>{option:pageTitle}{$pageTitle}{/option:pageTitle}{option:!pageTitle}Curator.io{/option:!pageTitle}</title>
 
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 	<meta name="description" content="Collect, Curate and Share your Passion" />
