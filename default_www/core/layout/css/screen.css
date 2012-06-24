@@ -482,11 +482,16 @@ table {
 				background: #fff;
 			}
 
+			.multiTab li:last-child {
+				float: right;
+			}
+
 			.multiTab li.selected a:link,
 			.multiTab li.selected a:visited,
 			.multiTab li.selected a:hover,
 			.multiTab li.selected a:active,
 			.multiTab li.selected a:focus {
+				position:relative;
 				color: #fff;
 				background: #5a5a4d; /* Old browsers */
 				background: -moz-linear-gradient(top, #5a5a4d 0%, #4d4d42 100%); /* FF3.6+ */
@@ -496,10 +501,6 @@ table {
 				background: -ms-linear-gradient(top, #5a5a4d 0%,#4d4d42 100%); /* IE10+ */
 				background: linear-gradient(top, #5a5a4d 0%,#4d4d42 100%); /* W3C */
 				outline: 1px solid #4d4d42;
-			}
-
-			.multiTab li:last-child.selected {
-				float: right;
 			}
 
 	/* Item list */
