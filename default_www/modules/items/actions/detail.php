@@ -34,6 +34,7 @@ class ItemsDetail extends SiteBaseAction
 		$openGraph[] = array('key' => 'title', 'value' => $this->item->name);
 		$openGraph[] = array('key' => 'description', 'value' => $this->item->description);
 		$openGraph[] = array('key' => 'image', 'value' => SITE_URL . '/files/items/130x110/' . $this->item->image);
+		$openGraph[] = array('key' => 'type', 'value' => 'curatorio:item');
 
 
 		if(!empty($openGraph)) $this->tpl->assign('opengraph', $openGraph);
