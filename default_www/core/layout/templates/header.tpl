@@ -39,6 +39,9 @@
 									{$currentUser.name}
 								</a>
 							</li>
+							<li>
+								<a href="{$var|buildurl:'add':'collections'}">Add collection</a>
+							</li>
 							{/option:currentUser}
 							<li id="search">
 								<form>
