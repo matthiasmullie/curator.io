@@ -19,7 +19,7 @@
 							{iteration:collections}
 								<li>
 									<div class="itemImage">
-										<a href="{$collections.full_uri}">
+										<a href="{$collections.full_uri}" title="{$collections.name}">
 											<img src="/files/collections/160x160/{$collections.image}" alt="{$collections.name}" />
 										</a>
 									</div>
@@ -60,7 +60,7 @@
 							{iteration:items}
 								<li>
 									<div class="itemImage">
-										<a href="{$var|buildurl:'detail':'items'}/{$items.collection.user.uri}/{$items.collection.uri}/{$items.uri}">
+										<a href="{$var|buildurl:'detail':'items'}/{$items.collection.user.uri}/{$items.collection.uri}/{$items.uri}" title="{$items.name}">
 											<img src="/files/items/160x160/{$items.image}" alt="{$items.name}" />
 										</a>
 									</div>
