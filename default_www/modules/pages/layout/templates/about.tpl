@@ -3,9 +3,9 @@
 	<div id="main">
 		<div class="container">
 			<h1>About Curator.io</h1>
-			<p>Everyone loves to collect. Some people treasure their collection of antique stamps while others collect life size statues of princess Leia. Whatever you collect, nothing is more fun then showing off your collection to friends, family and fellow enthusiasts. That's where Curator.io comes in!</p>
-			<p>Curator.io is the first cloud based collection app that allows you to effortlessly Upload , Personalize and Share your collections. We combine powerful tools like custom data fields with an easy to use user interface.</p>
-			<p>Build by a team of 5 Belgians during the 24 hour 2012 Silicon Valley Angelhack Competition.</p>
+			<p>Everyone loves to collect. Some people treasure their collection of antique stamps while others collect life size statues of princess Leia. Whatever you collect, nothing is more fun then showing off your collection to friends, family and fellow enthusiasts. That's why we created Curator.io!</p>
+			<p>Curator.io is the first cloud based collection app that allows you to effortlessly Upload , Personalize and Share your collections. We combine powerful tools like custom data fields with an easy to understand user interface.</p>
+			<p>This app was built by a team of 5 Belgians during the 24 hour 2012 Silicon Valley Angelhack Competition.</p>
 			<div class="clearfix">
 				<ul>
 					<li>
