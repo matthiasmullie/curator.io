@@ -22,6 +22,9 @@ class CollectionsCategory extends CuratorBaseAction
 		$this->display();
 	}
 
+	/**
+	 * Fetch data for this category.
+	 */
 	private function loadData()
 	{
 		$this->category = CollectionsHelper::getCategory($this->url->getParameter(1));

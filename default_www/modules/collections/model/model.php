@@ -214,7 +214,7 @@ class CollectionsHelper
 	public static function getByCategoryId($categoryId, $limit = 20)
 	{
 		$data = (array) Site::getDB()->getRecords(
-			'SELECT c.*, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS like_count
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 WHERE c.category_id = ?
