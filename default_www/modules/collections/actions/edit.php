@@ -5,51 +5,19 @@
  *
  * @author Dieter Vanden Eynde <dieter@dieterve.be>
  */
-class CollectionsEdit extends SiteBaseAction
+class CollectionsEdit extends CuratorBaseAction
 {
-	/**
-	 * @var Collection
-	 */
-	private $collection;
-
 	/**
 	 * Execute the action
 	 */
 	public function execute()
 	{
-		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
-
-		$this->loadData();
+		$this->validateUser(true);
+		$this->validateCollection();
 		$this->loadForm();
 		$this->validateForm();
 		$this->parse();
 		$this->display();
-	}
-
-	/**
-	 * Load/validate data.
-	 */
-	private function loadData()
-	{
-		$userUri = $this->url->getParameter(1);
-		$collectionUri = $this->url->getParameter(2);
-
-		// exists
-		if(!CollectionsHelper::existsBySlug($userUri, $collectionUri))
-		{
-			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
-		}
-
-		// fetch data
-		$id = CollectionsHelper::getIdBySlug($userUri, $collectionUri);
-		$this->collection = Collection::get($id);
-
-		// logged in user vs collection user id
-		if($this->collection->user_id != $this->currentUser->id)
-		{
-			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
-		}
 	}
 
 	/**
@@ -96,7 +64,7 @@ class CollectionsEdit extends SiteBaseAction
 
 				// redirect
 				$collection = $this->collection->toArray();
-				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $this->collection->name);
+				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $this->collection->name); // @todo: dit cast naar array voor die full_uri is vuil!
 			}
 
 			// show general error

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This will import your collection in CSV into our sweet curator.io
+ * This will display an item in your collection
  *
  * @package		items
  * @subpackage	detail
@@ -9,15 +9,8 @@
  * @author 		Tijs Verkoyen <tijs@sumocoders.be>
  * @since		1.0
  */
-class ItemsDetail extends SiteBaseAction
+class ItemsDetail extends CuratorBaseAction
 {
-	/**
-	 * The item
-	 *
-	 * @var Item
-	 */
-	private $item;
-
 	/**
 	 * Execute the action
 	 *
@@ -25,24 +18,10 @@ class ItemsDetail extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		$userUri = $this->url->getParameter(1);
-		$collectionUri = $this->url->getParameter(2);
-		$uri = $this->url->getParameter(3);
-
-		$this->item = Item::getByUri($uri, $collectionUri, $userUri);
-
-		// build open graph data
-		$openGraph = array();
-		$openGraph[] = array('key' => 'url', 'value' => SITE_URL . $this->url->buildUrl('detail', 'items') . '/' . $this->item->uri);
-		$openGraph[] = array('key' => 'title', 'value' => $this->item->name);
-		$openGraph[] = array('key' => 'description', 'value' => $this->item->description);
-		$openGraph[] = array('key' => 'image', 'value' => SITE_URL . '/files/items/130x110/' . $this->item->image);
-		$openGraph[] = array('key' => 'type', 'value' => 'curatorio:item');
-
-		if(!empty($openGraph)) $this->tpl->assign('opengraph', $openGraph);
-
+		$this->validateUser();
+		$this->validateCollection();
+		$this->validateItem();
 		$this->parse();
-
 		$this->display();
 	}
 
@@ -53,6 +32,14 @@ class ItemsDetail extends SiteBaseAction
 	{
 		$this->tpl->assign('title', $this->item->name);
 		$this->tpl->assign('item', $this->item->toArray());
-	}
 
+		// build open graph data
+		$openGraph = array();
+		$openGraph[] = array('key' => 'url', 'value' => SITE_URL . $this->url->buildUrl('detail', 'items') . '/' . $this->item->uri);
+		$openGraph[] = array('key' => 'title', 'value' => $this->item->name);
+		$openGraph[] = array('key' => 'description', 'value' => $this->item->description);
+		$openGraph[] = array('key' => 'image', 'value' => SITE_URL . '/files/items/130x110/' . $this->item->image);
+		$openGraph[] = array('key' => 'type', 'value' => 'curatorio:item');
+		if(!empty($openGraph)) $this->tpl->assign('opengraph', $openGraph);
+	}
 }

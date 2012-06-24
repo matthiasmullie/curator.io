@@ -42,7 +42,7 @@
 				<!-- Action buttons-->
 				<div class="mod content">
 					<div class="inner">
-						<p><a href="#" class="bigOrangeButton">Edit</a></p>
+						<p><a href="{$var|buildurl:'edit':'items'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="bigOrangeButton">Edit</a></p>
 					</div>
 				</div>
 
@@ -60,9 +60,9 @@
 							</li>
 							<li>
 								{* @todo *}
-								<a href="{$item.user.full_uri}">
-									<img src="{$item.user.avatar_50x50}" width="32" height="32" alt="{$item.user.name}">
-									{$item.user.name} 
+								<a href="{$item.collection.user.full_uri}">
+									<img src="{$item.collection.user.avatar_50x50}" width="32" height="32" alt="{$item.collection.user.name}">
+									{$item.collection.user.name} 
 									<span class="rightWhiteList">Curator</span>
 								</a>
 							</li>

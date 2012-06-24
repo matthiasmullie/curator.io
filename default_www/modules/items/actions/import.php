@@ -9,7 +9,7 @@
  * @author 		Matthias Mullie <matthias@mullie.eu>
  * @since		1.0
  */
-class ItemsImport extends SiteBaseAction
+class ItemsImport extends CuratorBaseAction
 {
 	/**
 	 * Uploaded CSV-file in array format
@@ -32,20 +32,11 @@ class ItemsImport extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
-
-		// import url must contain (own) username
-		if($this->url->getParameter(1) != $this->currentUser->uri) $this->redirect($this->url->buildUrl('import') . '/' . $this->currentUser->uri);
-
+		$this->validateUser(true);
 		$this->loadForm();
 		$this->validateForm();
 		$this->processForm();
-
-		// parse
 		$this->parse();
-
-		// display the page
 		$this->display();
 	}
 
@@ -71,22 +62,22 @@ class ItemsImport extends SiteBaseAction
 
 		// build & save collection
 		require_once PATH_WWW . '/modules/collections/model/model.php';
-		$collection = new Collection();
-		$collection->name = preg_replace('/\.[^.]*?$/', '', $this->frm->getField('csv')->getFileName());
-		$collection->user_id = $this->currentUser->id;
-		$collection->save();
+		$this->collection = new Collection();
+		$this->collection->name = preg_replace('/\.[^.]*?$/', '', $this->frm->getField('csv')->getFileName());
+		$this->collection->user_id = $this->currentUser->id;
+		$this->collection->save();
 
 		// build & save item
 		foreach($this->csv as $row)
 		{
 			$item = new Item();
-			$item->collection_id = $collection->id;
+			$item->collection_id = $this->collection->id;
 			foreach($row as $key => $value) $item->$key = $value;
 			$item->save();
 		}
 
 		// redirect to brand new collection
-		$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->currentUser->uri . '/' . $collection->uri);
+		$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->user->uri . '/' . $this->collection->uri);
 	}
 
 	/**

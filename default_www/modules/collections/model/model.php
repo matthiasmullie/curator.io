@@ -22,98 +22,76 @@ class Collection
 	 */
 	public function delete()
 	{
-		Site::getDB(true)->delete('collections', 'id = ?', $this->id);
 		// @todo delete linked items
+		Site::getDB(true)->delete('collections', 'id = ?', $this->id);
 	}
 
 	/**
-	 * @param	int $id		The id of the user.
+	 * Get an item by its id
+	 *
+	 * @param int $id
 	 * @return Collection
 	 */
 	public static function get($id)
 	{
-		// redefine
-		$id = (int) $id;
-
-		// get data
-		$data = Site::getDB()->getRecord(
-			'SELECT i.id, i.user_id, i.name, i.description, i.uri
-			 FROM collections AS i
-			 WHERE i.id = ?',
-			array($id)
-		);
-
-		// validate
-		if($data === null) return false;
-
-		// create instance
-		$item = new Collection();
-
-		// initialize
-		$item->initialize($data);
-
-		// return
-		return $item;
-	}
-
-	/**
-	 * Get an item by his uri
-	 *
-	 * @param string $uri
-	 * @return boolean|Collection
-	 */
-	public static function getByUri($uri)
-	{
-		// redefine
-		$uri = (string) $uri;
-
-		// get data
-		$data = Site::getDB()->getRecord(
-			'SELECT i.id, i.user_id, i.name, i.description, i.uri
+		$array = Site::getDB()->getRecord(
+			'SELECT i.*
 		 	 FROM collections AS i
-		 	 WHERE i.uri = ?',
-			array($uri)
+		 	 WHERE i.id = ?',
+			array((int) $id)
 		);
 
-		// validate
-		if($data === null) return false;
-
-		// create instance
-		$item = new Collection();
-
-		// initialize
-		$item->initialize($data);
-
-		// return
-		return $item;
+		$collection = new Collection();
+		return $collection->initialize($array);
 	}
 
 	/**
-	 * Get a uniaue uri for a collection inside the scope of a user.
+	 * Get an item by its uri
 	 *
-	 * @param string $userId
+	 * @param string $collectionUri
+	 * @param string $userUri
+	 * @return Collection
+	 */
+	public static function getByUri($collectionUri, $userUri)
+	{
+		$array = Site::getDB()->getRecord(
+			'SELECT i.*
+		 	 FROM collections AS i
+			 INNER JOIN users AS u ON u.id = i.user_id
+		 	 WHERE i.uri = ? AND u.uri = ?',
+			array((string) $collectionUri, (string) $userUri)
+		);
+
+		$collection = new Collection();
+		return $collection->initialize($array);
+	}
+
+	/**
+	 * Get a unique uri for a collection inside the scope of a user.
+	 *
 	 * @param string $uri
+	 * @param string $userUri
 	 * @param int[optional] $ignoreId
 	 * @return string
 	 */
-	public static function getUniqueUri($userId, $uri, $ignoreId = null)
+	public function getUniqueUri($uri, $userUri, $ignoreId = null)
 	{
-		$uri = preg_replace('/[^a-zA-Z0-9\-\s]/', '', $uri);
+		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
 
-		// uniquenessquery
-		$query = 'SELECT 1 FROM collections AS i WHERE i.user_id = ? AND i.uri = ?';
-		$parameters = array((int) $userId, $uri);
-		if($ignoreId !== null)
-		{
-			$query .= ' AND i.id != ?';
-			$parameters[] = (int) $ignoreId;
-		}
+		// spoof invalid id (if none given) to make query proceed
+		if($ignoreId === null) $ignoreId = -1;
 
-		if(Site::getDB()->getVar($query, $parameters) == 1)
+		$query =
+			'SELECT 1
+			 FROM collections AS i
+			 INNER JOIN users AS u ON u.id = i.user_id
+			 WHERE i.uri = ? AND u.uri = ? AND i.id != ?';
+
+		if(Site::getDB()->getVar($query, array($uri, $userUri, $ignoreId)) == 1)
 		{
 			$uri = Site::addNumber($uri);
-			return self::getUniqueUri($userId, $uri, $ignoreId);
+			return $this->getUniqueUri($uri, $userUri, $ignoreId);
 		}
 
 		return $uri;
@@ -122,17 +100,17 @@ class Collection
 	/**
 	 * Initialize the object.
 	 *
-	 * @param	array $data		The data in an array.
-	 * @return User
+	 * @param	array $array		The data in an array.
+	 * @return Collection
 	 */
-	public function initialize($data)
+	public function initialize($array)
 	{
-		if(isset($data['id'])) $this->id = (int) $data['id'];
-		if(isset($data['user_id'])) $this->user_id = (string) $data['user_id'];
-		if(isset($data['name'])) $this->name = (string) $data['name'];
-		if(isset($data['description'])) $this->description = (string) $data['description'];
-		if(isset($data['uri'])) $this->uri = (string) $data['uri'];
-		if(isset($data['likes'])) $this->likes = (int) $data['likes'];
+		if(!$array) return;
+
+		// keys -> properties
+		foreach($array as $key => $value) $this->$key = $value;
+
+		return $this;
 	}
 
 	/**
@@ -142,7 +120,7 @@ class Collection
 	 */
 	public function save()
 	{
-		$this->uri = self::getUniqueUri($this->user_id, $this->name, $this->id);
+		$this->uri = $this->getUniqueUri($this->name, $this->user_id, $this->id);
 
 		// build record
 		$item['user_id'] = $this->user_id;
@@ -172,18 +150,11 @@ class Collection
 	{
 		$user = User::get($this->user_id);
 
-		// build array
-		$item['id'] = $this->id;
-		$item['user_id'] = $this->user_id;
-		$item['user'] = $user->toArray();
-		$item['name'] = $this->name;
-		$item['description'] = $this->description;
-		$item['uri'] = $this->uri;
-		$item['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
-		$item['likes'] = $this->likes;
-		// @todo	image
+		$return = get_object_vars($this);
+		$return['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
+		$return['user'] = $user->toArray();
 
-		return $item;
+		return $return;
 	}
 }
 
@@ -252,22 +223,6 @@ class CollectionsHelper
 		}
 
 		return $items;
-	}
-
-	/**
-	 * @return int
-	 * @param string $userSlug
-	 * @param string $collectionSlug
-	 */
-	public static function getIdBySlug($userSlug, $collectionSlug)
-	{
-		return (int) Site::getDB()->getVar(
-			'SELECT i.id
-			 FROM collections AS i
-			 INNER JOIN users AS u ON u.id = i.user_id
-			 WHERE i.uri = ? AND u.uri = ?',
-			array((string) $collectionSlug, (string) $userSlug)
-		);
 	}
 
 	/**

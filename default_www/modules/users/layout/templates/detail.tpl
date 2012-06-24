@@ -22,7 +22,7 @@
 
 			{option:isCurrentUser}
 			<div class="mod">
-				<a href="{$var|buildurl:'add':'collections'}" class="bigOrangeButton">Add collection</a>
+				<a href="{$var|buildurl:'add':'collections'}/{$user.uri}" class="bigOrangeButton">Add collection</a>
 			</div>
 			{/option:isCurrentUser}
 

@@ -4,12 +4,12 @@
  * This will allow you to edit an item to your collection
  *
  * @package		items
- * @subpackage	edot
+ * @subpackage	edit
  *
  * @author 		Matthias Mullie <matthias@mullie.eu>
  * @since		1.0
  */
-class ItemsEdit extends SiteBaseAction
+class ItemsEdit extends CuratorBaseAction
 {
 	/**
 	 * Form object
@@ -19,47 +19,20 @@ class ItemsEdit extends SiteBaseAction
 	protected $frm;
 
 	/**
-	 * The item we'll be editing
-	 *
-	 * @var Item
-	 */
-	protected $item;
-
-	/**
 	 * Execute the action
 	 *
 	 * @return void
 	 */
 	public function execute()
 	{
-		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
-
-		$this->loadData();
+		$this->validateUser(true);
+		$this->validateCollection();
+		$this->validateItem();
 		$this->loadForm();
 		$this->validateForm();
 		$this->processForm();
-
-		// parse
 		$this->parse();
-
-		// display the page
 		$this->display();
-	}
-
-	/**
-	 * Load the data
-	 *
-	 * @return void
-	 */
-	protected function loadData()
-	{
-		$userUri = $this->url->getParameter(1);
-		$collectionUri = $this->url->getParameter(2);
-		$uri = $this->url->getParameter(3);
-
-		$this->item = Item::getByUri($uri, $collectionUri, $userUri);
-		if(!$this->item) $this->redirect($this->url->buildUrl('index', 'error'), 301);
 	}
 
 	/**
@@ -85,21 +58,15 @@ class ItemsEdit extends SiteBaseAction
 	{
 		if(!$this->frm->isSubmitted() || !$this->frm->isCorrect()) return;
 
-		// fetch collection
-		require_once PATH_WWW . '/modules/collections/model/model.php';
-		$collection = Collection::getByUri($this->url->getParameter(1));
-		if(!$collection) $this->redirect($this->url->buildUrl('index', 'error'), 301);
-
 		// build & save item
-		$item = $this->item;
-		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $item->$key = $value;
-		if($this->frm->getField('image')->isFilled()) $item->image = $this->frm->getField('image');
-		$item->save();
+		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $this->item->$key = $value;
+		if($this->frm->getField('image')->isFilled()) $this->item->image = $this->frm->getField('image');
+		$this->item->save();
 
 		// @todo: custom fields = wait for design
 
 		// redirect to brand new item
-		$this->redirect($this->url->buildUrl('detail') . '/' . $this->currentUser->uri . '/' . $collection->uri . '/' . $item->uri);
+		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri);
 	}
 
 	/**
@@ -123,6 +90,6 @@ class ItemsEdit extends SiteBaseAction
 	private function parse()
 	{
 		$this->frm->parse($this->tpl);
-		$this->tpl->assign('image', $this->item->image);
+		$this->tpl->assign('item', $this->item->toArray());
 	}
 }

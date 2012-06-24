@@ -6,41 +6,17 @@
  * @author Tijs Verkoyen <tijs@sumocoders.be>
  * @author Dieter Vanden Eynde <dieter@dieterve.be>
  */
-class CollectionsDetail extends SiteBaseAction
+class CollectionsDetail extends CuratorBaseAction
 {
-	/**
-	 * @var Collection
-	 */
-	private $collection;
-
 	/**
 	 * Execute the action
 	 */
 	public function execute()
 	{
-		$this->loadData();
+		$this->validateUser();
+		$this->validateCollection();
 		$this->parse();
 		$this->display();
-	}
-
-	/**
-	 * Load/validate data.
-	 */
-	private function loadData()
-	{
-		$userUri = $this->url->getParameter(1);
-		$collectionUri = $this->url->getParameter(2);
-
-		// exists
-		if(!CollectionsHelper::existsBySlug($userUri, $collectionUri))
-		{
-			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
-		}
-
-		// fetch data
-		$id = CollectionsHelper::getIdBySlug($this->url->getParameter(1), $this->url->getParameter(2));
-
-		$this->collection = Collection::get($id);
 	}
 
 	/**
@@ -51,15 +27,7 @@ class CollectionsDetail extends SiteBaseAction
 		$this->tpl->assign('title', $this->collection->name);
 		$this->tpl->assign('pageTitle', $this->collection->name);
 		$this->tpl->assign('collection', $this->collection->toArray());
-
-		if(Authentication::getLoggedInUser())
-		{
-			if(Authentication::getLoggedInUser()->id == $this->collection->user_id)
-			{
-				$this->tpl->assign('isCollectionOwner', true);
-			}
-		}
-
-		$this->parseReports();
+		$this->tpl->assign('isCollectionOwner', Authentication::getLoggedInUser() && Authentication::getLoggedInUser()->id == $this->collection->user_id);
+		$this->parseReports(); // @todo: kijken of dit nog op andere actions moet terugkomen
 	}
 }

@@ -5,16 +5,14 @@
  *
  * @author Dieter Vanden Eynde <dieter@dieterve.be>
  */
-class CollectionsAdd extends SiteBaseAction
+class CollectionsAdd extends CuratorBaseAction
 {
 	/**
 	 * Execute the action
 	 */
 	public function execute()
 	{
-		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
-
+		$this->validateUser(true);
 		$this->loadForm();
 		$this->validateForm();
 		$this->parse();
@@ -55,19 +53,19 @@ class CollectionsAdd extends SiteBaseAction
 			// no errors?
 			if($this->frm->isCorrect())
 			{
-				$item = new Collection();
+				$this->collections = new Collection();
 
 				// set properties
-				$item->name = $this->frm->getField('name')->getValue();
-				$item->description = $this->frm->getField('description')->getValue();
-				$item->user_id = $this->currentUser->id;
+				$this->collections->name = $this->frm->getField('name')->getValue();
+				$this->collections->description = $this->frm->getField('description')->getValue();
+				$this->collections->user_id = $this->currentUser->id;
 
 				// save
-				$item->save();
+				$this->collections->save();
 
 				// redirect
-				$collection = $item->toArray();
-				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $item->name);
+				$collection = $this->collections->toArray();
+				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $this->collections->name); // @todo: full_uri zou een magische property moeten zijn ipv deze vuiligheid
 			}
 
 			// show general error

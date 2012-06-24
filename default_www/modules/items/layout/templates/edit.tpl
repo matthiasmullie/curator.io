@@ -9,7 +9,7 @@
 		{form:edit}
 			<label for="name">Name</label> {$txtName} {$txtNameError}
 			<label for="description">Description</label> {$txtDescription} {$txtDescriptionError}
-			<img src="/files/items/source/{$image}" />
+			<img src="/files/items/source/{$item.image}" />
 			<label for="image">Image</label> {$fileImage} {$fileImageError}
 			<input type="submit" value="Edit" />
 		{/form:edit}

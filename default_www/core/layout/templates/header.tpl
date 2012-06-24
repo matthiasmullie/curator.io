@@ -32,7 +32,7 @@
 							{/option:!currentUser}
 							{option:currentUser}
 							<li>
-								<a href="{$var|buildurl:'add':'collections'}">Add Collection</a>
+								<a href="{$var|buildurl:'add':'collections'}/{$currentUser.uri}">Add Collection</a>
 							</li>
 							<li id="currentUser">
 								<a href="{$currentUser.full_uri}">

@@ -9,7 +9,7 @@
  * @author 		Matthias Mullie <matthias@mullie.eu>
  * @since		1.0
  */
-class ItemsAdd extends SiteBaseAction
+class ItemsAdd extends CuratorBaseAction
 {
 	/**
 	 * Form object
@@ -25,17 +25,12 @@ class ItemsAdd extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
-
+		$this->validateUser(true);
+		$this->validateCollection();
 		$this->loadForm();
 		$this->validateForm();
 		$this->processForm();
-
-		// parse
 		$this->parse();
-
-		// display the page
 		$this->display();
 	}
 
@@ -62,22 +57,17 @@ class ItemsAdd extends SiteBaseAction
 	{
 		if(!$this->frm->isSubmitted() || !$this->frm->isCorrect()) return;
 
-		// fetch collection
-		require_once PATH_WWW . '/modules/collections/model/model.php';
-		$collection = Collection::getByUri($this->url->getParameter(2));
-		if(!$collection) $this->redirect($this->url->buildUrl('index', 'error'), 301);
-
 		// build & save item
-		$item = new Item();
-		$item->collection_id = $collection->id;
-		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $item->$key = $value;
-		$item->image = $this->frm->getField('image');
-		$item->save();
+		$this->item = new Item();
+		$this->item->collection_id = $this->collection->id;
+		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $this->item->$key = $value;
+		if($this->frm->getField('image')->isFilled()) $this->item->image = $this->frm->getField('image');
+		$this->item->save();
 
 		// @todo: custom fields = wait for design
 
 		// redirect to brand new item
-		$this->redirect($this->url->buildUrl('detail') . '/' . $this->currentUser->uri . '/' . $collection->uri . '/' . $item->uri);
+		$this->redirect($this->url->buildUrl('detail') . '/' . $this->currentUser->uri . '/' . $this->collection->uri . '/' . $this->item->uri);
 	}
 
 	/**
