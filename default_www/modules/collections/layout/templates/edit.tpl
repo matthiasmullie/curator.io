@@ -6,23 +6,25 @@
 
 				{option:formEditHasError}<div class="message notice"><p>{$errGeneralFormError}</p></div>{/option:formEditHasError}
 
-				<fieldset class="visibleFieldset">
-					<p class="mediumInput{option:txtNameError} errorArea{/option:txtNameError}">
+				<fieldset>
+					<p class="mobileField{option:txtNameError} errorArea{/option:txtNameError}">
 						<label for="name">Name<abbr title="{$msgRequired}">*</abbr></label>
 						{$txtName} {$txtNameError}
 					</p>
-					<p class="mediumInput{option:txtDescriptionError} errorArea{/option:txtDescriptionError}">
+					<p class="mobileField{option:txtDescriptionError} errorArea{/option:txtDescriptionError}">
 						<label for="description">Description</label>
 						{$txtDescription} {$txtDescriptionError}
 					</p>
 				</fieldset>
 
+				<p>
+					<a href="{$var|buildurl:'delete'}/{$collection.user.uri}/{$collection.uri}" class="confirm bigDarkButton" data-message="Are you sure you want to delete this collection">Delete</a>
+				</p>
+
 				<p class="buttonHolder">
-					<input type="submit" class="inputSubmit" name="ok" value="Save">
+					<input type="submit" class="inputSubmit bigSubmit" name="ok" value="Save">
 				</p>
 			{/form:edit}
-
-			<a href="{$var|buildurl:'delete'}/{$collection.user.uri}/{$collection.uri}" class="confirm" data-message="Are you sure you want to delete this collection">Delete</a>
 		</section>
 
 		</div>

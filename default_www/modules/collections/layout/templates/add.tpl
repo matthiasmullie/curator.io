@@ -6,19 +6,19 @@
 
 				{option:formAddHasError}<div class="message notice"><p>{$errGeneralFormError}</p></div>{/option:formAddHasError}
 
-				<fieldset class="visibleFieldset">
-					<p class="mediumInput{option:txtNameError} errorArea{/option:txtNameError}">
+				<fieldset>
+					<p class="mobileField{option:txtNameError} errorArea{/option:txtNameError}">
 						<label for="name">Name<abbr title="{$msgRequired}">*</abbr></label>
 						{$txtName} {$txtNameError}
 					</p>
-					<p class="mediumInput{option:txtDescriptionError} errorArea{/option:txtDescriptionError}">
+					<p class="mobileField{option:txtDescriptionError} errorArea{/option:txtDescriptionError}">
 						<label for="description">Description</label>
 						{$txtDescription} {$txtDescriptionError}
 					</p>
 				</fieldset>
 
 				<p class="buttonHolder">
-					<input type="submit" class="inputSubmit" name="ok" value="Add">
+					<input type="submit" class="inputSubmit bigSubmit" name="ok" value="Add">
 				</p>
 			{/form:add}
 
