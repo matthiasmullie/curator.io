@@ -91,6 +91,7 @@ jsSite =
 	eoo: true
 }
 
+
 /**
  * Forms
  *
@@ -110,6 +111,57 @@ jsSite.facebook =
 
 	// end
 	eoo: true
+}
+
+
+/**
+ * Collection module js.
+ *
+ * @author Dieter Vanden Eynde <dieter@dieterve.be>
+ */
+jsSite.collections =
+{
+	init: function()
+	{
+		$('#name').autocomplete(
+		{
+			source: function(request, response)
+			{
+				$.ajax(
+				{
+					type: 'POST',
+					url:  '/ajax.php?module=collections&action=autocomplete&language=' + jsSite.current.language,
+					data: { term: request.term },
+					success: function(data, textStatus)
+					{
+						// init var
+						var realData = [];
+
+						// alert the user
+						if(data.code != 200 && jsSite.debug)
+						{
+							alert(data.message);
+						}
+
+						if(data.code == 200)
+						{
+							for(var i in data.data)
+							{
+								realData.push(
+								{
+									label: data.data[i],
+									value: data.data[i]
+								});
+							}
+						}
+
+						// set response
+						response(realData);
+					}
+				});
+			}
+		});
+	}
 }
 
 

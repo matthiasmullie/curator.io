@@ -193,4 +193,25 @@ class CollectionsHelper
 	{
 		return (bool) Site::getDB()->getVar('SELECT 1 FROM collections AS i WHERE i.uri = ?', array((string) $slug));
 	}
+
+	/**
+	 * Get names that start with a given term for the autocomplete.
+	 * Only names that exist more then once are used.
+	 *
+	 * @return array
+	 * @param string $term
+	 * @param int[optional] $limit
+	 */
+	public static function getNamesforAutocomplete($term, $limit = 20)
+	{
+		return (array) Site::getDB()->getColumn(
+			'SELECT c.name, COUNT(c.name)
+			 FROM collections AS c
+			 WHERE c.name LIKE ?
+			 GROUP BY c.name HAVING COUNT(c.name) > 1
+			 ORDER BY c.name ASC
+			 LIMIT ?',
+			array((string) $term . '%', (int) $limit)
+		);
+	}
 }
