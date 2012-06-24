@@ -201,7 +201,7 @@ class CollectionsHelper
 	public static function getOrderByCreatedOn($limit = 10)
 	{
 		$data = Site::getDB()->getRecords(
-			'SELECT *, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS likes
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 GROUP BY c.id
@@ -276,13 +276,13 @@ class CollectionsHelper
 	 */
 	public static function existsBySlug($userSlug, $collectionSlug)
 	{
-		return (bool) Site::getDB()->getVar(
+		return (bool) (Site::getDB()->getVar(
 			'SELECT 1
 			 FROM collections AS i
 			 INNER JOIN users AS u ON u.id = i.user_id
 			 WHERE i.uri = ? AND u.uri = ?',
 			array((string) $collectionSlug, (string) $userSlug)
-		);
+		) == 1);
 	}
 
 	/**

@@ -5,7 +5,12 @@
 			<!-- Logo -->
 			<div id="logo">
 				<div class="inner">
-					<h1><a href="/" title="Discover the collections">Curator.io</a></h1>
+					{option:title}
+						<h1><a href="#">{$title}</a></h1>
+					{/option:title}
+					{option:!title}
+						<h1><a href="/" title="Discover the collections">Curator.io</a></h1>
+					{/option:!title}
 				</div>
 			</div>
 

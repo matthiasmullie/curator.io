@@ -37,15 +37,9 @@ class CollectionsDetail extends SiteBaseAction
 		}
 
 		// fetch data
-		$id = CollectionsHelper::getIdBySlug($userUri, $collectionUri);
+		$id = CollectionsHelper::getIdBySlug($this->url->getParameter(1), $this->url->getParameter(2));
+
 		$this->collection = Collection::get($id);
-
-		// logged in user vs collection user id
-		if($this->collection->user_id != $this->currentUser->id)
-		{
-			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
-		}
-
 	}
 
 	/**
@@ -53,6 +47,7 @@ class CollectionsDetail extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('title', $this->collection->name);
 		$this->tpl->assign('collection', $this->collection->toArray());
 
 		if(Authentication::getLoggedInUser())
