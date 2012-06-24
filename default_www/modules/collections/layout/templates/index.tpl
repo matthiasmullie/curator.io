@@ -56,9 +56,19 @@
 
 			{option:sortCategories}
 				{option:categories}
+				<div class="whiteList">
+					<div class="inner">
+						<ul>
 					{iteration:categories}
-						<a href="{$categories.full_uri}">{$categories.name}</a>
+						<li>
+							<a href="{$categories.full_uri}">
+								<img src="images/iconMovie.png">{$categories.name}
+							</a>
+						</li>
 					{/iteration:categories}
+						</ul>
+					</div>
+				</div>
 				{/option:categories}
 			{/option:sortCategories}
 		</div>
