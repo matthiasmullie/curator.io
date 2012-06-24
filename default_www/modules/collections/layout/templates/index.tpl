@@ -1,6 +1,6 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
 {include:'{$CORE_PATH}/layout/templates/header.tpl'}
-	<div id="main">
+	<div id="main" class="homeMain">
 		<div class="container">
 	
 			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}

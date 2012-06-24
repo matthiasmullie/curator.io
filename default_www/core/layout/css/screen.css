@@ -405,6 +405,33 @@ table {
 	padding-top: 20px;
 }
 
+@media only screen and (min-width: 992px) {
+
+	#main.homeMain {
+		background: url(../images/homeFocus.jpg) repeat-x top center;
+		padding-top: 400px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+	#main.homeMain {
+		background: url(../images/homeFocus.jpg) repeat-x top center;
+		background-size: auto 300px;
+		padding-top: 300px;
+	}
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+	#main.homeMain {
+		background: url(../images/homeFocus.jpg) repeat-x top center;
+		background-size: auto 200px;
+		padding-top: 200px;
+	}
+
+}
+
 #main:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 .ie6 #main, .ie7 #main { zoom: 1; }
 
@@ -1135,7 +1162,7 @@ select {
 		font-weight: 700;
 		color: #999;
 	}
-	
+
 		.ie6 legend {
 			margin-bottom: 10px;
 		}
@@ -1631,7 +1658,6 @@ label,
 		border: 0;
 		text-indent: -9999px;
 		background: url(../images/close.png) no-repeat 4px 4px;
-
 		opacity: .50;
 		filter: alpha(opacity=50);
 		-ms-filter: "alpha(opacity=50)";
