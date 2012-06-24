@@ -33,7 +33,10 @@ class ItemsImport extends SiteBaseAction
 	public function execute()
 	{
 		// user must be logged in
-		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode($this->url->buildUrl('import')));
+		if($this->currentUser === false) $this->redirect($this->url->buildUrl('forbidden', 'users') . '?redirect=' . urlencode('/' . $this->url->getQueryString()));
+
+		// import url must contain (own) username
+		if($this->url->getParameter(1) != $this->currentUser->uri) $this->redirect($this->url->buildUrl('import') . '/' . $this->currentUser->uri);
 
 		$this->loadForm();
 		$this->validateForm();
@@ -66,15 +69,14 @@ class ItemsImport extends SiteBaseAction
 	{
 		if(!$this->frm->isSubmitted() || !$this->frm->isCorrect()) return;
 
-		$db = Site::getDB(true);
-
-		// insert collection
+		// build & save collection
 		require_once PATH_WWW . '/modules/collections/model/model.php';
 		$collection = new Collection();
 		$collection->name = preg_replace('/\.[^.]*?$/', '', $this->frm->getField('csv')->getFileName());
 		$collection->user_id = $this->currentUser->id;
 		$collection->save();
 
+		// build & save item
 		foreach($this->csv as $row)
 		{
 			$item = new Item();
@@ -82,6 +84,9 @@ class ItemsImport extends SiteBaseAction
 			foreach($row as $key => $value) $item->$key = $value;
 			$item->save();
 		}
+
+		// redirect to brand new collection
+		$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->currentUser->uri . '/' . $collection->uri);
 	}
 
 	/**
@@ -94,6 +99,9 @@ class ItemsImport extends SiteBaseAction
 		if(!$this->frm->isSubmitted()) return;
 
 		$this->csv = $this->frm->getField('csv');
+
+		// validate filled
+		$this->csv->isFilled('Please upload a CSV file.');
 
 		// validate type (CSV)
 		if(!$this->csv->isAllowedExtension(array('csv'))) $this->csv->addError('Please upload a CSV file.');

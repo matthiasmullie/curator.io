@@ -137,7 +137,7 @@ class Item
 	 *
 	 * @param int $id
 	 */
-	public static function getById($id)
+	public static function get($id)
 	{
 		$array = Site::getDB(false)->getRecord(
 			'SELECT *
@@ -155,14 +155,18 @@ class Item
 	 * Get item object based on uri
 	 *
 	 * @param string $uri
+	 * @param string $collectionUri
+	 * @param string $userUri
 	 */
-	public static function getByUri($uri)
+	public static function getByUri($uri, $collectionUri, $userUri)
 	{
 		$array = Site::getDB(false)->getRecord(
-			'SELECT *
-			 FROM items
-			 WHERE uri = ?',
-			array((string) $uri)
+			'SELECT i.*
+			 FROM items AS i
+			 INNER JOIN collections AS c ON c.id = i.collection_id
+			 INNER JOIN users AS u ON u.id = c.user_id
+			 WHERE i.uri = ? AND c.uri = ? AND u.uri = ?',
+			array((string) $uri, (string) $collectionUri, (string) $userUri)
 		);
 
 		$item = new Item();
@@ -177,7 +181,7 @@ class Item
 	 * @param int[optional] $id
 	 * @return string
 	 */
-	public static function getUniqueUri($uri, $id = null)
+	protected function getUniqueUri($uri, $id = null)
 	{
 		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
@@ -191,7 +195,7 @@ class Item
 									array($uri, $id)) == 1)
 		{
 			$uri = Site::addNumber($uri);
-			return self::getUniqueUri($uri);
+			return $this->getUniqueUri($uri);
 		}
 
 		return $uri;
@@ -205,10 +209,10 @@ class Item
 	 */
 	protected function initialize($array)
 	{
-		$item = new Item();
+		if(!$array) return;
 
 		// keys -> properties
-		foreach($array as $key => $value) $item->$key = $value;
+		foreach($array as $key => $value) $this->$key = $value;
 
 		// fetch custom fields
 		$this->custom = Site::getDB(false)->getPairs(
@@ -219,7 +223,7 @@ class Item
 			array($this->id)
 		);
 
-		return $item;
+		return $this;
 	}
 
 	/**
@@ -268,27 +272,35 @@ class Item
 	 * @param string $path
 	 * @return string the filename
 	 */
-	protected function saveImage($path)
+	protected function saveImage($image)
 	{
 		// check if uri/id/... already exists
 		if($this->uri === null) throw new SpoonException('Please set name/uri before setting image.');
 
-		// build local path
-		$filename = $this->uri . '.' . SpoonFile::getExtension($path);
+		// path to save
+		$path = PATH_WWW . '/files/items';
 
-		// path to thumbs
-		$pathThumbs = PATH_WWW . '/files/items';
-
-		// if existing (local) file, move to desired path
-		if(SpoonFile::exists($path))
+		// file upload, use native methods to move file
+		if($image instanceof SpoonFormImage)
 		{
-			SpoonFile::move($path, $pathThumbs . '/source/' . $filename);
+			$filename = $this->uri . '.' . $image->getExtension();
+			$image->moveFile($path . '/source/' . $filename);
 		}
-		// if no existing (local) file, attemt to download the file
 		else
 		{
-			$success = SpoonFile::download($path, $path . '/source/' . $filename);
-			if(!$success) return false;
+			$filename = $this->uri . '.' . SpoonFile::getExtension($image);
+
+			// if existing (local) file, move to desired path
+			if(SpoonFile::exists($image))
+			{
+				SpoonFile::move($image, $path . '/source/' . $filename);
+			}
+			// if no existing (local) file, attempt to download the file
+			else
+			{
+				$success = SpoonFile::download($image, $path . '/source/' . $filename);
+				if(!$success) return false;
+			}
 		}
 
 		// create thumbs - yay

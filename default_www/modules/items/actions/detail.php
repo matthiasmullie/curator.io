@@ -25,8 +25,11 @@ class ItemsDetail extends SiteBaseAction
 	 */
 	public function execute()
 	{
-		// @todo	validation
-		$this->item = Item::getByUri($this->url->getParameter(1));
+		$userUri = $this->url->getParameter(1);
+		$collectionUri = $this->url->getParameter(2);
+		$uri = $this->url->getParameter(3);
+
+		$this->item = Item::getByUri($uri, $collectionUri, $userUri);
 
 		// build open graph data
 		$openGraph = array();
