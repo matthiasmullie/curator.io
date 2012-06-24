@@ -15,6 +15,10 @@
 						<label for="description">Description</label>
 						{$txtDescription} {$txtDescriptionError}
 					</p>
+					<p class="mobileField{option:ddmCategoryError} errorArea{/option:ddmCategoryError}">
+						<label for="category">Category<abbr title="{$msgRequired}">*</abbr></label>
+						{$ddmCategory} {$ddmCategoryError}
+					</p>
 				</fieldset>
 
 				<p>
