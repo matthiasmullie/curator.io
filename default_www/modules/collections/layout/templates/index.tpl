@@ -62,7 +62,7 @@
 					{iteration:categories}
 						<li>
 							<a href="{$categories.full_uri}">
-								<img src="images/iconMovie.png">{$categories.name}
+								<img src="images/iconMovie.png">{$categories.name} <!-- @todo: replace image with Stephen Icons -->
 							</a>
 						</li>
 					{/iteration:categories}
