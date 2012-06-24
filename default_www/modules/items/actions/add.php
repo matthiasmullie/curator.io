@@ -68,7 +68,7 @@ class ItemsAdd extends CuratorBaseAction
 		$values = SpoonFilter::getPostValue('values', null, null, 'array');
 		if($names && $values)
 		{
-			foreach(array_combine($names, $values) as $names => $vaule)
+			foreach(array_combine($names, $values) as $names => $value)
 			{
 				$this->item->{$names} = $value;
 			}

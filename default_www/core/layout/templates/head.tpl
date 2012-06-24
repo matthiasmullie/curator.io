@@ -52,7 +52,7 @@
 	<script>
 		window.fbAsyncInit = function() {
 			FB.init({
-				appId      : '237320303053296', // App ID
+				appId      : '{$FACEBOOK_APP_ID}', // App ID
 				channelUrl : '//curator.io/channel.html', // Channel File
 				status     : true, // check login status
 				cookie     : true, // enable cookies to allow the server to access the session

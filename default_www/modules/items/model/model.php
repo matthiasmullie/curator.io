@@ -86,7 +86,7 @@ class Item
 	 */
 	public function __unset($property)
 	{
-		unset($this->$property);
+		$this->$property = null;
 	}
 
 	/**
