@@ -21,21 +21,22 @@
 
 	<!--[if lt IE 9]> <script src="/core/js/html5.js"></script> <![endif]-->
 	<script src="/core/js/jquery.js"></script>
+	<script src="/core/js/jquery.ui.js"></script>
 	{option:javascript}{iteration:javascript}<script src="{$javascript.url}"></script>{/iteration:javascript}{/option:javascript}
 	<script src="/js.php?module=core&amp;file=site.js&amp;language={$LANGUAGE}&amp;m={$LAST_MODIFIED}"></script>
-	
+
 	{option:opengraph}
 		{iteration:opengraph}
 			<meta property="og:{$opengraph.key}" content="{$opengraph.value}">
 		{/iteration:opengraph}
 	{/option:opengraph}
-	
+
 	{* Google Analytics *}
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-32885545-1']);
 		_gaq.push(['_trackPageview']);
-		
+
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -57,7 +58,7 @@
 				cookie     : true, // enable cookies to allow the server to access the session
 				xfbml      : true  // parse XFBML
 			});
-			
+
 			// initialize Facebook
 			jsSite.facebook.init();
 		};
