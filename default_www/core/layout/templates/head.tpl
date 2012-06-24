@@ -34,9 +34,11 @@
 	{option:javascript}{iteration:javascript}<script src="{$javascript.url}"></script>{/iteration:javascript}{/option:javascript}
 	<script src="/js.php?module=core&amp;file=site.js&amp;language={$LANGUAGE}&amp;m={$LAST_MODIFIED}"></script>
 	
-	{iteration:opengraph}
-		<meta property="og:{$opengraph.key}" content="{$opengraph.value}">
-	{/iteration:opengraph}
+	{option:opengraph}
+		{iteration:opengraph}
+			<meta property="og:{$opengraph.key}" content="{$opengraph.value}">
+		{/iteration:opengraph}
+	{/option:opengraph}
 	
 	{* Google Analytics *}
 	<script type="text/javascript">
