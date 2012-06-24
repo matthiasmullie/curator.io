@@ -59,7 +59,7 @@ class User
 		$id = (int) $id;
 
 		// get data
-		$data = Site::getDB()->getRecord('SELECT i.id, i.name, i.email, i.secret, i.type, i.data
+		$data = Site::getDB()->getRecord('SELECT i.*
 											FROM users AS i
 											WHERE i.id = ?',
 											array($id));
@@ -89,6 +89,7 @@ class User
 											FROM users AS i
 											WHERE facebook_id = ?',
 											array($id));
+		$user = new User();
 
 		if($data === null)
 		{
@@ -96,7 +97,6 @@ class User
 			$data = Authentication::getFacebook()->get('/me');
 
 			// build record
-			$user = new User();
 			$user->name = $data['name'];
 			$user->facebookId = $data['id'];
 
@@ -105,7 +105,7 @@ class User
 
 		else
 		{
-			$user = User::initialize($data);
+			$user->initialize($data);
 		}
 
 		return $user;
@@ -140,16 +140,14 @@ class User
 	 * @param	array $data		The data in an array.
 	 * @return User
 	 */
-	public static function initialize($data)
+	public function initialize($data)
 	{
-		$user = new User();
+		if(isset($data['id'])) $this->id = (int) $data['id'];
+		if(isset($data['uri'])) $this->uri = (string) $data['uri'];
+		if(isset($data['facebook_id'])) $this->facebookId = (string) $data['facebook_id'];
+		if(isset($data['name'])) $this->name = (string) $data['name'];
 
-		if(isset($data['id'])) $user->id = (int) $data['id'];
-		if(isset($data['uri'])) $user->uri = (string) $data['uri'];
-		if(isset($data['facebook_id'])) $user->facebookId = (string) $data['facebook_id'];
-		if(isset($data['name'])) $user->name = (string) $data['name'];
-
-		return $user;
+		return $this;
 	}
 
 	/**
