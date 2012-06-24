@@ -83,9 +83,9 @@ class Collection
 			 FROM items AS i
 			 INNER JOIN collections AS c ON c.id = i.collection_id
 			 INNER JOIN users AS u ON u.id = c.user_id
-			 WHERE c.uri = ?
+			 WHERE c.uri = ? AND c.user_id = ?
 			 LIMIT ?, ?',
-			array($this->uri, $offset, $limit)
+			array($this->uri, $this->user_id, $offset, $limit)
 		);
 
 		$result = array();
