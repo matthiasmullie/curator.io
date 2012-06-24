@@ -41,7 +41,8 @@
 					<!-- Action buttons-->
 					<div class="mod content">
 						<div class="inner">
-							<p><a href="{$var|buildurl:'edit':'items'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="bigOrangeButton">Edit</a></p>
+							<p><a href="{$var|buildurl:'add':'items'}/{$item.collection.user.uri}/{$item.collection.uri}" class="bigOrangeButton">Add new</a></p>
+							<p style="padding: 0;"><a href="{$var|buildurl:'edit':'items'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="bigOrangeButton">Edit</a></p>
 						</div>
 					</div>
 				{/option:isOwner}
