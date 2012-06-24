@@ -207,6 +207,35 @@ class Collection
 class CollectionsHelper
 {
 	/**
+	 * @param int $categoryId
+	 * @param int[optional] $limit
+	 */
+	public static function getByCategoryId($categoryId, $limit = 20)
+	{
+		$data = (array) Site::getDB()->getRecords(
+			'SELECT c.*, SUM(i.like_count) AS likes
+			 FROM collections AS c
+			 INNER JOIN items AS i ON c.id = i.collection_id
+			 WHERE c.category_id = ?
+			 GROUP BY c.id
+			 ORDER BY c.created_on DESC
+			 LIMIT ?',
+			array((int) $categoryId, (int) $limit)
+		);
+
+		$items = array();
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
+	}
+
+	/**
 	 * Get categories.
 	 *
 	 * @return array
@@ -238,6 +267,30 @@ class CollectionsHelper
 		return (array) Site::getDB()->getPairs(
 			'SELECT id, name FROM collections_categories ORDER BY name ASC'
 		);
+	}
+
+	/**
+	 * Get category.
+	 *
+	 * @return array
+	 * @param string $uri
+	 */
+	public static function getCategory($uri)
+	{
+		$category = (array) Site::getDB()->getRecord(
+			'SELECT cc.id, cc.name, cc.uri
+			 FROM collections_categories AS cc
+			 INNER JOIN collections AS c ON c.category_id = cc.id
+			 WHERE cc.uri = ?',
+			array((string) $uri)
+		);
+
+		if(!empty($category))
+		{
+			$category['full_uri'] = Spoon::get('url')->buildUrl('category', 'collections') . '/' . $category['uri'];
+		}
+
+		return $category;
 	}
 
 	/**
