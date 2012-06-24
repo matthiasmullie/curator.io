@@ -28,10 +28,18 @@
 						<ul>
 							<li class="selected"><a href="/">Home</a></li>
 							<li><a href="/">Discover</a></li>
+							<li><a href="{$var|buildurl:'about':'pages'}">About</a></li>
 							{option:!currentUser}
 								<li><div class="fb-login-button">Log in with Facebook</div></li>
 							{/option:!currentUser}
-							<li><a href="{$var|buildurl:'about':'pages'}">About</a></li>
+							{option:currentUser}
+							<li id="currentUser">
+								<a href="{$currentUser.full_uri}">
+									<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="32" height="32" />
+									{$currentUser.name}
+								</a>
+							</li>
+							{/option:currentUser}
 							<li id="search">
 								<form>
 									<fieldset>
@@ -44,14 +52,6 @@
 						</ul>
 					</nav>
 				</div>
-				{option:currentUser}
-					<div id="currentUser">
-						<a href="{$currentUser.full_uri}">
-							<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="32" height="32" />
-							{$currentUser.name}
-						</a>
-					</div>
-				{/option:currentUser}
 			</div>
 		</div>
 	</header>

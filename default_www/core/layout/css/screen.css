@@ -316,6 +316,16 @@ table {
 					background: #ff7a39;
 				}
 
+			#currentUser {
+				position: relative;
+			}
+
+				#currentUser img {
+					position: absolute;
+					top: 6px;
+					right: 6px;
+				}
+
 			#search {
 				padding: 12px;
 				background: #eff0e8;
@@ -2000,11 +2010,6 @@ px      68    160    252    344    436
 	.container {
 		width: 436px;
 	}
-	
+
 }
 
-#currentUser {
-	float: right;
-	margin: 0 20px 0 0;
-	line-height: 32px;
-}
