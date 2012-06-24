@@ -108,6 +108,6 @@ class ItemsAdd extends CuratorBaseAction
 		$this->frm->parse($this->tpl);
 
 		// assign custom fields already used in this collection
-		$this->tpl->assign('custom', Item::getCustomFields($this->collection->id));
+		$this->tpl->assign('custom', (array) Item::getCustomFields($this->collection->id));
 	}
 }
