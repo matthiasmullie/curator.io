@@ -241,6 +241,7 @@ class Item
 
 		// update
 		if($this->id !== null) $db->update('items', $item, 'id = ?', $this->id);
+
 		// insert
 		else $this->id = $db->insert('items', $item);
 
@@ -303,6 +304,9 @@ class Item
 	 */
 	public function toArray()
 	{
-		return get_object_vars($this);
+		$return = get_object_vars($this);
+		$return['full_uri'] = Spoon::get('url')->buildUrl('detail', 'items') . '/' . $this->uri;
+
+		return $return;
 	}
 }
