@@ -89,20 +89,21 @@ class Collection
 	}
 
 	/**
-	 * Get a uniaue uri for a user
+	 * Get a uniaue uri for a collection inside the scope of a user.
 	 *
+	 * @param string $userId
 	 * @param string $uri
 	 * @param int[optional] $ignoreId
 	 * @return string
 	 */
-	public static function getUniqueUri($uri, $ignoreId = null)
+	public static function getUniqueUri($userId, $uri, $ignoreId = null)
 	{
 		$uri = preg_replace('/[^a-zA-Z0-9\-\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
 
 		// uniquenessquery
-		$query = 'SELECT 1 FROM collections AS i WHERE i.uri = ?';
-		$parameters = array($uri);
+		$query = 'SELECT 1 FROM collections AS i WHERE i.user_id = ? AND i.uri = ?';
+		$parameters = array((int) $userId, $uri);
 		if($ignoreId !== null)
 		{
 			$query .= ' AND i.id != ?';
@@ -112,7 +113,7 @@ class Collection
 		if(Site::getDB()->getVar($query, $parameters) == 1)
 		{
 			$uri = Site::addNumber($uri);
-			return self::getUniqueUri($uri, $ignoreId);
+			return self::getUniqueUri($userId, $uri, $ignoreId);
 		}
 
 		return $uri;
@@ -141,7 +142,7 @@ class Collection
 	 */
 	public function save()
 	{
-		$this->uri = self::getUniqueUri($this->name, $this->id);
+		$this->uri = self::getUniqueUri($this->user_id, $this->name, $this->id);
 
 		// build record
 		$item['user_id'] = $this->user_id;
