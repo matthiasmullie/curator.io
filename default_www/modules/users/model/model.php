@@ -261,7 +261,9 @@ class User
 		if(SPOON_DEBUG) $siteUrl = 'http://curator.io';
 		else $siteUrl = SITE_URL;
 
-		$data = $facebook->publish('/me/curatorio:collect', array('item' => $siteUrl . $url->buildUrl('detail', 'items') . '/' . $item->uri));
+		$itemData = $item->toArray();
+
+		$data = $facebook->publish('/me/curatorio:collect', array('item' => $siteUrl . $itemData['full_uri']));
 
 		if(isset($data['id']))
 		{
