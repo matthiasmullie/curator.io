@@ -264,7 +264,7 @@ class CollectionsHelper
 	public static function getCategories()
 	{
 		$categories = (array) Site::getDB()->getRecords(
-			'SELECT cc.id, cc.name, cc.uri
+			'SELECT cc.id, cc.icon, cc.name, cc.uri
 			 FROM collections_categories AS cc
 			 INNER JOIN collections AS c ON c.category_id = cc.id
 			 GROUP BY cc.id
@@ -324,7 +324,7 @@ class CollectionsHelper
 	public static function getCategoryById($id)
 	{
 		$category = (array) Site::getDB()->getRecord(
-			'SELECT cc.id, cc.name, cc.uri
+			'SELECT cc.id, cc.icon, cc.name, cc.uri
 			 FROM collections_categories AS cc
 			 INNER JOIN collections AS c ON c.category_id = cc.id
 			 WHERE cc.id = ?',

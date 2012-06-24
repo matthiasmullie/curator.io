@@ -59,13 +59,13 @@
 				<div class="whiteList">
 					<div class="inner">
 						<ul>
-					{iteration:categories}
-						<li>
-							<a href="{$categories.full_uri}">
-								<img src="/files/icons/{$category.icon}">{$categories.name}
-							</a>
-						</li>
-					{/iteration:categories}
+							{iteration:categories}
+								<li>
+									<a href="{$categories.full_uri}">
+										<img src="/files/icons/{$categories.icon}">{$categories.name}
+									</a>
+								</li>
+							{/iteration:categories}
 						</ul>
 					</div>
 				</div>

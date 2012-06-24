@@ -51,7 +51,7 @@
 					<div class="inner">
 						<ul>
 							<li>
-								<a href="#">
+								<a href="{$category.full_uri}">
 									<img src="/files/icons/{$category.icon}" alt="{$category.name}">
 									{$category.name}
 									<span class="rightWhiteList">Category</span>
