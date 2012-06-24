@@ -35,6 +35,7 @@ jsSite =
 		jsSite.initAjax();
 		jsSite.controls.init();
 		jsSite.forms.init();
+		jsSite.layout();
 		
 		try
 		{
@@ -86,6 +87,57 @@ jsSite =
 		// spinner stuff
 		$(document).ajaxStart(function() { $('#ajaxSpinner').show(); });
 		$(document).ajaxStop(function() { $('#ajaxSpinner').hide(); });
+	},
+	
+	layout: function() 
+	{
+		jsSite.multiTab();
+		$(window).resize(jsSite.multiTab);
+		
+		jsSite.menu();
+	},
+	
+	menu: function()
+	{
+		$active = $('#mobileNavigationActive');
+		$inactive = $('#mobileNavigationInactive');
+		$overlay = $('#overlay');
+
+		$('#mobileNavigationInactive a').on('click', function(e)
+		{
+			e.preventDefault();
+			
+			// hide menu
+			if($active.is(':visible'))
+			{
+				$active.hide();
+				$inactive.removeClass('selected');
+				$overlay.hide();
+				$overlay.unbind('click');
+			}
+			
+			// show menu
+			else 
+			{
+				$active.show();
+				$inactive.addClass('selected');
+				$overlay.show().height($(document).height() - 44).width($(document).width());
+				$overlay.on('click', function(e) {
+					$active.hide();
+					$inactive.removeClass('selected');
+					$overlay.hide();
+					$overlay.unbind('click');
+				});
+			}
+		});
+		
+	},
+	
+	multiTab: function() 
+	{
+		var $multiTab = $('.multiTab');
+		var $lis = $('li', $multiTab);
+		$lis.width($multiTab.width() / $lis.length - 1);
 	},
 
 	// end
