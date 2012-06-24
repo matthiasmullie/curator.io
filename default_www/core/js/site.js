@@ -388,7 +388,7 @@ jsSite.items =
 			var options = $.param(options);
 			$.getScript('https://ajax.googleapis.com/ajax/services/search/images?' + options);
 		});
-	}
+	},
 
 	/**
 	 * Process the Google Images API result
