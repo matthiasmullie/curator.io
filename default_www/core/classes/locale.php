@@ -142,7 +142,7 @@ class SiteLocale extends SpoonTemplate
 			}
 
 			// no language found
-			if(!$foundALanguage) $language = 'nl';
+			if(!$foundALanguage) $language = 'en';
 
 			// store in cookie
 			SpoonCookie::set('language', $language);
