@@ -18,6 +18,15 @@ class Collection
 	public $description, $name, $uri;
 
 	/**
+	 * Delete the current collection.
+	 */
+	public function delete()
+	{
+		Site::getDB(true)->delete('collections', 'id = ?', $this->id);
+		// @todo delete linked items
+	}
+
+	/**
 	 * @param	int $id		The id of the user.
 	 * @return Collection
 	 */

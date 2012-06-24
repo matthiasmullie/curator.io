@@ -3,29 +3,34 @@
 /**
  * @author Dieter Vanden Eynde <dieter@dieterve.be>
  */
-class CollectionsEdit extends SiteBaseAction
+class CollectionsDelete extends SiteBaseAction
 {
 	/**
 	 * Execute the action
-	 *
-	 * @return void
 	 */
 	public function execute()
 	{
-		// parse
-		$this->parse();
+		// authentication
+		if(!Authentication::getLoggedInUser()) $this->redirect($this->url->buildUrl('forbidden', 'users'));
 
-		// display the page
-		$this->display();
-	}
+		// exists
+		if(!CollectionsHelper::existsBySlug($this->url->getParameter(1)))
+		{
+			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
+		}
 
-	/**
-	 * Parse the page
-	 *
-	 * @return void
-	 */
-	private function parse()
-	{
-		Spoon::dump('dd');
+		// fetch data
+		$id = CollectionsHelper::getIdBySlug($this->url->getParameter(1));
+		$this->collection = Collection::get($id);
+
+		// logged in user vs collection user id
+		if($this->collection->user_id != Authentication::getLoggedInUser()->id)
+		{
+			$this->redirect($this->url->buildUrl('index', 'error') . '?code=404&message=CollectionNotFoundError');
+		}
+
+		$this->collection->delete();
+
+		$this->redirect($this->url->buildUrl('index', null, null, array('report' => 'deleted', 'var' => $this->collection->name)));
 	}
 }

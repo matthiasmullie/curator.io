@@ -58,6 +58,7 @@ class CollectionsEdit extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('slug', $this->collection->uri);
 		$this->frm->parse($this->tpl);
 	}
 

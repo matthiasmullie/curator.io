@@ -30,7 +30,7 @@
 				</p>
 			{/form:edit}
 
-			<a href="{$var|buildurl:'delete'}" class="confirm" data-message="Are you sure you want to delete this collection">Delete</a>
+			<a href="{$var|buildurl:'delete'}/{$slug}" class="confirm" data-message="Are you sure you want to delete this collection">Delete</a>
 
 		</section>
 
