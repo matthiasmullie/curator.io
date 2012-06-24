@@ -43,7 +43,7 @@
 							<li id="search">
 								<form>
 									<fieldset>
-										<p class="mediumInput">
+										<p class="mobileField">
 											<input type="search" name="" class="inputSearch" value="Search..." id="searchField" />
 										</p>
 									</fieldset>
