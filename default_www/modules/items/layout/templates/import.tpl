@@ -1,18 +1,11 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
-
-	<div id="container">
-		{include:'{$CORE_PATH}/layout/templates/header.tpl'}
-
-		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
-
-
+{include:'{$CORE_PATH}/layout/templates/header.tpl'}
+	<div id="main">
+		<div class="container">
 		{form:import}
 			<label for="csv">CSV</label> {$fileCsv} {$fileCsvError}
 			<input type="submit" value="Import" />
 		{/form:import}
-
-
-		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
+		</div>
 	</div>
-</body>
-</html>
+{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
