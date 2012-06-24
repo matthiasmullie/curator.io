@@ -7,9 +7,7 @@
 			<!-- Content -->
 			<div class="bigUserInfo clearfix">
 				<div class="userInfoImage">
-					<a href="#">
-						<img src="{$user.avatar_x200}">
-					</a>
+					<img src="{$user.avatar_x200}">
 				</div>
 				<div class="userInfoData content">
 					<ul>
