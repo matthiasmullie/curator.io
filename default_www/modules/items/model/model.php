@@ -240,7 +240,7 @@ class Item
 		unset($item['custom']);
 
 		// update
-		if($this->id !== null) $db->update('items', $item);
+		if($this->id !== null) $db->update('items', $item, 'id = ?', $this->id);
 		// insert
 		else $this->id = $db->insert('items', $item);
 
