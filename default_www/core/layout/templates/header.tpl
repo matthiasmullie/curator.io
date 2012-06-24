@@ -5,7 +5,7 @@
 			<!-- Logo -->
 			<div id="logo">
 				<div class="inner">
-					<h1><a href="#" title="">Curator.io</a></h1>
+					<h1><a href="/" title="Discover the collections">Curator.io</a></h1>
 				</div>
 			</div>
 
@@ -21,10 +21,12 @@
 				<div id="mobileNavigationActive" style="display: none;">
 					<nav>
 						<ul>
-							<li class="selected"><a href="#">Home</a></li>
-							<li><a href="#">Discover</a></li>
-							<li><a href="#">Log in with Facebook</a></li>
-							<li><a href="#">About</a></li>
+							<li class="selected"><a href="/">Home</a></li>
+							<li><a href="/">Discover</a></li>
+							{option:!currentUser}
+								<li><div class="fb-login-button">Log in with Facebook</div></li>
+							{/option:!currentUser}
+							<li><a href="{$var|buildurl:'about':'pages'}">About</a></li>
 							<li id="search">
 								<form>
 									<fieldset>
@@ -37,25 +39,15 @@
 						</ul>
 					</nav>
 				</div>
+				{option:currentUser}
+					<div id="currentUser">
+						<a href="{$currentUser.full_uri}">
+							<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="32" height="32" />
+							{$currentUser.name}
+						</a>
+					</div>
+				{/option:currentUser}
 			</div>
 		</div>
 	</header>
 </div>
-
-
-
-
-
-{option:currentUser}
-	<section id="user">
-		<p>
-			<a href="{$currentUser.full_uri}">
-				<img src="{$currentUser.avatar_50x50}" alt="{$currentUser.name}" width="50" height="50" />
-				{$currentUser.name}
-			</a>
-		</p>
-	</section>
-{/option:currentUser}
-{option:!currentUser}
-	<div class="fb-login-button"></div>
-{/option:!currentUser}
