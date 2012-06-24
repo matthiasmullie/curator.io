@@ -28,6 +28,9 @@ class CollectionsAdd extends CuratorBaseAction
 
 		$this->frm->addText('name')->setAttributes(array('required' => null));
 		$this->frm->addTextarea('description');
+		$this->frm->addDropdown('category', CollectionsHelper::getCategoriesForDropdown())->setAttributes(array('required' => null));
+
+		$this->frm->getField('category')->setDefaultElement('');
 	}
 
 	/**
@@ -49,6 +52,7 @@ class CollectionsAdd extends CuratorBaseAction
 		{
 			// validate required fields
 			$this->frm->getField('name')->isFilled(SiteLocale::err('FieldIsRequired'));
+			$this->frm->getField('category')->isFilled(SiteLocale::err('FieldIsRequired'));
 
 			// no errors?
 			if($this->frm->isCorrect())
@@ -58,6 +62,7 @@ class CollectionsAdd extends CuratorBaseAction
 				// set properties
 				$this->collections->name = $this->frm->getField('name')->getValue();
 				$this->collections->description = $this->frm->getField('description')->getValue();
+				$this->collections->category_id = $this->frm->getField('category')->getValue();;
 				$this->collections->user_id = $this->currentUser->id;
 
 				// save

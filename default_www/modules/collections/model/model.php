@@ -10,7 +10,7 @@ class Collection
 	/**
 	 * @var	int
 	 */
-	public $id, $user_id, $created_on;
+	public $id, $category_id, $user_id, $created_on;
 
 	/**
 	 * @var	string
@@ -113,6 +113,7 @@ class Collection
 		// make sure properties are cast right
 		$this->id = (int) $this->id;
 		$this->user_id = (int) $this->user_id;
+		$this->category_id = (int) $this->category_id;
 		$this->created_on = (int) $this->created_on;
 
 		return $this;
@@ -129,6 +130,7 @@ class Collection
 
 		// build record
 		$item['user_id'] = $this->user_id;
+		$item['category_id'] = $this->category_id;
 		$item['name'] = $this->name;
 		$item['description'] = $this->description;
 		$item['uri'] = $this->uri;
@@ -170,6 +172,18 @@ class Collection
  */
 class CollectionsHelper
 {
+	/**
+	 * Get categories in key/value format.
+	 *
+	 * @return array
+	 */
+	public static function getCategoriesForDropdown()
+	{
+		return (array) Site::getDB()->getPairs(
+			'SELECT id, name FROM collections_categories ORDER BY name ASC'
+		);
+	}
+
 	/**
 	 * Get collections orderd by creation date
 	 *
