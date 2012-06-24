@@ -27,7 +27,7 @@ class Collection
 	}
 
 	/**
-	 * Get an item by its id
+	 * Get an collection by its id.
 	 *
 	 * @param int $id
 	 * @return Collection
@@ -37,8 +37,8 @@ class Collection
 		$array = Site::getDB()->getRecord(
 			'SELECT c.*, UNIX_TIMESTAMP(c.created_on) AS created_on, SUM(i.like_count) AS like_count
 		 	 FROM collections AS c
-			 INNER JOIN items AS i ON i.collection_id = c.id
-			 WHERE i.id = ?',
+			 LEFT JOIN items AS i ON i.collection_id = c.id
+			 WHERE c.id = ?',
 			array((int) $id)
 		);
 
