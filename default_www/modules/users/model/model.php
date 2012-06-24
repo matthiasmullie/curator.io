@@ -26,6 +26,28 @@ class User
 	public $name, $uri, $facebookId;
 
 	/**
+	 * Delete an item from Facebook
+	 *
+	 * @param Item $item
+	 */
+	public function deleteItemFromFacebook(Item $item)
+	{
+		$facebook = Authentication::getFacebook();
+		$url = Spoon::get('url');
+
+		if(SPOON_DEBUG) $siteUrl = 'http://curator.io';
+		else $siteUrl = SITE_URL;
+
+		if($item->facebook_id != '')
+		{
+			$facebook->publish($item->facebook_id, array('method' => 'delete'));
+		}
+
+		$item->facebook_id = null;
+		$item->save();
+	}
+
+	/**
 	 * Get a user
 	 *
 	 * @param	int $id		The id of the user.
@@ -89,7 +111,6 @@ class User
 		return $user;
 	}
 
-
 	/**
 	 * Get a unique uri for a user
 	 *
@@ -141,7 +162,16 @@ class User
 		$facebook = Authentication::getFacebook();
 		$url = Spoon::get('url');
 
-		$facebook->publish('/me/curatorio:collect', array('item' => SITE_URL . $url->buildUrl('detail', 'items') . '/' . $item->uri));
+		if(SPOON_DEBUG) $siteUrl = 'http://curator.io';
+		else $siteUrl = SITE_URL;
+
+		$data = $facebook->publish('/me/curatorio:collect', array('item' => $siteUrl . $url->buildUrl('detail', 'items') . '/' . $item->uri));
+
+		if(isset($data['id']))
+		{
+			$item->facebook_id = $data['id'];
+			$item->save();
+		}
 	}
 
 	/**
