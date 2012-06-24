@@ -233,7 +233,7 @@ class Item
 		// (re-)insert custom values
 		$i = 0;
 		$db->delete('items_properties', 'item_id = ?', array($this->id));
-		foreach($this->custom as $custom)
+		foreach((array) $this->custom as $custom)
 		{
 			$property = array(
 				'item_id' => $this->id,
