@@ -99,6 +99,11 @@ begin
 				ln -s #{shared_path}/files/#{folder} #{release_path}/default_www/files/#{folder}
 			}
 		end
+		
+		run %{
+			chmod -R 777 #{release_path}/default_www/cache/ &&
+			chmod -R 777 #{release_path}/default_www/files/
+		}
 	end
 
 rescue LoadError
