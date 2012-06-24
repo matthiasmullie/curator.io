@@ -201,7 +201,7 @@ class CollectionsHelper
 	 */
 	public static function getOrderByCreatedOn($limit = 10)
 	{
-		$data = Site::getDB()->getRecords(
+		$data = (array) Site::getDB()->getRecords(
 			'SELECT c.*, SUM(i.like_count) AS likes
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
