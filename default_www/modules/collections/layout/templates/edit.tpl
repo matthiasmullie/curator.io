@@ -2,8 +2,6 @@
 {include:'{$CORE_PATH}/layout/templates/header.tpl'}
 	<div id="main">
 		<div class="container">
-			<h1>Edit collection</h1>
-
 			{form:edit}
 
 				{option:formEditHasError}<div class="message notice"><p>{$errGeneralFormError}</p></div>{/option:formEditHasError}

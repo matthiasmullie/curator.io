@@ -68,6 +68,7 @@ class CollectionsEdit extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('title', 'Edit collection');
 		$this->tpl->assign('collection', $this->collection->toArray());
 		$this->frm->parse($this->tpl);
 	}

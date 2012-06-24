@@ -37,6 +37,7 @@ class CollectionsAdd extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('title', 'Add collection');
 		$this->frm->parse($this->tpl);
 	}
 
