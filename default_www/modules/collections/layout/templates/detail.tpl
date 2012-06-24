@@ -41,11 +41,8 @@
 									{/option:items.like_count}
 									<div class="userInfo">
 										<a href="{$items.user.full_uri}">
-											<div class="userInfoImage">
-												<img src="{$collection.user.avatar_50x50}" alt="Test" />
-											</div>
-											<div class="userInfoData">
-												{$collection.user.name}
+											<div class="userInfoData noThumbUserInfoData">
+												{$items.name}
 											</div>
 										</a>
 									</div>
