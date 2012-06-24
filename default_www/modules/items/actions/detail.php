@@ -51,6 +51,7 @@ class ItemsDetail extends SiteBaseAction
 	 */
 	private function parse()
 	{
+		$this->tpl->assign('title', $this->item->name);
 		$this->tpl->assign('item', $this->item->toArray());
 	}
 
