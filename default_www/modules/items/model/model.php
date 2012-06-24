@@ -33,6 +33,12 @@ class Item
 	protected $collection_id;
 
 	/**
+	 * The facebook id of the item
+	 * @var unknown_type
+	 */
+	protected $facebook_id;
+
+	/**
 	 * Item's name
 	 *
 	 * @var string
