@@ -46,6 +46,7 @@ class ItemsAdd extends CuratorBaseAction
 		$this->frm->addText('name');
 		$this->frm->addTextArea('description');
 		$this->frm->addImage('image');
+		$this->frm->addHidden('preload_image');
 	}
 
 	/**

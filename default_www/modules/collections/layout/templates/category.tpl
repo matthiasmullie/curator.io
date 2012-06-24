@@ -14,11 +14,11 @@
 											<img src="{$collections.image_160x160}" alt="{$collections.name}" />
 										</a>
 									</div>
-									{option:collections.likes}
+									{option:collections.like_count}
 										<div class="likeWrapper">
-											<a href="{$collections.full_uri}">{$collections.likes} Likes</a>
+											<a href="{$collections.full_uri}">{$collections.like_count} Likes</a>
 										</div>
-									{/option:collections.likes}
+									{/option:collections.like_count}
 									<div class="userInfo">
 										<a href="{$collections.user.full_uri}">
 											<div class="userInfoImage">

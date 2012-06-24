@@ -27,7 +27,7 @@ class Collection
 	}
 
 	/**
-	 * Get an item by its id
+	 * Get an collection by its id.
 	 *
 	 * @param int $id
 	 * @return Collection
@@ -37,8 +37,8 @@ class Collection
 		$array = Site::getDB()->getRecord(
 			'SELECT c.*, UNIX_TIMESTAMP(c.created_on) AS created_on, SUM(i.like_count) AS like_count
 		 	 FROM collections AS c
-			 INNER JOIN items AS i ON i.collection_id = c.id
-			 WHERE i.id = ?',
+			 LEFT JOIN items AS i ON i.collection_id = c.id
+			 WHERE c.id = ?',
 			array((int) $id)
 		);
 
@@ -83,9 +83,9 @@ class Collection
 			 FROM items AS i
 			 INNER JOIN collections AS c ON c.id = i.collection_id
 			 INNER JOIN users AS u ON u.id = c.user_id
-			 WHERE c.uri = ?
+			 WHERE c.uri = ? AND c.user_id = ?
 			 LIMIT ?, ?',
-			array($this->uri, $offset, $limit)
+			array($this->uri, $this->user_id, $offset, $limit)
 		);
 
 		$result = array();
@@ -214,7 +214,7 @@ class CollectionsHelper
 	public static function getByCategoryId($categoryId, $limit = 20)
 	{
 		$data = (array) Site::getDB()->getRecords(
-			'SELECT c.*, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS like_count
 			 FROM collections AS c
 			 INNER JOIN items AS i ON c.id = i.collection_id
 			 WHERE c.category_id = ?
@@ -414,6 +414,38 @@ class CollectionsHelper
 			 LIMIT ?',
 			array((string) $term . '%', (int) $limit)
 		);
+	}
+
+	/**
+	 * Search for collections
+	 *
+	 * @param string $term
+	 * @return array
+	 */
+	public static function search($term)
+	{
+		$data = (array) Site::getDB()->getRecords(
+			'SELECT c.*, SUM(i.like_count) AS like_count
+			 FROM collections AS c
+			 LEFT OUTER JOIN items AS i ON c.id = i.collection_id
+			 WHERE c.name LIKE ?
+			 GROUP BY c.id
+			 ORDER BY like_count DESC
+			 LIMIT 10',
+			 array('%' . $term . '%')
+		);
+
+		$items = array();
+
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
 	}
 
 }
