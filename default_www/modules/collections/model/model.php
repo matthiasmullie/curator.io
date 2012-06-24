@@ -246,6 +246,7 @@ class CollectionsHelper
 			'SELECT cc.id, cc.name, cc.uri
 			 FROM collections_categories AS cc
 			 INNER JOIN collections AS c ON c.category_id = cc.id
+			 GROUP BY cc.id
 			 ORDER BY cc.name ASC'
 		);
 
