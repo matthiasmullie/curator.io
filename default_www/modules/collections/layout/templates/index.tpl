@@ -27,7 +27,7 @@
 							{iteration:collections}
 								<li>
 									<div class="itemImage">
-										<a href="{$collections.full_uri}">
+										<a href="{$collections.full_uri}" title="{$collections.name}">
 											<img src="/files/items/160x160/{$collections.image}" alt="{$collections.name}" />
 										</a>
 									</div>
