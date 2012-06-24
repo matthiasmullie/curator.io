@@ -52,5 +52,7 @@ class CollectionsDetail extends SiteBaseAction
 				$this->tpl->assign('isCollectionOwner', true);
 			}
 		}
+
+		$this->parseReports();
 	}
 }
