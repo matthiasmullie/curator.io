@@ -207,6 +207,28 @@ class Collection
 class CollectionsHelper
 {
 	/**
+	 * Get categories.
+	 *
+	 * @return array
+	 */
+	public static function getCategories()
+	{
+		$categories = (array) Site::getDB()->getRecords(
+			'SELECT cc.id, cc.name, cc.uri
+			 FROM collections_categories AS cc
+			 INNER JOIN collections AS c ON c.category_id = cc.id
+			 ORDER BY cc.name ASC'
+		);
+
+		foreach($categories as &$category)
+		{
+			$category['full_uri'] = Spoon::get('url')->buildUrl('category', 'collections') . '/' . $category['uri'];
+		}
+
+		return $categories;
+	}
+
+	/**
 	 * Get categories in key/value format.
 	 *
 	 * @return array

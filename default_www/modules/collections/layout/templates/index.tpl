@@ -18,6 +18,7 @@
 				</div>
 			</div>
 
+			{option:!sortCategories}
 			<!-- Item List-->
 			<div class="itemList">
 				<div class="inner">
@@ -51,6 +52,15 @@
 					{/option:collections}
 				</div>
 			</div>
+			{/option:!sortCategories}
+
+			{option:sortCategories}
+				{option:categories}
+					{iteration:categories}
+						<a href="{$categories.full_uri}">{$categories.name}</a>
+					{/iteration:categories}
+				{/option:categories}
+			{/option:sortCategories}
 		</div>
 	</div>
 {include:'{$CORE_PATH}/layout/templates/footer.tpl'}

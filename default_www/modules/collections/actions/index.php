@@ -56,7 +56,7 @@ class CollectionsIndex extends SiteBaseAction
 	 */
 	private function parseCategories()
 	{
-		throw new Exception('Implement me');
+		$this->tpl->assign('categories', CollectionsHelper::getCategories());
 	}
 
 	/**
