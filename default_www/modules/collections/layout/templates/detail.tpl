@@ -28,25 +28,24 @@
 					{option:items}
 						<ul>
 							{iteration:items}
-								{* @todo *}
 								<li>
 									<div class="itemImage">
-										<a href="#">
-											<img src="images/test.jpg" alt="Test" />
+										<a href="{$var|buildurl:'detail':'items'}/{$collection.user.uri}/{$collection.uri}/{$items.uri}">
+											<img src="/files/items/160x160/{$items.image}" alt="{$items.name}" />
 										</a>
 									</div>
-									{option:items.likes}
+									{option:items.like_count}
 										<div class="likeWrapper">
-											<a href="#">5 Likes</a>
+											<a href="{$var|buildurl:'detail':'items'}/{$collection.user.uri}/{$collection.uri}/{$items.uri}">{$items.like_count} Likes</a>
 										</div>
-									{/option:items.likes}
+									{/option:items.like_count}
 									<div class="userInfo">
-										<a href="#">
+										<a href="{$items.user.full_uri}">
 											<div class="userInfoImage">
-												<img src="images/test.jpg" alt="Test" />
+												<img src="{$collection.user.avatar_50x50}" alt="Test" />
 											</div>
 											<div class="userInfoData">
-												Yoni De Beule
+												{$collection.user.name}
 											</div>
 										</a>
 									</div>

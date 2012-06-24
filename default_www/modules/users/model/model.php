@@ -142,12 +142,12 @@ class User
 	public function getCollections($limit = 100)
 	{
 		$data = (array) Site::getDB()->getRecords(
-			'SELECT c.*, SUM(i.like_count) AS likes
+			'SELECT c.*, SUM(i.like_count) AS like_count
 			 FROM collections AS c
 			 LEFT JOIN items AS i ON c.id = i.collection_id
 			 WHERE c.user_id = ?
 			 GROUP BY c.id
-			 ORDER BY likes DESC
+			 ORDER BY like_count DESC
 			 LIMIT ?',
 			array($this->id, (int) $limit)
 		);

@@ -68,8 +68,7 @@ class CollectionsEdit extends CuratorBaseAction
 				$this->collection->save();
 
 				// redirect
-				$collection = $this->collection->toArray();
-				$this->redirect($collection['full_uri'] . '?report=saved&var=' . $this->collection->name); // @todo: dit cast naar array voor die full_uri is vuil!
+				$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->user->uri . '/' . $this->collection->uri . '?report=saved&var=' . $this->collection->name);
 			}
 
 			// show general error

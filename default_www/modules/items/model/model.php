@@ -167,9 +167,9 @@ class Item
 	 * @param array $array
 	 * @return Item
 	 */
-	protected function initialize(array $array)
+	public function initialize($array)
 	{
-		if(!$array) return;
+		if(!is_array($array) || !$array) return;
 
 		// keys -> properties
 		foreach($array as $key => $value) $this->$key = $value;

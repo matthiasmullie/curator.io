@@ -27,21 +27,21 @@
 								<li>
 									<div class="itemImage">
 										<a href="{$items.full_uri}">
-											<img src="{$items.image_160x160}" alt="{$items.name}" />
+											<img src="/files/items/160x160/{$items.image}" alt="{$items.name}" />
 										</a>
 									</div>
-									{option:items.likes}
+									{option:items.like_count}
 										<div class="likeWrapper">
-											<a href="{$items.full_uri}">{$items.likes} Likes</a>
+											<a href="{$items.full_uri}">{$items.like_count} Likes</a>
 										</div>
-									{/option:items.likes}
+									{/option:items.like_count}
 									<div class="userInfo">
 										<a href="{$items.user.full_uri}">
 											<div class="userInfoImage">
-												<img src="{$items.user.avatar_50x50}" width="24" height="24" alt="{$items.user.name}" />
+												<img src="{$collection.user.avatar_50x50}" width="24" height="24" alt="{$collection.user.name}" />
 											</div>
 											<div class="userInfoData">
-												{$items.user.name}
+												{$collection.user.name}
 											</div>
 										</a>
 									</div>

@@ -77,7 +77,7 @@ class ItemsImport extends CuratorBaseAction
 		}
 
 		// redirect to brand new collection
-		$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->user->uri . '/' . $this->collection->uri);
+		$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->user->uri . '/' . $this->collection->uri . '?report=imported&var=' . $this->item->name);
 	}
 
 	/**

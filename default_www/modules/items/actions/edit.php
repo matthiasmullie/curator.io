@@ -66,7 +66,7 @@ class ItemsEdit extends CuratorBaseAction
 		// @todo: custom fields = wait for design
 
 		// redirect to brand new item
-		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri);
+		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name);
 	}
 
 	/**

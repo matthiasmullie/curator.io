@@ -69,6 +69,37 @@ class Collection
 	}
 
 	/**
+	 * Get a list of
+	 *
+	 * @param int $limit[optional]
+	 * @param int $offset[optional]
+	 * @return array
+	 */
+	public function getItems($limit = 99999999, $offset = 0)
+	{
+		$items = Site::getDB(false)->getRecords(
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
+			 FROM items AS i
+			 INNER JOIN collections AS c ON c.id = i.collection_id
+			 INNER JOIN users AS u ON u.id = c.user_id
+			 WHERE c.uri = ?
+			 LIMIT ?, ?',
+			array($this->uri, $offset, $limit)
+		);
+
+		$result = array();
+		foreach($items as $array)
+		{
+			$item = new Item();
+
+			// note: this is so incredibly ugly (actually most of this is but hey - just dove in unprepared) but template engine only accepts array and right now, that's the only place we're using this
+			$result[] = $item->initialize($array)->toArray();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Get a unique uri for a collection inside the scope of a user.
 	 *
 	 * @param string $uri
@@ -86,9 +117,9 @@ class Collection
 
 		$query =
 			'SELECT 1
-			 FROM collections AS i
-			 INNER JOIN users AS u ON u.id = i.user_id
-			 WHERE i.uri = ? AND u.uri = ? AND i.id != ?';
+			 FROM collections AS c
+			 INNER JOIN users AS u ON u.id = c.user_id
+			 WHERE c.uri = ? AND u.uri = ? AND c.id != ?';
 
 		if(Site::getDB()->getVar($query, array($uri, $userUri, $ignoreId)) == 1)
 		{
@@ -105,9 +136,9 @@ class Collection
 	 * @param	array $array		The data in an array.
 	 * @return Collection
 	 */
-	public function initialize(array $array)
+	public function initialize($array)
 	{
-		if(!$array) return;
+		if(!is_array($array) || !$array) return;
 
 		// keys -> properties
 		foreach($array as $key => $value) $this->$key = $value;
