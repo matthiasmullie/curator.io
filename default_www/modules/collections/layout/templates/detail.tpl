@@ -7,7 +7,7 @@
 			{* @todo	Yoni style me *}
 			{option:isCollectionOwner}
 				<a href="{$var|buildurl:'edit'}/{$collection.user.uri}/{$collection.uri}">Edit collection</a><br>
-				<a href="">Add item</a>
+				<a href="{$var|buildurl:'add':'items'}/{$collection.user.uri}/{$collection.uri}">Add item</a><br>
 			{/option:isCollectionOwner}
 
 			<!-- Content -->
