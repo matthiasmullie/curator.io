@@ -10,7 +10,7 @@
 					{$collection.description|cleanupplaintext}
 				</div>
 			</div>
-			
+
 			{option:isCollectionOwner}
 				<div class="mod">
 					<p><a href="{$var|buildurl:'edit'}/{$collection.user.uri}/{$collection.uri}" class="bigOrangeButton">Edit collection</a></p>
@@ -40,7 +40,7 @@
 										</div>
 									{/option:items.like_count}
 									<div class="userInfo">
-										<a href="{$items.user.full_uri}">
+										<a href="{$items.full_uri}">
 											<div class="userInfoData noThumbUserInfoData">
 												{$items.name}
 											</div>
