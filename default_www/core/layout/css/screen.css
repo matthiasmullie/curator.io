@@ -503,6 +503,24 @@ table {
 				outline: 1px solid #4d4d42;
 			}
 
+			.multiTab li.selected:first-child a {
+				-webkit-border-top-left-radius: 4px;
+				-webkit-border-bottom-left-radius: 4px;
+				-moz-border-radius-topleft: 4px;
+				-moz-border-radius-bottomleft: 4px;
+				border-top-left-radius: 4px;
+				border-bottom-left-radius: 4px;
+			}
+
+			.multiTab li.selected:last-child a {
+				-webkit-border-top-right-radius: 4px;
+				-webkit-border-bottom-right-radius: 4px;
+				-moz-border-radius-topright: 4px;
+				-moz-border-radius-bottomright: 4px;
+				border-top-right-radius: 4px;
+				border-bottom-right-radius: 4px;
+			}
+
 	/* Item list */
 
 	.itemList {
