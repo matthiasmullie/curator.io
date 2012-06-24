@@ -3,8 +3,7 @@
 	<div id="main">
 		<div class="container">
 			<h1>Disclaimer</h1>
-			<p><strong>This website is property of Envy.us.</strong></p>
-			<p>By accessing and using the website, you have expressly agreed to the following general conditions.</p>
+			<p>By accessing and using the website, you have expressly agreed to the following general conditions. This website is property of Envy.us.</p>
 			<h3>Intellectual property rights</h3>
 			<p>The contents of this site, including trade marks, logos, drawings, data, product or company names, texts, images, etc. are protected by intellectual property rights and belong to Envy.us or entitled third parties.</p>
 			<h3>Liability limitation</h3>
