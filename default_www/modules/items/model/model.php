@@ -279,6 +279,30 @@ class Item
 		return $filename;
 	}
 
+	public static function search($term)
+	{
+		$items = (array) Site::getDB(false)->getRecords(
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
+			 FROM items AS i
+			 INNER JOIN collections AS c ON c.id = i.collection_id
+			 INNER JOIN users AS u ON u.id = c.user_id
+			 WHERE i.name LIKE ?
+			 LIMIT 10',
+			array('%' . $term . '%')
+		);
+
+		$result = array();
+		foreach($items as $array)
+		{
+			$item = new Item();
+
+			// note: this is so incredibly ugly (actually most of this is but hey - just dove in unprepared) but template engine only accepts array and right now, that's the only place we're using this
+			$result[] = $item->initialize($array)->toArray();
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Convert the object into an array
 	 *

@@ -16,7 +16,7 @@
 						{$txtDescription} {$txtDescriptionError}
 					</p>
 					<p class="customFields">
-						<a href="#" id="addCustom">Add field</a>
+						<a href="#" id="addCustom" class="button">Add Custom field</a>
 					</p>
 					<p>
 						<label for="image">Image</label>

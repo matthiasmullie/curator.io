@@ -70,6 +70,23 @@ class Collection
 	}
 
 	/**
+	 * Get image for this collection.
+	 *
+	 * @return string
+	 */
+	public function getImage()
+	{
+		$image = (string) Site::getDB()->getVar(
+			'SELECT i.image FROM items AS i WHERE i.collection_id = ? ORDER BY i.like_count DESC LIMIT 1',
+			array($this->id)
+		);
+
+		if(empty($image)) $image = 'default.png';
+
+		return $image;
+	}
+
+	/**
 	 * Get a list of
 	 *
 	 * @param int $limit[optional]
@@ -195,6 +212,7 @@ class Collection
 		$return = get_object_vars($this);
 		$return['full_uri'] = Spoon::get('url')->buildUrl('detail', 'collections') . '/' . $user->uri . '/' . $this->uri;
 		$return['user'] = $user->toArray();
+		$return['image'] = $this->getImage();
 
 		return $return;
 	}
@@ -414,6 +432,38 @@ class CollectionsHelper
 			 LIMIT ?',
 			array((string) $term . '%', (int) $limit)
 		);
+	}
+
+	/**
+	 * Search for collections
+	 *
+	 * @param string $term
+	 * @return array
+	 */
+	public static function search($term)
+	{
+		$data = (array) Site::getDB()->getRecords(
+			'SELECT c.*, SUM(i.like_count) AS like_count
+			 FROM collections AS c
+			 LEFT OUTER JOIN items AS i ON c.id = i.collection_id
+			 WHERE c.name LIKE ?
+			 GROUP BY c.id
+			 ORDER BY like_count DESC
+			 LIMIT 10',
+			 array('%' . $term . '%')
+		);
+
+		$items = array();
+
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
 	}
 
 }
