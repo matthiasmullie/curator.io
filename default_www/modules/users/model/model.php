@@ -149,7 +149,11 @@ class User
 		$item['name'] = $this->name;
 
 		// non existing
-		if($this->id === null) $this->id = Site::getDB(true)->insert('users', $item);
+		if($this->id === null)
+		{
+			$item['created_on'] = Site::getUTCDate();
+			$this->id = Site::getDB(true)->insert('users', $item);
+		}
 		else Site::getDB(true)->update('users', $item, 'id = ?', $this->id);
 
 		// return
