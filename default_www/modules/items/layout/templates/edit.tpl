@@ -16,13 +16,15 @@
 						{$txtDescription} {$txtDescriptionError}
 					</p>
 					<p class="customFields">
-						{iteration:item.custom}
-						<div class="oneLiner">
-							<p><input class="customKey inputText smallInput" type="text" name="names[]" placeholder="Custom Field Name" value="{$item.custom.name}" /></p>
-							<p><input class="customValue inputText smallInput" type="text" name="values[]" placeholder="Custom Field Value" value="{$item.custom.value}" /></p>
-							<p><a href="#" class="deleteCustom" style="font-size: 11px; line-height: 22px;">Delete</a></p>
-						</div>
-						{/iteration:item.custom}
+						{option:item.custom}
+							{iteration:item.custom}
+							<div class="oneLiner">
+								<p><input class="customKey inputText smallInput" type="text" name="names[]" placeholder="Custom Field Name" value="{$item.custom.name}" /></p>
+								<p><input class="customValue inputText smallInput" type="text" name="values[]" placeholder="Custom Field Value" value="{$item.custom.value}" /></p>
+								<p><a href="#" class="deleteCustom" style="font-size: 11px; line-height: 22px;">Delete</a></p>
+							</div>
+							{/iteration:item.custom}
+						{/option:item.custom}
 						<a href="#" id="addCustom" class="button">Add Custom field</a>
 					</p>
 					<p>
