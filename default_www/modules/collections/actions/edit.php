@@ -84,7 +84,7 @@ class CollectionsEdit extends SiteBaseAction
 				$this->collection->save();
 
 				// redirect
-				$this->redirect($this->url->buildUrl('index', null, null, array('report' => 'saved', 'var' => $this->collection->name)));
+				$this->redirect($this->url->buildUrl('detail', null, $this->collection->uri, array('report' => 'saved', 'var' => $this->collection->name)));
 			}
 
 			// show general error
