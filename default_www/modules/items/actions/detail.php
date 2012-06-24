@@ -32,6 +32,8 @@ class ItemsDetail extends CuratorBaseAction
 	{
 		$this->tpl->assign('title', $this->item->name);
 		$this->tpl->assign('item', $this->item->toArray());
+ 		$this->tpl->assign('category', CollectionsHelper::getCategoryById($this->collection->category_id));
+		$this->tpl->assign('isOwner', Authentication::getLoggedInUser() && Authentication::getLoggedInUser()->id == $this->collection->user_id);
 
 		// build open graph data
 		$openGraph = array();

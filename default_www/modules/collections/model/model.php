@@ -295,6 +295,30 @@ class CollectionsHelper
 	}
 
 	/**
+	 * Get category.
+	 *
+	 * @return array
+	 * @param int $id
+	 */
+	public static function getCategoryById($id)
+	{
+		$category = (array) Site::getDB()->getRecord(
+			'SELECT cc.id, cc.name, cc.uri
+			 FROM collections_categories AS cc
+			 INNER JOIN collections AS c ON c.category_id = cc.id
+			 WHERE cc.id = ?',
+			array((int) $id)
+		);
+
+		if(!empty($category))
+		{
+			$category['full_uri'] = Spoon::get('url')->buildUrl('category', 'collections') . '/' . $category['uri'];
+		}
+
+		return $category;
+	}
+
+	/**
 	 * Get collections orderd by creation date
 	 *
 	 * @return array

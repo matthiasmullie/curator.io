@@ -5,8 +5,7 @@
 			<div class="leftCol">
 				<!-- Big Image -->
 				<div class="bigImageWrapper">
-					{* @todo *}
-					<img src="{$item.image_436x436}" alt="{$item.name}" />
+					<img src="/files/items/436x436/{$item.image}" alt="{$item.name}" />
 				</div>
 
 				<!-- Like Module -->
@@ -38,31 +37,30 @@
 					<hr />
 				</div>
 
-				{* @todo	only when is owner *}
-				<!-- Action buttons-->
-				<div class="mod content">
-					<div class="inner">
-						<p><a href="{$var|buildurl:'edit':'items'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="bigOrangeButton">Edit</a></p>
+				{option:isOwner}
+					<!-- Action buttons-->
+					<div class="mod content">
+						<div class="inner">
+							<p><a href="{$var|buildurl:'edit':'items'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="bigOrangeButton">Edit</a></p>
+						</div>
 					</div>
-				</div>
+				{/option:isOwner}
 
 				<!-- Whitelist -->
 				<div class="whiteList">
 					<div class="inner">
 						<ul>
 							<li>
-								{* @todo *}
 								<a href="#">
-									<img src="images/iconMovie.png" alt="Test">
-									Movies 
+									<img src="/files/icons/{$category.icon}" alt="{$category.name}">
+									{$category.name}
 									<span class="rightWhiteList">Category</span>
 								</a>
 							</li>
 							<li>
-								{* @todo *}
 								<a href="{$item.collection.user.full_uri}">
 									<img src="{$item.collection.user.avatar_50x50}" width="32" height="32" alt="{$item.collection.user.name}">
-									{$item.collection.user.name} 
+									{$item.collection.user.name}
 									<span class="rightWhiteList">Curator</span>
 								</a>
 							</li>
