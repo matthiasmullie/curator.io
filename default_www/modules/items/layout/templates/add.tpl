@@ -19,8 +19,6 @@
 						<a href="#" id="addCustom">Add field</a>
 					</p>
 					<p>
-						<div id="preload-image" style="display: none; width: 160px; height: 160px; overflow: hidden; background-position: 50%; background-size: 160px;"></div> {* @todo: cleanup *}
-						{* @todo: hier moet nog checkbox komen om image goed/af te keuren *}
 						<label for="image">Image</label>
 						{$fileImage} {$fileImageError}
 					</p>

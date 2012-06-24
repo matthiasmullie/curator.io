@@ -352,7 +352,7 @@ jsSite.items =
 {
 	init: function()
 	{
-		if($('#preload-image').length > 0) jsSite.items.findImage();
+		if($('#preloadImage').length > 0) jsSite.items.findImage();
 		$('#addCustom').on('click', jsSite.items.addCustomField);
 		$(document).on('click', '.deleteCustom', jsSite.items.deleteCustomField);
 	},
@@ -375,14 +375,14 @@ jsSite.items =
 		e.preventDefault();
 		$(this).parent().remove();
 	},
-	
+
 	/**
 	 * Fetch item images from other sources
 	 */
 	findImage: function()
 	{
 		var chunks = document.location.pathname.split('/');
-		var $inputs = $('#formAdd').parent().find('input[type=text]');
+		var $inputs = $('form').parent().find('input[type=text]');
 		$inputs.blur(function()
 		{
 			/*
@@ -418,8 +418,9 @@ jsSite.items =
 	{
 		if(json.responseData.results[0].url)
 		{
-			$('img#preload-image').show().attr('src', json.responseData.results[0].url);
-			$('div#preload-image').show().css('background-image', 'url(' + json.responseData.results[0].url + ')');
+			$('img#preload-image-preview').show().attr('src', json.responseData.results[0].url);
+			$('div#preload-image-preview').show().css('background-image', 'url(' + json.responseData.results[0].url + ')');
+			$('#preloadImage').val(json.responseData.results[0].url);
 		}
 	},
 
