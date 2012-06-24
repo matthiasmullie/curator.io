@@ -22,6 +22,9 @@
 						<label for="image">Image</label>
 						{$fileImage} {$fileImageError}
 					</p>
+					<p>
+						<label for="publish_to_facebook">{$chkPublishToFacebook} Publish to Facebook</label>
+					</p>
 				</fieldset>
 
 				<p class="buttonHolder">

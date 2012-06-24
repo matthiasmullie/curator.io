@@ -238,7 +238,24 @@ jsSite.facebook =
 		FB.Event.subscribe('edge.remove', function(response) 
 		{
 			if(typeof itemId != undefined) jsSite.items.updateLikes('down', itemId);
-		});		
+		});
+		
+		$('input#publishToFacebook').on('change', function(e) {
+			if($(this).is(':checked'))
+			{
+				FB.login(function(response) 
+				{
+					if(response.authResponse)
+					{
+						// juij, correct rights
+					}
+					else
+					{
+						$('input#publishToFacebook').removeAttr('checked');
+					}
+				}, {scope: 'publish_actions'});
+			}
+		});
 	},
 
 	// end

@@ -46,6 +46,7 @@ class ItemsAdd extends CuratorBaseAction
 		$this->frm->addText('name');
 		$this->frm->addTextArea('description');
 		$this->frm->addImage('image');
+		$this->frm->addCheckbox('publish_to_facebook', true);
 	}
 
 	/**
@@ -73,6 +74,12 @@ class ItemsAdd extends CuratorBaseAction
 			}
 		}
 		$this->item->save();
+
+		if($this->frm->getField('publish_to_facebook')->getChecked())
+		{
+			$this->currentUser->publishItemToFacebook($this->item);
+		}
+
 
 		// redirect to brand new item
 		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name);

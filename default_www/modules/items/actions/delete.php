@@ -21,6 +21,10 @@ class ItemsDelete extends CuratorBaseAction
 		$this->validateUser(true);
 		$this->validateCollection();
 		$this->validateItem();
+
+		// delete from Facebook
+		if($this->item->facebook_id != '') $this->currentUser->deleteItemFromFacebook($this->item->facebook_id);
+
 		$this->item->delete();
 		$this->redirect($this->url->buildUrl('index', 'collections', null, array('report' => 'deleted', 'var' => $this->item->name)));
 	}
