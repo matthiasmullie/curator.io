@@ -1,23 +1,55 @@
 {include:'{$CORE_PATH}/layout/templates/head.tpl'}
-
-	<div id="container">
-		{include:'{$CORE_PATH}/layout/templates/header.tpl'}
-
-		{include:'{$CORE_PATH}/layout/templates/nav.tpl'}
-
-		<section id="example" class="index content mod">
-
+{include:'{$CORE_PATH}/layout/templates/header.tpl'}
+	<div id="main">
+		<div class="container">
+	
 			{option:report}<div class="message success"><p>{$report}</p></div>{/option:report}
 
-			<p>
-				Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla sed consectetur.
-			</p>
-			<p>
-				Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Vestibulum id ligula porta felis euismod semper.
-			</p>
-		</section>
+			<!-- Mobile Tabs -->
+			<div class="multiTab">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li class="selected"><a href="#">Popular</a></li>
+							<li><a href="#">Latest</a></li>
+							<li><a href="#">Categories</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
 
-		{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
+			<!-- Item List-->
+			<div class="itemList">
+				<div class="inner">
+					{option:items}
+						<ul>
+							{iteration:items}
+								<li>
+									<div class="itemImage">
+										<a href="#">
+											<img src="images/test.jpg" alt="Test" />
+										</a>
+									</div>
+									<div class="likeWrapper">
+										<a href="#">5 Likes</a>
+									</div>
+									<div class="userInfo">
+										<a href="#">
+											<div class="userInfoImage">
+												<img src="images/test.jpg" alt="Test" />
+											</div>
+											<div class="userInfoData">
+												Yoni De Beule
+											</div>
+											</a>
+										</a>
+									</div>
+								</li>
+							{/iteration:items}
+						</ul>
+					{/option:items}
+				</div>
+			</div>
+		</div>
 	</div>
-</body>
-</html>
+{include:'{$CORE_PATH}/layout/templates/footer.tpl'}
