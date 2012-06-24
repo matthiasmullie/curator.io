@@ -12,73 +12,19 @@
 class Item
 {
 	/**
-	 * Item's (AI) id
-	 *
-	 * @var int
-	 */
-	protected $id;
-
-	/**
-	 * Items unique URI
-	 *
 	 * @var string
 	 */
-	protected $uri;
+	protected $uri, $facebook_id, $name, $description, $image;
 
 	/**
-	 * Item's collection
-	 *
-	 * @var int
-	 */
-	protected $collection_id;
-
-	/**
-	 * The facebook id of the item
-	 * @var unknown_type
-	 */
-	protected $facebook_id;
-
-	/**
-	 * Item's name
-	 *
-	 * @var string
-	 */
-	protected $name;
-
-	/**
-	 * Item's description
-	 *
-	 * @var string
-	 */
-	protected $description;
-
-	/**
-	 * Path to item's image
-	 *
-	 * @var string
-	 */
-	protected $image;
-
-	/**
-	 * Item's estimated price
-	 *
 	 * @var float
 	 */
-	protected $price = 0;
+	protected $price;
 
 	/**
-	 * Amount of item's likes
-	 *
 	 * @var int
 	 */
-	protected $like_count = 0;
-
-	/**
-	 * Item's creation date
-	 *
-	 * @var date
-	 */
-	protected $created_on;
+	protected $id, $collection_id, $like_count, $created_on;
 
 	/**
 	 * Custom fields
@@ -151,7 +97,7 @@ class Item
 	public static function get($id)
 	{
 		$array = Site::getDB(false)->getRecord(
-			'SELECT i.*
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
 			 FROM items AS i
 			 WHERE i.id = ?',
 			array((int) $id)
@@ -172,7 +118,7 @@ class Item
 	public static function getByUri($itemUri, $collectionUri, $userUri)
 	{
 		$array = Site::getDB(false)->getRecord(
-			'SELECT i.*
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
 			 FROM items AS i
 			 INNER JOIN collections AS c ON c.id = i.collection_id
 			 INNER JOIN users AS u ON u.id = c.user_id
@@ -221,12 +167,19 @@ class Item
 	 * @param array $array
 	 * @return Item
 	 */
-	protected function initialize($array)
+	protected function initialize(array $array)
 	{
 		if(!$array) return;
 
 		// keys -> properties
 		foreach($array as $key => $value) $this->$key = $value;
+
+		// make sure properties are cast right
+		$this->id = (int) $this->id;
+		$this->collection_id = (int) $this->collection_id;
+		$this->like_count = (int) $this->like_count;
+		$this->created_on = (int) $this->created_on;
+		$this->price = (float) $this->price;
 
 		// fetch custom fields
 		$this->custom = Site::getDB(false)->getPairs(

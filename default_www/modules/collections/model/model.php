@@ -10,7 +10,7 @@ class Collection
 	/**
 	 * @var	int
 	 */
-	public $id, $user_id, $likes;
+	public $id, $user_id, $created_on;
 
 	/**
 	 * @var	string
@@ -35,7 +35,7 @@ class Collection
 	public static function get($id)
 	{
 		$array = Site::getDB()->getRecord(
-			'SELECT i.*
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
 		 	 FROM collections AS i
 		 	 WHERE i.id = ?',
 			array((int) $id)
@@ -55,7 +55,7 @@ class Collection
 	public static function getByUri($collectionUri, $userUri)
 	{
 		$array = Site::getDB()->getRecord(
-			'SELECT i.*
+			'SELECT i.*, UNIX_TIMESTAMP(i.created_on) AS created_on
 		 	 FROM collections AS i
 			 INNER JOIN users AS u ON u.id = i.user_id
 		 	 WHERE i.uri = ? AND u.uri = ?',
@@ -103,12 +103,17 @@ class Collection
 	 * @param	array $array		The data in an array.
 	 * @return Collection
 	 */
-	public function initialize($array)
+	public function initialize(array $array)
 	{
 		if(!$array) return;
 
 		// keys -> properties
 		foreach($array as $key => $value) $this->$key = $value;
+
+		// make sure properties are cast right
+		$this->id = (int) $this->id;
+		$this->user_id = (int) $this->user_id;
+		$this->created_on = (int) $this->created_on;
 
 		return $this;
 	}
