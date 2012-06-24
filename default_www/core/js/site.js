@@ -363,7 +363,7 @@ jsSite.items =
 	addCustomField: function(e)
 	{
 		e.preventDefault();
-		html = '<p><input class="customKey" type="text" name="name[]" />: <input class="customValue" type="text" name="value[]" /><a href="#" class="deleteCustom">Delete</a></p>';
+		html = '<div class="oneLiner"><p><input class="customKey inputText smallInput" type="text" name="name[]" placeholder="Custom Field Name" /></p><p><input class="customValue inputText smallInput" type="text" name="value[]" placeholder="Custom Field Value"/></p><p><a href="#" class="deleteCustom" style="font-size: 11px; line-height: 22px;">Delete</a></p>';
 		$(this).before(html);
 	},
 

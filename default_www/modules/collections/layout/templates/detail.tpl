@@ -17,7 +17,6 @@
 					<p style="padding: 0;"><a href="{$var|buildurl:'add':'items'}/{$collection.user.uri}/{$collection.uri}" class="bigOrangeButton">Add item</a></p>
 				</div>
 			{/option:isCollectionOwner}
-			
 
 			<div class="hr">
 				<hr />

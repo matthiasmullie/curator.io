@@ -16,7 +16,7 @@
 						{$txtDescription} {$txtDescriptionError}
 					</p>
 					<p class="customFields">
-						<a href="#" id="addCustom">Add field</a>
+						<a href="#" id="addCustom" class="button">Add Custom field</a>
 					</p>
 					<p>
 						<div id="preload-image" style="display: none; width: 160px; height: 160px; overflow: hidden; background-position: 50%; background-size: 160px;"></div> {* @todo: cleanup *}
