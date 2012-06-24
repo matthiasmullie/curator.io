@@ -10,13 +10,14 @@
 					{$collection.description|cleanupplaintext}
 				</div>
 			</div>
-
-			<div class="mod">
-				{option:isCollectionOwner}
+			
+			{option:isCollectionOwner}
+				<div class="mod">
 					<p><a href="{$var|buildurl:'edit'}/{$collection.user.uri}/{$collection.uri}" class="bigOrangeButton">Edit collection</a></p>
 					<p style="padding: 0;"><a href="{$var|buildurl:'add':'items'}/{$collection.user.uri}/{$collection.uri}" class="bigOrangeButton">Add item</a></p>
-				{/option:isCollectionOwner}
-			</div>
+				</div>
+			{/option:isCollectionOwner}
+			
 
 			<div class="hr">
 				<hr />
