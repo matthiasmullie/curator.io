@@ -39,8 +39,6 @@ class ItemsDetail extends SiteBaseAction
 
 		if(!empty($openGraph)) $this->tpl->assign('opengraph', $openGraph);
 
-// 		SPoon::dump($this->item);
-
 		$this->display();
 	}
 }

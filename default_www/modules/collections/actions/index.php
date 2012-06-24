@@ -30,16 +30,6 @@ class CollectionsIndex extends SiteBaseAction
 	 */
 	private function parse()
 	{
-		require_once PATH_WWW .'/modules/items/model/model.php';
-
-		if($this->currentUser !== false)
-		{
-			$var = $this->currentUser->publishItemToFacebook(Item::getById(1));
-
-			Spoon::dump($var);
-		}
-
-
 		$this->parseReports();
 	}
 }
