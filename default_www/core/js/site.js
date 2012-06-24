@@ -113,28 +113,6 @@ jsSite.controls = {
 
 
 /**
- * Forms
- *
- * @author	Tijs Verkoyen <tijs@sumocoders.be>
- */
-jsSite.facebook =
-{
-	// init, something like a constructor
-	init: function()
-	{
-		// subscribe to auth changes
-		FB.Event.subscribe('auth.authResponseChange', function(response) 
-		{
-			document.location.reload();
-		});
-	},
-
-	// end
-	eoo: true
-}
-
-
-/**
  * Collection module js.
  *
  * @author Dieter Vanden Eynde <dieter@dieterve.be>
@@ -149,7 +127,6 @@ jsSite.collections =
 			{
 				$.ajax(
 				{
-					type: 'POST',
 					url:  '/ajax.php?module=collections&action=autocomplete&language=' + jsSite.current.language,
 					data: { term: request.term },
 					success: function(data, textStatus)
@@ -182,6 +159,38 @@ jsSite.collections =
 			}
 		});
 	}
+}
+
+
+/**
+ * Forms
+ *
+ * @author	Tijs Verkoyen <tijs@sumocoders.be>
+ */
+jsSite.facebook =
+{
+	// init, something like a constructor
+	init: function()
+	{
+		// subscribe to auth changes
+		FB.Event.subscribe('auth.authResponseChange', function(response) 
+		{
+			document.location.reload();
+		});
+		
+		FB.Event.subscribe('edge.create', function(response) 
+		{
+			if(typeof itemId != undefined) jsSite.items.updateLikes('up', itemId);
+		});		
+
+		FB.Event.subscribe('edge.remove', function(response) 
+		{
+			if(typeof itemId != undefined) jsSite.items.updateLikes('down', itemId);
+		});		
+	},
+
+	// end
+	eoo: true
 }
 
 
@@ -283,9 +292,32 @@ jsSite.forms =
 		}
 	},
 
-
 	// end
 	eoo: true
 }
+
+jsSite.items = 
+{
+	updateLikes: function(direction, id)
+	{
+		$.ajax(
+		{
+			url:  '/ajax.php?module=items&action=update_likes&language=' + jsSite.current.language,
+			data: { id: id, direction: direction },
+			success: function(data, textStatus)
+			{
+				// alert the user
+				if(data.code != 200 && jsSite.debug)
+				{
+					alert(data.message);
+				}
+			}
+		});
+	},
+	
+	// end
+	eoo: true
+}
+
 
 $(document).ready(jsSite.init);
