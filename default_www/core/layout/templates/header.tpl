@@ -26,8 +26,7 @@
 				<div id="mobileNavigationActive" style="display: none;">
 					<nav>
 						<ul>
-							<li class="selected"><a href="/">Home</a></li>
-							<li><a href="/">Discover</a></li>
+							<li><a href="/">Home</a></li>
 							{option:!currentUser}
 								<li><div class="fb-login-button">Log in with Facebook</div></li>
 							{/option:!currentUser}
