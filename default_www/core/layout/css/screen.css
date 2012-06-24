@@ -1112,12 +1112,12 @@ input.inputDate:focus,
 textarea:focus {
 	background-color: #fff;
 	background-image: none;
-	background-image: -moz-linear-gradient(0% 3px 90deg,#fff, #dedede);
+	background-image: -moz-linear-gradient(0% 3px 90deg,#fff, #FF7A39);
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 3, from(#dedede), to(#fff));
-	-webkit-box-shadow: 0 0 3px #c2deff;
-	-moz-box-shadow: 0 0 3px #c2deff;
-	box-shadow: 0 0 3px #c2deff;
-	border-color: #82a7d4;
+	-webkit-box-shadow: 0 0 3px #ff7a39;
+	-moz-box-shadow: 0 0 3px #ff7a39;
+	box-shadow: 0 0 3px #ff7a39;
+	border-color: #a93700;
 	color: #000;
 	outline: none
 }
