@@ -30,7 +30,7 @@ RewriteEngine On
 RewriteBase /
 
 # only one base url
-RewriteCond %{HTTP_HOST} !^url\.ld [NC]
+RewriteCond %{HTTP_HOST} !^curator\.io [NC]
 RewriteCond %{HTTP_HOST} !.*\.local [NC]
 RewriteCond %{HTTP_HOST} !.*\.dev [NC]
 RewriteRule ^(.*)$ http://curator.io/$1 [R=301,L]
