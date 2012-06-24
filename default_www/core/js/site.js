@@ -350,6 +350,57 @@ jsSite.forms =
 
 jsSite.items = 
 {
+	init: function()
+	{
+		if($('#preload-image').length == 0) jsSite.items.findImage();
+	},
+
+	/**
+	 * Fetch item images from other sources
+	 */
+	findImage: function()
+	{
+		var chunks = document.location.pathname.split('/');
+		var $inputs = $('#formAdd').parent().find('input[type=text]');
+		$inputs.blur(function()
+		{
+			/*
+			 * Build search keyword out of
+			 * - collection name
+			 * - item name
+			 * - custom fields
+			 */
+			var keyword = new Array();
+			keyword.push(chunks[5]);
+			$inputs.each(function()
+			{
+				keyword.push($(this).val());
+			});
+
+			var options =
+			{
+				v: '1.0',
+				q: keyword.join(' '),
+//				as_rights: 'cc_publicdomain', // @todo: once we go public, enable this (and connect to other sites like wiki commons, in hopes of finding more results) - for dev purposes, leave this on: more results
+				rsz: 1,
+				callback: 'jsSite.items.processImage'
+			};
+			var options = $.param(options);
+			$.getScript('https://ajax.googleapis.com/ajax/services/search/images?' + options);
+		});
+	}
+
+	/**
+	 * Process the Google Images API result
+	 */
+	processImage: function(json)
+	{
+		if(json.responseData.results[0].url)
+		{
+			$('#preload-image').show().attr('src', json.responseData.results[0].url);
+		}
+	},
+
 	updateLikes: function(direction, id)
 	{
 		$.ajax(
