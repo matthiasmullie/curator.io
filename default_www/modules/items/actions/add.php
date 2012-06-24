@@ -62,9 +62,15 @@ class ItemsAdd extends CuratorBaseAction
 		$this->item->collection_id = $this->collection->id;
 		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $this->item->$key = $value;
 		if($this->frm->getField('image')->isFilled()) $this->item->image = $this->frm->getField('image');
-		$this->item->save();
 
-		// @todo: custom fields = wait for design
+		$names = SpoonFilter::getPostValue('name', null, null, 'array');
+		$values = SpoonFilter::getPostValue('value', null, null, 'array');
+		foreach(array_combine($names, $values) as $names => $vaule)
+		{
+			$this->item->{$names} = $value;
+		}
+
+		$this->item->save();
 
 		// redirect to brand new item
 		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name);

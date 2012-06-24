@@ -57,16 +57,16 @@ class CollectionsAdd extends CuratorBaseAction
 			// no errors?
 			if($this->frm->isCorrect())
 			{
-				$this->collections = new Collection();
+				$this->collection = new Collection();
 
 				// set properties
-				$this->collections->name = $this->frm->getField('name')->getValue();
-				$this->collections->description = $this->frm->getField('description')->getValue();
-				$this->collections->category_id = $this->frm->getField('category')->getValue();;
-				$this->collections->user_id = $this->currentUser->id;
+				$this->collection->name = $this->frm->getField('name')->getValue();
+				$this->collection->description = $this->frm->getField('description')->getValue();
+				$this->collection->category_id = $this->frm->getField('category')->getValue();;
+				$this->collection->user_id = $this->currentUser->id;
 
 				// save
-				$this->collections->save();
+				$this->collection->save();
 
 				// redirect
 				$this->redirect($this->url->buildUrl('detail', 'collections') . '/' . $this->user->uri . '/' . $this->collection->uri . '?report=saved&var=' . $this->collection->name);

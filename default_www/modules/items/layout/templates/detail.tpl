@@ -28,7 +28,7 @@
 									<li>
 										{$item.custom.name}: {$item.custom.value}
 									</li>
-								{.iteration:item.custom}
+								{/iteration:item.custom}
 							</ul>
 						{/option:item.custom}
 					</div>

@@ -24,7 +24,7 @@ class Item
 	/**
 	 * @var int
 	 */
-	protected $id, $collection_id, $like_count, $created_on;
+	protected $id, $collection_id, $like_count = 0, $created_on;
 
 	/**
 	 * Custom fields
@@ -74,7 +74,7 @@ class Item
 				// default value
 				if(property_exists($this, $property) && $property != 'custom') $this->$property = $value;
 				// custom value
-				else $this->custom[$property] = $value;
+				else $this->custom[] = array('name' => $property, 'value' => $value);
 				break;
 		}
 	}
@@ -182,7 +182,7 @@ class Item
 		$this->price = (float) $this->price;
 
 		// fetch custom fields
-		$this->custom = Site::getDB(false)->getPairs(
+		$this->custom = Site::getDB(false)->getRecords(
 			'SELECT name, value
 			 FROM items_properties
 			 WHERE item_id = ?
@@ -219,12 +219,12 @@ class Item
 		// (re-)insert custom values
 		$i = 0;
 		$db->delete('items_properties', 'item_id = ?', array($this->id));
-		foreach($this->custom as $name => $value)
+		foreach($this->custom as $custom)
 		{
 			$property = array(
 				'item_id' => $this->id,
-				'name' => $name,
-				'value' => $value,
+				'name' => $custom['name'],
+				'value' => $custom['value'],
 				'sequence' => $i++
 			);
 			$db->insert('items_properties', $property);

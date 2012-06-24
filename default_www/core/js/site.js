@@ -352,9 +352,30 @@ jsSite.items =
 {
 	init: function()
 	{
-		if($('#preload-image').length == 0) jsSite.items.findImage();
+		if($('#preload-image').length > 0) jsSite.items.findImage();
+		$('#addCustom').on('click', jsSite.items.addCustomField);
+		$(document).on('click', '.deleteCustom', jsSite.items.deleteCustomField);
 	},
 
+	/**
+	 * Add custom field inputs
+	 */
+	addCustomField: function(e)
+	{
+		e.preventDefault();
+		html = '<p><input class="customKey" type="text" name="name[]" />: <input class="customValue" type="text" name="value[]" /><a href="#" class="deleteCustom">Delete</a></p>';
+		$(this).before(html);
+	},
+
+	/**
+	 * Delete custom field
+	 */
+	deleteCustomField: function(e)
+	{
+		e.preventDefault();
+		$(this).parent().remove();
+	},
+	
 	/**
 	 * Fetch item images from other sources
 	 */
@@ -397,7 +418,8 @@ jsSite.items =
 	{
 		if(json.responseData.results[0].url)
 		{
-			$('#preload-image').show().attr('src', json.responseData.results[0].url);
+			$('img#preload-image').show().attr('src', json.responseData.results[0].url);
+			$('div#preload-image').show().css('background-image', 'url(' + json.responseData.results[0].url + ')');
 		}
 	},
 
