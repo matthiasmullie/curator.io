@@ -128,6 +128,7 @@ class Collection
 	 */
 	public function getUniqueUri($uri, $userUri, $ignoreId = null)
 	{
+		$uri = SpoonFilter::htmlentitiesDecode($uri);
 		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
 

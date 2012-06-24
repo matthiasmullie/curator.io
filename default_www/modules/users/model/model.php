@@ -217,6 +217,7 @@ class User
 	 */
 	protected function getUniqueUri($uri)
 	{
+		$uri = SpoonFilter::htmlentitiesDecode($uri);
 		$uri = preg_replace('/[^a-zA-Z0-9\s]/', '', $uri);
 		$uri = SpoonFilter::urlise($uri);
 
