@@ -28,7 +28,7 @@ class Collection
 
 		// get data
 		$data = Site::getDB()->getRecord(
-			'SELECT i.id, i.user_id i.name, i.description, i.uri
+			'SELECT i.id, i.user_id, i.name, i.description, i.uri
 			 FROM collections AS i
 			 WHERE i.id = ?',
 			array($id)
