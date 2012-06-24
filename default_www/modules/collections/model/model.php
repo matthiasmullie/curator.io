@@ -416,4 +416,36 @@ class CollectionsHelper
 		);
 	}
 
+	/**
+	 * Search for collections
+	 *
+	 * @param string $term
+	 * @return array
+	 */
+	public static function search($term)
+	{
+		$data = (array) Site::getDB()->getRecords(
+			'SELECT c.*, SUM(i.like_count) AS like_count
+			 FROM collections AS c
+			 LEFT OUTER JOIN items AS i ON c.id = i.collection_id
+			 WHERE c.name LIKE ?
+			 GROUP BY c.id
+			 ORDER BY like_count DESC
+			 LIMIT 10',
+			 array('%' . $term . '%')
+		);
+
+		$items = array();
+
+		foreach($data as $row)
+		{
+			$collection = new Collection();
+			$collection->initialize($row);
+
+			$items[] = $collection;
+		}
+
+		return $items;
+	}
+
 }

@@ -42,10 +42,10 @@
 							</li>
 							{/option:currentUser}
 							<li id="search">
-								<form method="post" action="{$var|buildurl:'search':'collections'}">
+								<form method="get" action="{$var|buildurl:'search':'collections'}">
 									<fieldset>
 										<p class="mobileField">
-											<input type="search" name="" class="inputSearch" placeholder="Search..." id="searchField" />
+											<input type="search" name="q" class="inputSearch" placeholder="Search..." id="searchField" />
 											<input type="submit" value="submit" style="display: none;">
 										</p>
 									</fieldset>
