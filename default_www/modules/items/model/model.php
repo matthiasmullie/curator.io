@@ -60,13 +60,13 @@ class Item
 				break;
 			// new name = new uri
 			case 'name':
-				// @todo: collection id must be set already
+				if($this->collection_id === null) throw new SpoonException('Must set collection id before setting name.');
 				$this->uri = $this->getUniqueUri($value, $this->id);
 				$this->$property = $value;
 				break;
 			// urlize uri
 			case 'uri':
-				// @todo: collection id must be set already
+				if($this->collection_id === null) throw new SpoonException('Must set collection id before setting uri.');
 				$this->$property = $this->getUniqueUri($value, $this->id);
 				break;
 			// just save the value
@@ -84,7 +84,10 @@ class Item
 	 */
 	public function delete()
 	{
-		// @todo: remove images
+		foreach(SpoonDirectory::getList(PATH_WWW . '/files/items/') as $folder)
+		{
+			SpoonFile::delete(PATH_WWW . '/files/items/' . $folder . '/' . $this->image);
+		}
 		Site::getDB(true)->delete('items', 'id = ?', array($this->id));
 	}
 
@@ -253,12 +256,12 @@ class Item
 		if($image instanceof SpoonFormImage)
 		{
 			if(!$image->isFilled()) return null;
-			$filename = $this->uri . '.' . $image->getExtension();
+			$filename = uniqid() . '_' . $this->uri . '.' . $image->getExtension();
 			$image->moveFile($path . '/source/' . $filename);
 		}
 		else
 		{
-			$filename = $this->uri . '.' . SpoonFile::getExtension($image);
+			$filename = uniqid() . '_' . $this->uri . '.' . SpoonFile::getExtension($image);
 
 			// if existing (local) file, move to desired path
 			if(SpoonFile::exists($image))

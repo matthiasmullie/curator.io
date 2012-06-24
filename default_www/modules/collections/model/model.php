@@ -22,7 +22,8 @@ class Collection
 	 */
 	public function delete()
 	{
-		// @todo delete linked items
+		$items = $this->getItem();
+		foreach($items as $item) $item->delete();
 		Site::getDB(true)->delete('collections', 'id = ?', $this->id);
 	}
 
