@@ -46,7 +46,6 @@ class ItemsAdd extends CuratorBaseAction
 		$this->frm->addText('name');
 		$this->frm->addTextArea('description');
 		$this->frm->addImage('image');
-		$this->frm->addHidden('preload_image');
 	}
 
 	/**
@@ -64,13 +63,15 @@ class ItemsAdd extends CuratorBaseAction
 		foreach($this->frm->getValues(array('form', '_utf8')) as $key => $value) $this->item->$key = $value;
 		if($this->frm->getField('image')->isFilled()) $this->item->image = $this->frm->getField('image');
 
-		$names = SpoonFilter::getPostValue('name', null, null, 'array');
-		$values = SpoonFilter::getPostValue('value', null, null, 'array');
-		foreach(array_combine($names, $values) as $names => $vaule)
+		$names = SpoonFilter::getPostValue('names', null, null, 'array');
+		$values = SpoonFilter::getPostValue('values', null, null, 'array');
+		if($names && $values)
 		{
-			$this->item->{$names} = $value;
+			foreach(array_combine($names, $values) as $names => $vaule)
+			{
+				$this->item->{$names} = $value;
+			}
 		}
-
 		$this->item->save();
 
 		// redirect to brand new item

@@ -22,7 +22,7 @@
 				</fieldset>
 
 				<p>
-					<a href="#" class="confirm bigDarkButton" data-message="Are you sure you want to delete this collection">Delete</a> <!-- @todo: Dieter Matthias -->
+					<a href="{$var|buildurl:'delete'}/{$item.collection.user.uri}/{$item.collection.uri}/{$item.uri}" class="confirm bigDarkButton" data-message="Are you sure you want to delete this collection">Delete</a>
 				</p>
 
 				<p class="buttonHolder">

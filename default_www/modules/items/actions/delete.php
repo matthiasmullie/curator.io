@@ -19,6 +19,8 @@ class ItemsDelete extends CuratorBaseAction
 	public function execute()
 	{
 		$this->validateUser(true);
+		$this->validateCollection();
+		$this->validateItem();
 		$this->item->delete();
 		$this->redirect($this->url->buildUrl('index', 'collections', null, array('report' => 'deleted', 'var' => $this->item->name)));
 	}
