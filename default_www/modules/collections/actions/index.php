@@ -32,7 +32,12 @@ class CollectionsIndex extends SiteBaseAction
 	{
 		require_once PATH_WWW .'/modules/items/model/model.php';
 
-		if($this->currentUser !== false) $this->currentUser->publishItemToFacebook(Item::getById(1));
+		if($this->currentUser !== false)
+		{
+			$var = $this->currentUser->publishItemToFacebook(Item::getById(1));
+
+			Spoon::dump($var);
+		}
 
 
 		$this->parseReports();
