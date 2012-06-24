@@ -30,6 +30,8 @@ class CollectionsSearch extends SiteBaseAction
 	{
 		$term = SpoonFilter::getGetValue('q', null, '');
 
+		if($term == '') $this->redirect($this->url->buildUrl('index', 'error') . '?code=404');
+
 		$collections = CollectionsHelper::search($term);
 		if(!empty($collections))
 		{
@@ -43,7 +45,7 @@ class CollectionsSearch extends SiteBaseAction
 			$this->tpl->assign('items', $items);
 		}
 
-		if(empty($collections) && empty($items)) $this->tpl->assign('noItems');
+		if(empty($collections) && empty($items)) $this->tpl->assign('noItems', true);
 		$this->tpl->assign('term', $term);
 	}
 }

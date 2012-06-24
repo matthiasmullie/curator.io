@@ -15,6 +15,12 @@
 				<hr />
 			</div>
 			
+			{option:noItems}
+				<div class="message">
+					<p>We are really sorry, but we didn't find anything that matches the searchquery.</p>
+				</div>
+			{/option:noItems}
+			
 			{option:collections}
 				<h3>Collections</h3>
 			
