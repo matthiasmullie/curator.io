@@ -212,7 +212,7 @@ class Item
 
 		// get unique uri & creation date
 		$this->uri = $this->getUniqueUri($this->name, $this->id);
-		if($this->added_on === null) $this->added_on = Site::getUTCDate();
+		if($this->created_on === null) $this->created_on = Site::getUTCDate();
 
 		// update
 		if($this->id !== null) $db->update('items', get_object_vars($this));
