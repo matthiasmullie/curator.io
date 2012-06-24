@@ -25,7 +25,7 @@ class ItemsAdd extends CuratorBaseAction
 	 */
 	public function execute()
 	{
-//		$this->validateUser(true);
+		$this->validateUser(true);
 		$this->validateCollection();
 		$this->loadForm();
 		$this->validateForm();
@@ -79,7 +79,6 @@ class ItemsAdd extends CuratorBaseAction
 		{
 			$this->currentUser->publishItemToFacebook($this->item);
 		}
-
 
 		// redirect to brand new item
 		$this->redirect($this->url->buildUrl('detail') . '/' . $this->user->uri . '/' . $this->collection->uri . '/' . $this->item->uri . '?report=saved&var=' . $this->item->name);
