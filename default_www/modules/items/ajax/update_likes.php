@@ -33,7 +33,7 @@ class AjaxItemsUpdateLikes extends AjaxBaseAction
 
 		else
 		{
-			$item = Item::getById($id);
+			$item = Item::get($id);
 
 			if($item === false)
 			{
