@@ -30,6 +30,7 @@
 			<meta property="og:{$opengraph.key}" content="{$opengraph.value}">
 		{/iteration:opengraph}
 	{/option:opengraph}
+	<meta property="fb:app_id" content="237320303053296" />
 
 	{* Google Analytics *}
 	<script type="text/javascript">
@@ -45,7 +46,6 @@
 	</script>
 </head>
 
-</head>
 <body id="home">
 	<div id="fb-root"></div>
 	{* Facebook *}
