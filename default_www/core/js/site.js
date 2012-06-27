@@ -227,7 +227,7 @@ jsSite.facebook =
 		// subscribe to auth changes
 		FB.Event.subscribe('auth.authResponseChange', function(response) 
 		{
-			document.location.reload();
+			//document.location.reload();
 		});
 		
 		FB.Event.subscribe('edge.create', function(response) 
