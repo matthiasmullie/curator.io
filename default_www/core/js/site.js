@@ -221,13 +221,19 @@ jsSite.collections =
  */
 jsSite.facebook =
 {
+	status: '',
+		
 	// init, something like a constructor
 	init: function()
 	{
-		// subscribe to auth changes
-		FB.Event.subscribe('auth.authResponseChange', function(response) 
-		{
-			//document.location.reload();
+		FB.getLoginStatus(function(response) {
+			jsSite.facebook.status = response.status;
+
+			// subscribe to auth changes
+			FB.Event.subscribe('auth.authResponseChange', function(response) 
+			{
+				if(response.status != jsSite.facebook.status && response.status != '') document.location.reload();
+			});
 		});
 		
 		FB.Event.subscribe('edge.create', function(response) 
